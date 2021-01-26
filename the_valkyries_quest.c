@@ -56,7 +56,7 @@ int main(){
     
     while(!WindowShouldClose()){
         
-        //alteração
+        //alteração 2
         
         BeginDrawing();
         ClearBackground(BLACK);
