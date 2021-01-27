@@ -25,6 +25,12 @@
 //===========
 // estruturas
 
+typedef struct Valkyrie {
+    Rectangle rec;
+    Vector2 speed;
+    Color color;
+    Vector2 prevPos;
+} Valkyrie;
 
 //-------------
 
@@ -41,6 +47,8 @@ static const int screenHeight = 650;
 //========
 // Funções
 
+static void initGame(void);
+static void movement(void);
 
 //--------
 
@@ -68,4 +76,12 @@ int main(){
     
     CloseWindow();
     
+}
+
+void initGame(){
+    // inicia os paramentros do jogo
+}
+
+void movement(){
+    // movimento do personagem
 }
