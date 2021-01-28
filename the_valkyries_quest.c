@@ -39,8 +39,8 @@ typedef struct Player {
 //=================
 // Variaveis gloais
 
-static const int screenWidth = 1000;
-static const int screenHeight = 650;
+static const int screenWidth = 1600;
+static const int screenHeight = 900;
 
 static bool gameOver = false;
 static bool pause =  false;
@@ -59,12 +59,7 @@ void delay(float seconds);
 
 //--------
 
-//====================
-// carregando texturas
 
-
-
-//--------------------
 
 
 int main(){
@@ -106,6 +101,17 @@ void initGame(){
     player.speed.x = 5;
     player.speed.y = 5;
     player.color = YELLOW;
+    
+    
+    
+    
+    
+    //====================
+    // carregando texturas
+
+    
+
+    //--------------------
     
 }
 
