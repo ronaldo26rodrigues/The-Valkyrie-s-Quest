@@ -9,6 +9,7 @@
 #include <time.h>
 #include <string.h>
 #include <math.h>
+#include <./lib/physac.h>
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
@@ -31,6 +32,7 @@ typedef struct Player {
     Color color;
     Vector2 prevPos;
     int vida;
+    PhysicsBody body;
 } Player;
 
 //-------------
@@ -69,11 +71,15 @@ int main(){
     SetTargetFPS(60);
     
     initGame();
+    InitPhysics();
+    
+    SetPhysicsGravity(0, 0);
     
     
     while(!WindowShouldClose()){
         
-        //alteração 2
+        
+        RunPhysicsStep();
         
         BeginDrawing();
         ClearBackground(BLACK);
@@ -94,14 +100,17 @@ void initGame(){
     // inicia os paramentros do jogo
     
     // jogador
-    player.rec.x =  screenWidth/2;
-    player.rec.y = screenHeight/2;
+    player.body->position.x = screenWidth/2;
+    player.body->position.y = screenHeight/2;
+    
+    player.rec.x =  player.body->position.x;
+    player.rec.y = player.body->position.y;
+    
     player.rec.width = 25;
     player.rec.height = 25;
     player.speed.x = 5;
     player.speed.y = 5;
     player.color = YELLOW;
-    
     
     
     
