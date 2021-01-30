@@ -9,7 +9,10 @@
 #include <time.h>
 #include <string.h>
 #include <math.h>
-#include <./lib/physac.h>
+
+#define PHYSAC_IMPLEMENTATION
+#define PHYSAC_NO_THREADS
+#include "./lib/physac.h"
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
@@ -28,11 +31,12 @@
 
 typedef struct Player {
     Rectangle rec;
-    Vector2 speed;
+    float speed;
     Color color;
     Vector2 prevPos;
     int vida;
     PhysicsBody body;
+    Texture2D texture;
 } Player;
 
 //-------------
@@ -58,6 +62,7 @@ static Player player;
 static void initGame(void);
 static void movement(void);
 void delay(float seconds);
+void drawPhysicsEdge(void);
 
 //--------
 
@@ -70,23 +75,27 @@ int main(){
     InitWindow(screenWidth, screenHeight, "The Valkyrie's Quest");
     SetTargetFPS(60);
     
-    initGame();
-    InitPhysics();
     
+    InitPhysics();
+    initGame();
     SetPhysicsGravity(0, 0);
     
     
-    while(!WindowShouldClose()){
+    while(!WindowShouldClose() && victory==false){
         
         
         RunPhysicsStep();
         
         BeginDrawing();
         ClearBackground(BLACK);
-        
-        DrawRectangleRec(player.rec, player.color);
+
+        DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
         
         movement();
+        
+        
+        
+        drawPhysicsEdge();
         
         
         EndDrawing();
@@ -100,27 +109,21 @@ void initGame(){
     // inicia os paramentros do jogo
     
     // jogador
-    player.body->position.x = screenWidth/2;
-    player.body->position.y = screenHeight/2;
+    //player.texture = LoadTexture("arquivo da imagem");
     
-    player.rec.x =  player.body->position.x;
-    player.rec.y = player.body->position.y;
+    
+    
     
     player.rec.width = 25;
     player.rec.height = 25;
-    player.speed.x = 5;
-    player.speed.y = 5;
+    player.speed = 0.2;
     player.color = YELLOW;
     
+    player.body = CreatePhysicsBodyRectangle((Vector2){screenWidth/2, screenHeight/2}, player.rec.width, player.rec.height, 10);
     
-    
-    
-    //====================
-    // carregando texturas
-
-    
-
-    //--------------------
+    player.rec.x = player.body->position.x;
+    player.rec.y = player.body->position.y;
+    player.body->freezeOrient=true;
     
 }
 
@@ -128,17 +131,25 @@ void movement(){
     // movimento do personagem
     
     if(IsKeyDown(KEY_RIGHT) && player.rec.x<screenWidth-40) {
-        player.rec.x += player.speed.x;
+        player.body->velocity.x = player.speed;
     }
     if(IsKeyDown(KEY_LEFT) && player.rec.x>30){
-        player.rec.x -= player.speed.x;
+        player.body->velocity.x = -player.speed;
     }
     if(IsKeyDown(KEY_DOWN) && player.rec.y<screenHeight-25){
-        player.rec.y += player.speed.y;
+        player.body->velocity.y = player.speed;
     }
     if(IsKeyDown(KEY_UP) && player.rec.y>20){
-        player.rec.y -= player.speed.y;
+        player.body->velocity.y = -player.speed;
     }
+    
+    if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN)) player.body->velocity.y = 0;
+    if (!IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) player.body->velocity.x = 0;
+    
+    player.rec.x = player.body->position.x-player.rec.width/2;
+    player.rec.y = player.body->position.y-player.rec.height/2;
+            
+    
 }
 
 void delay(float seconds){
@@ -146,4 +157,26 @@ void delay(float seconds){
     clock_t start = clock();
 
     while((clock() - start) * 1000 / CLOCKS_PER_SEC < milliseconds);
+}
+
+void drawPhysicsEdge(){
+    int bodiesCount = GetPhysicsBodiesCount();
+    for (int i = 0; i < bodiesCount; i++)
+    {
+        PhysicsBody body = GetPhysicsBody(i);
+        if (body != NULL)
+        {
+            int vertexCount = GetPhysicsShapeVerticesCount(i);
+            for (int j = 0; j < vertexCount; j++)
+            {
+                // Get physics bodies shape vertices to draw lines
+                // Note: GetPhysicsShapeVertex() already calculates rotation transformations
+                Vector2 vertexA = GetPhysicsShapeVertex(body, j);
+                int jj = (((j + 1) < vertexCount) ? (j + 1) : 0);   // Get next vertex or first to close the shape
+                Vector2 vertexB = GetPhysicsShapeVertex(body, jj);
+
+                DrawLineV(vertexA, vertexB, GREEN);     // Draw a line between two vertex positions
+            }
+        }
+    }
 }
