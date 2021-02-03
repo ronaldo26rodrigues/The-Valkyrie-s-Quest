@@ -45,8 +45,8 @@ typedef struct Player {
 //=================
 // Variaveis gloais
 
-static const int screenWidth = 1300;
-static const int screenHeight = 600;
+int screenWidth = 1300;
+int screenHeight = 600;
 
 static bool gameOver = false;
 static bool pause =  false;
@@ -72,24 +72,78 @@ void drawPhysicsEdge(void);
 int main(){
     srand(time(NULL));
     
-    InitWindow(screenWidth, screenHeight, "The Valkyrie's Quest");
+    InitWindow(screenWidth, screenHeight, "Primeiro teste");
+    screenWidth = GetMonitorWidth(0);
+    screenHeight = GetMonitorHeight(0);
+    CloseWindow();
+    InitWindow(screenWidth, screenHeight, "Primeiro teste");
+    
     SetTargetFPS(60);
     
+    ToggleFullscreen();
     
     InitPhysics();
     initGame();
     SetPhysicsGravity(0, 0);
     
+    int transparencia = 0;
+    int sobe = true;
+    
+    int framesCounter =0;
+    int currentFrame;
+    
+    Texture2D menuBG = LoadTexture("imagens/arvore_da_vida.png");
+    Font vikingFont = LoadFont("VIKING-N.TTF");
+    
+    Texture2D hilda[6] = {LoadTexture("imagens/idle/Warrior_Idle_1.png"), LoadTexture("imagens/idle/Warrior_Idle_2.png"), LoadTexture("imagens/idle/Warrior_Idle_3.png"), LoadTexture("imagens/idle/Warrior_Idle_4.png"),LoadTexture("imagens/idle/Warrior_Idle_5.png"), LoadTexture("imagens/idle/Warrior_Idle_6.png")};
+    
+    
     
     while(!WindowShouldClose() && victory==false){
+        
+        
         
         
         RunPhysicsStep();
         
         BeginDrawing();
-        ClearBackground(BLACK);
+        //ClearBackground(BLACK);
+        
+        framesCounter++;
+        
+        
+        switch(0){
+            
+            case 0:
+            
+            if(transparencia <=0) sobe = true;
+            if(transparencia>=255) sobe=false;
+            
+            if(sobe==true) transparencia+=3; else transparencia-=3;
+            
+            DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,menuBG.width*2, menuBG.height*2.2}, (Vector2){0,0}, 0, GRAY);
+            
+            DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/4, screenHeight/4}, 50,0,WHITE);
+            DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.8, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
+            
+            break;
+            
+        }
+        
 
-        DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
+        //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
+        
+        if(framesCounter>=(60/8)){
+            framesCounter=0;
+            
+            currentFrame++;
+            
+            if(currentFrame==5) currentFrame=0;
+        }
+        
+        DrawTextureRec(hilda[currentFrame], (Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+        
+        DrawTexture(hilda[currentFrame], 100,100,WHITE);
         
         movement();
         
@@ -110,6 +164,7 @@ void initGame(){
     
     // jogador
     //player.texture = LoadTexture("arquivo da imagem");
+    
     
     
     
