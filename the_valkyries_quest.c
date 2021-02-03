@@ -36,7 +36,9 @@ typedef struct Player {
     Vector2 prevPos;
     int vida;
     PhysicsBody body;
-    Texture2D texture;
+    int orientation;
+    int walking;
+    int max_frames;
 } Player;
 
 //-------------
@@ -53,6 +55,7 @@ static bool pause =  false;
 static bool victory = false;
 
 static Player player;
+
 //-----------------
 
 
@@ -67,6 +70,7 @@ void drawPhysicsEdge(void);
 //--------
 
 
+Texture2D hilda[6];
 
 
 int main(){
@@ -83,21 +87,54 @@ int main(){
     ToggleFullscreen();
     
     InitPhysics();
-    initGame();
+    
     SetPhysicsGravity(0, 0);
     
     int transparencia = 0;
     int sobe = true;
     
     int framesCounter =0;
-    int currentFrame;
+    int currentFrame = 0;
     
     Texture2D menuBG = LoadTexture("imagens/arvore_da_vida.png");
     Font vikingFont = LoadFont("VIKING-N.TTF");
     
-    Texture2D hilda[6] = {LoadTexture("imagens/idle/Warrior_Idle_1.png"), LoadTexture("imagens/idle/Warrior_Idle_2.png"), LoadTexture("imagens/idle/Warrior_Idle_3.png"), LoadTexture("imagens/idle/Warrior_Idle_4.png"),LoadTexture("imagens/idle/Warrior_Idle_5.png"), LoadTexture("imagens/idle/Warrior_Idle_6.png")};
+    
+    hilda[0] = LoadTexture("imagens/hilda/idle/Warrior_Idle_1.png");
+    hilda[1] = LoadTexture("imagens/hilda/idle/Warrior_Idle_2.png");
+    hilda[2] = LoadTexture("imagens/hilda/idle/Warrior_Idle_3.png");
+    hilda[3] = LoadTexture("imagens/hilda/idle/Warrior_Idle_4.png");
+    hilda[4] = LoadTexture("imagens/hilda/idle/Warrior_Idle_5.png");
+    hilda[5] = LoadTexture("imagens/hilda/idle/Warrior_Idle_6.png");
+    
+    Texture2D hildaDeath[11] = {
+        LoadTexture("imagens/Death-Effect/Warrior_Death_1.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_2.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_3.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_4.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_5.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_6.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_7.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_8.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_9.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_10.png"),
+        LoadTexture("imagens/Death-Effect/Warrior_Death_11.png")};
+    
+    Texture2D hildaRun[8] = {
+        LoadTexture("imagens/hilda/Run/Warrior_Run_1.png"),
+        LoadTexture("imagens/hilda/Run/Warrior_Run_2.png"),
+        LoadTexture("imagens/hilda/Run/Warrior_Run_3.png"),
+        LoadTexture("imagens/hilda/Run/Warrior_Run_4.png"),
+        LoadTexture("imagens/hilda/Run/Warrior_Run_5.png"),
+        LoadTexture("imagens/hilda/Run/Warrior_Run_6.png"),
+        LoadTexture("imagens/hilda/Run/Warrior_Run_7.png"),
+        LoadTexture("imagens/hilda/Run/Warrior_Run_8.png")
+    };
+    
+    initGame();
     
     
+    player.max_frames = 5;
     
     while(!WindowShouldClose() && victory==false){
         
@@ -138,20 +175,22 @@ int main(){
             
             currentFrame++;
             
-            if(currentFrame==5) currentFrame=0;
+            if(currentFrame>=player.max_frames) currentFrame=0;
         }
         
-        DrawTextureRec(hilda[currentFrame], (Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-        
-        DrawTexture(hilda[currentFrame], 100,100,WHITE);
+        if(player.walking==0){
+        DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+        player.max_frames = 5;
+        } else {
+            DrawTextureRec(hildaRun[currentFrame], (Rectangle){-hildaRun[currentFrame].width/1.3, -hildaRun[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+            player.max_frames = 8;
+        }
+        DrawTexture(hildaRun[currentFrame],100,100,WHITE);
         
         movement();
-        
-        
-        
+   
         drawPhysicsEdge();
-        
-        
+
         EndDrawing();
         
     }
@@ -163,16 +202,15 @@ void initGame(){
     // inicia os paramentros do jogo
     
     // jogador
-    //player.texture = LoadTexture("arquivo da imagem");
     
-    
-    
-    
-    
-    player.rec.width = 25;
-    player.rec.height = 25;
+
+    player.rec.width = hilda[0].width/3;
+    player.rec.height = hilda[0].height*80/100;
     player.speed = 0.2;
     player.color = YELLOW;
+    player.max_frames=5;
+    player.walking=0;
+    player.orientation=1;
     
     player.body = CreatePhysicsBodyRectangle((Vector2){screenWidth/2, screenHeight/2}, player.rec.width, player.rec.height, 10);
     
@@ -187,16 +225,27 @@ void movement(){
     
     if(IsKeyDown(KEY_RIGHT) && player.rec.x<screenWidth-40) {
         player.body->velocity.x = player.speed;
+        player.max_frames = 8;
+        player.orientation = 1;
     }
     if(IsKeyDown(KEY_LEFT) && player.rec.x>30){
         player.body->velocity.x = -player.speed;
+
+        player.max_frames = 8;
+        player.orientation = -1;
     }
     if(IsKeyDown(KEY_DOWN) && player.rec.y<screenHeight-25){
         player.body->velocity.y = player.speed;
+
+        player.max_frames = 8;
     }
     if(IsKeyDown(KEY_UP) && player.rec.y>20){
         player.body->velocity.y = -player.speed;
+
+        player.max_frames = 8;
     }
+    
+    if(IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
     
     if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN)) player.body->velocity.y = 0;
     if (!IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) player.body->velocity.x = 0;
