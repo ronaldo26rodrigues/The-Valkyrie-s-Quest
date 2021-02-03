@@ -47,7 +47,7 @@ typedef struct Player {
 //=================
 // Variaveis gloais
 
-int screenWidth = 1300;
+int screenWidth = 1400;
 int screenHeight = 600;
 
 static bool gameOver = false;
