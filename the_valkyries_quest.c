@@ -86,7 +86,7 @@ int main(){
     
     SetTargetFPS(60);
     
-    //ToggleFullscreen();
+    ToggleFullscreen();
     
     InitPhysics();
     
@@ -192,7 +192,22 @@ int main(){
 
             break;
 
-            case 1:
+
+            case 1: ;
+
+            char texto[] = "A vida então se espalhou por todos os nove mundos, e como toda grande história,\nescrita em sangue, morte e heroísmo.\nMidgard até os dias atuais se perde em guerra,\n Alfheim, mundo dos elfos, perdeu-se em sua própria soberba,\nNidavellir, o mundo dos anões, é assolado pelos elfos negros,\nJotunheim, o mundo dos gigantes, é uma prisão de constante conflito e situações extremas\ne Muspelheim, o mundo dos gigantes de fogo é um literal inferno, além dos reinos inalcançáveis.";
+
+            static int framesCounterText;
+
+            DrawTextEx(vikingFont, TextSubtext(texto, 0, framesCounterText++/4), (Vector2){screenWidth/10, screenHeight/10}, 20,0,WHITE);
+
+            if(framesCounterText/4 >= strlen(texto)) {
+                ClearBackground(RED);
+            }
+
+            break;
+
+            case 2:
 
             if(player.walking==0){
                 DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
@@ -207,32 +222,25 @@ int main(){
             for(int i=0;i<=player.vida/4;i++){
                 vidaParte = player.vida/4 - floor(player.vida/4);
                 if(i>=floor(player.vida/4)){
-                    
-
                     if(vidaParte==0.25) DrawTextureRec(heart, (Rectangle){3*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
                     if(vidaParte==0.5) DrawTextureRec(heart, (Rectangle){2*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
                     if(vidaParte==0.75) DrawTextureRec(heart, (Rectangle){1*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
                     //if(vidaParte==0) DrawTextureRec(heart, (Rectangle){4*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
-
                 } else {
                     DrawTextureRec(heart, (Rectangle){0,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
                 }
  
             }
  
-            if(IsKeyPressed(KEY_MINUS)) player.vida--;    
+            if(IsKeyPressed(KEY_MINUS)) player.vida--;
+            if(IsKeyPressed(KEY_EQUAL)) player.vida++;
             break;
             
         }
         
 
         //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
-        
-        
-        
-        
-        
-        
+
         movement();
    
         drawPhysicsEdge();
