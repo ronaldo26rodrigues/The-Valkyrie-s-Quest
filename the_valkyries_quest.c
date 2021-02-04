@@ -282,7 +282,7 @@ void movement(){
         player.max_frames = 8;
         player.orientation = -1;
     }
-    if(IsKeyDown(KEY_DOWN) && player.rec.y<screenHeight-25)
+    if(IsKeyDown(KEY_DOWN) && player.rec.y<screenHeight-25){
         player.body->velocity.y = player.speed;
 
         player.max_frames = 8;
@@ -304,7 +304,7 @@ void movement(){
     
     
     
-    if(IsKeyReleased(KEY_UP)) player.orientation = 1;
+ 
     
     if(IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
     
