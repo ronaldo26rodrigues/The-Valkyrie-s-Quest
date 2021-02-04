@@ -263,17 +263,12 @@ void movement(){
         player.max_frames = 8;
     }
     //if(atack)'z'
-    if(IsKeyDown('z') && player.rec.x>20){
-        player.body->velocity.y = -player.speed;
-        
-        player.orientation = 2;
-
-        player.max_frames = 10;
-    }
-    
+   
     
     
     //if(dash)'x'
+   
+    
     
     
     
