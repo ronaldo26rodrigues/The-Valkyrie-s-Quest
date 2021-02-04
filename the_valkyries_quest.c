@@ -195,14 +195,28 @@ int main(){
 
             case 1: ;
 
-            char texto[] = "A vida então se espalhou por todos os nove mundos, e como toda grande história,\nescrita em sangue, morte e heroísmo.\nMidgard até os dias atuais se perde em guerra,\n Alfheim, mundo dos elfos, perdeu-se em sua própria soberba,\nNidavellir, o mundo dos anões, é assolado pelos elfos negros,\nJotunheim, o mundo dos gigantes, é uma prisão de constante conflito e situações extremas\ne Muspelheim, o mundo dos gigantes de fogo é um literal inferno, além dos reinos inalcançáveis.";
+            char texto[10][500] = {"A vida então se espalhou por todos os nove mundos, e como toda grande história,\nescrita em sangue, morte e heroísmo.\nMidgard até os dias atuais se perde em guerra,\nAlfheim, mundo dos elfos, perdeu-se em sua própria soberba,\nNidavellir, o mundo dos anões, é assolado pelos elfos negros,\nJotunheim, o mundo dos gigantes, é uma prisão de constante conflito e situações extremas\ne Muspelheim, o mundo dos gigantes de fogo é um literal inferno,\nalém dos reinos inalcançáveis.",
+             "A árvore da vida era a responsável por portar os nove mundos, \nos Deuses se dividiram em dois clãs, os responsáveis pela guerra,\n Aesir, habitantes de Asgard, liderados por Bor,\nque passou este cargo para seu filho Odin,\ne infelizmente não passará para Thor, pois sua morte já está escrita, \nos responsáveis pela Natureza, Vanir,\nhabitantes de Vanaheim liderados por Frey e Freya, Deuses do verão e da primavera.",
+             "A vida então se espalhou por todos os nove mundos, e como toda grande história, escrita em sangue, morte e heroismo. Midgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua própria soberba, Nidavellir, o mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisão de constante conflito e situações extremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcançaveis.",
+             "Toda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poços de Helheim, cumprindo sua sentença para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla, o salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim. E existem aquelas responsaveis por dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas por Odin, que levam as almas dos mortos, e assim tudo funcionou por milênios…",
+              "Ate os dias de hoje... misteriosamente, almas de guerreiros e lendas passaram a cair de volta aos mundos dos vivos, causando caos e atraindo monstros.Em tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas para Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma verdadeira heroína…"};
 
             static int framesCounterText;
+            static int paragrafo;
 
-            DrawTextEx(vikingFont, TextSubtext(texto, 0, framesCounterText++/4), (Vector2){screenWidth/10, screenHeight/10}, 20,0,WHITE);
+            //DrawText(texto, 10,10,20,WHITE);
 
-            if(framesCounterText/4 >= strlen(texto)) {
-                ClearBackground(RED);
+            if(IsKeyDown(KEY_ENTER)) framesCounterText+=20; else framesCounterText++;
+
+            DrawTextEx(vikingFont, TextSubtext(texto[paragrafo], 0, framesCounterText/4), (Vector2){screenWidth/14, screenHeight/10}, 18,0,WHITE);
+
+            if(framesCounterText/4 >= strlen(texto[paragrafo])) {
+                
+                if(IsKeyPressed(KEY_ENTER)) {
+                    paragrafo++;
+                    framesCounterText=0;
+                    if(paragrafo>=5) level++;
+                }
             }
 
             break;
@@ -297,8 +311,6 @@ void movement(){
     }
     if(IsKeyDown(KEY_UP) && player.rec.y>20){
         player.body->velocity.y = -player.speed;
-        
-        player.orientation = 2;
 
         player.max_frames = 8;
     }
