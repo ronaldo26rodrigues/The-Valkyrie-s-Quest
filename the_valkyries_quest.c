@@ -250,7 +250,7 @@ void movement(){
         player.max_frames = 8;
         player.orientation = -1;
     }
-    if(IsKeyDown(KEY_DOWN) && player.rec.y<screenHeight-25){
+    if(IsKeyDown(KEY_DOWN) && player.rec.y<screenHeight-25)
         player.body->velocity.y = player.speed;
 
         player.max_frames = 8;
