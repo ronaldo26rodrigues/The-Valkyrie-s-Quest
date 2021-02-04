@@ -183,8 +183,8 @@ int main(){
             
             DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, GRAY);
             
-            DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/4, screenHeight/4}, 50,0,WHITE);
-            DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.8, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
+            DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
+            DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
             
             DrawTexture(hildaRun[currentFrame],100,100,WHITE);
 
@@ -303,7 +303,16 @@ void movement(){
         player.max_frames = 8;
     }
     
-    if(IsKeyReleased(KEY_UP)) player.orientation = 1;
+    
+    
+    
+ 
+    
+    
+    
+    
+    
+ 
     
     if(IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
     
