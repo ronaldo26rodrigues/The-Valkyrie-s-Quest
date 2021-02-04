@@ -4,7 +4,7 @@
  *  Desenvolvido por: Esdras, Gabriel, Gustavo, Marissol, Ronaldo e Vicente
  *=========================================================================*/
 
-#include <raylib.h>
+#include "C:\raylib\raylib\src\raylib.h"
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
@@ -12,7 +12,7 @@
 
 #define PHYSAC_IMPLEMENTATION
 #define PHYSAC_NO_THREADS
-#include "./lib/physac.h"
+#include "C:\raylib\raylib\src\physac.h"
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
@@ -34,7 +34,7 @@ typedef struct Player {
     float speed;
     Color color;
     Vector2 prevPos;
-    int vida;
+    float vida;
     PhysicsBody body;
     int orientation;
     int walking;
@@ -56,6 +56,8 @@ static bool victory = false;
 
 static Player player;
 
+static int level=0;
+
 //-----------------
 
 
@@ -76,15 +78,15 @@ Texture2D hilda[6];
 int main(){
     srand(time(NULL));
     
-    InitWindow(screenWidth, screenHeight, "Primeiro teste");
+    InitWindow(screenWidth, screenHeight, "The Valkyrie's Quest");
     screenWidth = GetMonitorWidth(0);
     screenHeight = GetMonitorHeight(0);
     CloseWindow();
-    InitWindow(screenWidth, screenHeight, "Primeiro teste");
+    InitWindow(screenWidth, screenHeight, "The Valkyrie's Quest");
     
     SetTargetFPS(60);
     
-    ToggleFullscreen();
+    //ToggleFullscreen();
     
     InitPhysics();
     
@@ -141,6 +143,8 @@ int main(){
         LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_6.png"),
         LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_7.png")
     };
+
+    Texture2D heart = LoadTexture("imagens/heart_animated_2.png");
     
     initGame();
     
@@ -155,12 +159,20 @@ int main(){
         RunPhysicsStep();
         
         BeginDrawing();
-        //ClearBackground(BLACK);
+        ClearBackground(BLACK);
         
         framesCounter++;
+
+        if(framesCounter>=(60/8)){
+            framesCounter=0;
+            
+            currentFrame++;
+            
+            if(currentFrame>=player.max_frames) currentFrame=0;
+        }
+
         
-        
-        switch(0){
+        switch(level){
             
             case 0:
             
@@ -174,6 +186,41 @@ int main(){
             DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
             DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
             
+            DrawTexture(hildaRun[currentFrame],100,100,WHITE);
+
+            if(IsKeyPressed(KEY_ENTER)) level++;
+
+            break;
+
+            case 1:
+
+            if(player.walking==0){
+                DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                player.max_frames = 5;
+            } else {
+
+            DrawTextureRec(hildaRun[currentFrame], (Rectangle){-hildaRun[currentFrame].width/1.3, -hildaRun[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+            
+            player.max_frames = 8;
+            }
+            static float vidaParte;
+            for(int i=0;i<=player.vida/4;i++){
+                vidaParte = player.vida/4 - floor(player.vida/4);
+                if(i>=floor(player.vida/4)){
+                    
+
+                    if(vidaParte==0.25) DrawTextureRec(heart, (Rectangle){3*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
+                    if(vidaParte==0.5) DrawTextureRec(heart, (Rectangle){2*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
+                    if(vidaParte==0.75) DrawTextureRec(heart, (Rectangle){1*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
+                    //if(vidaParte==0) DrawTextureRec(heart, (Rectangle){4*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
+
+                } else {
+                    DrawTextureRec(heart, (Rectangle){0,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
+                }
+ 
+            }
+ 
+            if(IsKeyPressed(KEY_MINUS)) player.vida--;    
             break;
             
         }
@@ -181,27 +228,10 @@ int main(){
 
         //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
         
-        if(framesCounter>=(60/8)){
-            framesCounter=0;
-            
-            currentFrame++;
-            
-            if(currentFrame>=player.max_frames) currentFrame=0;
-        }
         
-        if(player.walking==0){
-        DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-        player.max_frames = 5;
-        } else {
-            if(player.orientation!=2){
-                DrawTextureRec(hildaRun[currentFrame], (Rectangle){-hildaRun[currentFrame].width/1.3, -hildaRun[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-            } else {
-               DrawTextureRec(hildaUp[currentFrame], (Rectangle){-hildaUp[currentFrame].width/1.4, -hildaUp[currentFrame].height/1.15, player.rec.width, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-             
-            }
-            player.max_frames = 8;
-        }
-        DrawTexture(hildaRun[currentFrame],100,100,WHITE);
+        
+        
+        
         
         movement();
    
@@ -222,11 +252,13 @@ void initGame(){
 
     player.rec.width = hilda[0].width/3;
     player.rec.height = hilda[0].height*80/100;
-    player.speed = 0.35;
+    player.speed = 0.45;
     player.color = YELLOW;
     player.max_frames=5;
     player.walking=0;
     player.orientation=1;
+
+    player.vida = 16;
     
     player.body = CreatePhysicsBodyRectangle((Vector2){screenWidth/2, screenHeight/2}, player.rec.width, player.rec.height, 10);
     
