@@ -131,6 +131,17 @@ int main(){
         LoadTexture("imagens/hilda/Run/Warrior_Run_8.png")
     };
     
+    Texture2D hildaUp[8] = {
+        LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_0.png"),
+        LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_1.png"),
+        LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_2.png"),
+        LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_3.png"),
+        LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_4.png"),
+        LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_5.png"),
+        LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_6.png"),
+        LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_7.png")
+    };
+    
     initGame();
     
     
@@ -158,7 +169,7 @@ int main(){
             
             if(sobe==true) transparencia+=3; else transparencia-=3;
             
-            DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,menuBG.width*2, menuBG.height*2.2}, (Vector2){0,0}, 0, GRAY);
+            DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, GRAY);
             
             DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/4, screenHeight/4}, 50,0,WHITE);
             DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.8, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
@@ -182,7 +193,12 @@ int main(){
         DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
         player.max_frames = 5;
         } else {
-            DrawTextureRec(hildaRun[currentFrame], (Rectangle){-hildaRun[currentFrame].width/1.3, -hildaRun[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+            if(player.orientation!=2){
+                DrawTextureRec(hildaRun[currentFrame], (Rectangle){-hildaRun[currentFrame].width/1.3, -hildaRun[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+            } else {
+               DrawTextureRec(hildaUp[currentFrame], (Rectangle){-hildaUp[currentFrame].width/1.4, -hildaUp[currentFrame].height/1.15, player.rec.width, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+             
+            }
             player.max_frames = 8;
         }
         DrawTexture(hildaRun[currentFrame],100,100,WHITE);
@@ -206,7 +222,7 @@ void initGame(){
 
     player.rec.width = hilda[0].width/3;
     player.rec.height = hilda[0].height*80/100;
-    player.speed = 0.2;
+    player.speed = 0.35;
     player.color = YELLOW;
     player.max_frames=5;
     player.walking=0;
@@ -241,9 +257,13 @@ void movement(){
     }
     if(IsKeyDown(KEY_UP) && player.rec.y>20){
         player.body->velocity.y = -player.speed;
+        
+        player.orientation = 2;
 
         player.max_frames = 8;
     }
+    
+    if(IsKeyReleased(KEY_UP)) player.orientation = 1;
     
     if(IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
     
