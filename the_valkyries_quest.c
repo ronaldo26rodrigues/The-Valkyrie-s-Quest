@@ -262,25 +262,7 @@ void movement(){
 
         player.max_frames = 8;
     }
-    //if(atack)'z'
-   
     
-    
-    //if(dash)'x'
-   
-    
-    
-    
-    
-    //if(receber_dano)
-
-    
-    
-    //if(colisao)
-    
-    
-    
-    //if(pegar_item)
     
     
     
