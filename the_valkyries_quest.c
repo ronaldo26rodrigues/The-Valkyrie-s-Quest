@@ -59,6 +59,8 @@ static Player player;
 
 static int level=0;
 
+Camera2D camera = {0};
+
 //-----------------
 
 
@@ -69,12 +71,13 @@ static void initGame(void);
 static void movement(void);
 void delay(float seconds);
 void drawPhysicsEdge(void);
+void drawHearts(void);
 
 //--------
 
 
 Texture2D hilda[6];
-
+Texture2D heart;
 
 int main(){
     srand(time(NULL));
@@ -91,7 +94,7 @@ int main(){
     
     InitPhysics();
     
-    SetPhysicsGravity(0, 4);
+    //SetPhysicsGravity(0, 26);
     
     int transparencia = 0;
     int sobe = true;
@@ -146,8 +149,12 @@ int main(){
         LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_7.png")
     };
 
-    Texture2D heart = LoadTexture("imagens/heart_animated_2.png");
+    heart = LoadTexture("imagens/heart_animated_2.png");
+
+    Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
+    CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
     
+
     initGame();
     
     
@@ -233,19 +240,10 @@ int main(){
             
             player.max_frames = 8;
             }
-            static float vidaParte;
-            for(int i=0;i<=player.vida/4;i++){
-                vidaParte = player.vida/4 - floor(player.vida/4);
-                if(i>=floor(player.vida/4)){
-                    if(vidaParte==0.25) DrawTextureRec(heart, (Rectangle){3*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
-                    if(vidaParte==0.5) DrawTextureRec(heart, (Rectangle){2*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
-                    if(vidaParte==0.75) DrawTextureRec(heart, (Rectangle){1*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i+1,100}, WHITE);
-                    //if(vidaParte==0) DrawTextureRec(heart, (Rectangle){4*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
-                } else {
-                    DrawTextureRec(heart, (Rectangle){0,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
-                }
- 
-            }
+            
+            drawHearts();
+
+            DrawTexture(chao1,0,screenHeight*80/100,WHITE);
  
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
@@ -253,6 +251,8 @@ int main(){
             
         }
         
+        if(IsKeyPressed(KEY_PAGE_UP)) level++;
+        if(IsKeyPressed(KEY_PAGE_DOWN)) level--;
 
         //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
 
@@ -288,6 +288,12 @@ void initGame(){
     player.rec.x = player.body->position.x;
     player.rec.y = player.body->position.y;
     player.body->freezeOrient=true;
+
+
+    //camera
+    camera.target = (Vector2){player.rec.x, player.rec.y};
+    camera.rotation = 0.0f;
+    
     
 }
 
@@ -310,27 +316,17 @@ void movement(){
 
         player.max_frames = 8;
     }
-    if(IsKeyDown(KEY_UP) && player.rec.y>20){
-        player.body->velocity.y = -player.speed;
+    if(IsKeyDown(KEY_UP) && player.body->isGrounded==true){
+        player.body->velocity.y = -2.0f;
 
         player.max_frames = 8;
     }
     
-    
-    
-    
- 
-    
-    
-    
-    
-    
- 
-    
+
     if(IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
     
-    if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN)) player.body->velocity.y = 0;
-    if (!IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) player.body->velocity.x = 0;
+    //if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN)) player.body->velocity.y = 0;
+    //if (!IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) player.body->velocity.x = 0;
     
     player.rec.x = player.body->position.x-player.rec.width/2;
     player.rec.y = player.body->position.y-player.rec.height/2;
@@ -344,6 +340,24 @@ void delay(float seconds){
 
     while((clock() - start) * 1000 / CLOCKS_PER_SEC < milliseconds);
 }
+
+
+void drawHearts(){
+    static float vidaParte;
+    for(int i=0;i<=player.vida/4;i++){
+        vidaParte = player.vida/4 - floor(player.vida/4);
+        if(i>=floor(player.vida/4)){
+            if(vidaParte==0.25) DrawTextureRec(heart, (Rectangle){3*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
+            if(vidaParte==0.5) DrawTextureRec(heart, (Rectangle){2*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
+            if(vidaParte==0.75) DrawTextureRec(heart, (Rectangle){1*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
+            //if(vidaParte==0) DrawTextureRec(heart, (Rectangle){4*heart.width/5,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
+        } else {
+            DrawTextureRec(heart, (Rectangle){0,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
+        }
+ 
+    }
+}
+
 
 void drawPhysicsEdge(){
     int bodiesCount = GetPhysicsBodiesCount();
