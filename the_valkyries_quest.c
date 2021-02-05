@@ -211,7 +211,7 @@ int main(){
                 if(IsKeyPressed(KEY_ENTER)) {
                     paragrafo++;
                     framesCounterText=0;
-                    if(paragrafo>=5) level++;
+                    if(paragrafo>=3) level++;
                 }
             }
 
