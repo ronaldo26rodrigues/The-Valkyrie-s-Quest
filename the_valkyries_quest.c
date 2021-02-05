@@ -207,14 +207,14 @@ int main(){
 
             if(IsKeyDown(KEY_ENTER)) framesCounterText+=20; else framesCounterText++;
 
-            DrawTextEx(vikingFont, TextSubtext(texto[paragrafo], 0, framesCounterText/4), (Vector2){screenWidth/14, screenHeight/10}, 18,0,WHITE);
+            DrawTextEx(vikingFont, TextSubtext(texto[paragrafo], 0, framesCounterText/4), (Vector2){screenWidth/14, screenHeight/10}, screenWidth/108, 0,WHITE);
 
             if(framesCounterText/4 >= strlen(texto[paragrafo])) {
                 
                 if(IsKeyPressed(KEY_ENTER)) {
                     paragrafo++;
                     framesCounterText=0;
-                    if(paragrafo>=5) level++;
+                    if(paragrafo>=2) level++;
                 }
             }
 
