@@ -54,6 +54,7 @@ static bool gameOver = false;
 static bool pause =  false;
 static bool victory = false;
 
+
 static Player player;
 
 static int level=0;
@@ -181,11 +182,13 @@ int main(){
             
             if(sobe==true) transparencia+=3; else transparencia-=3;
             
-            DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, GRAY);
+            DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, LIGHTGRAY);
             
             DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
             DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
             
+            player.max_frames = 8;
+
             DrawTexture(hildaRun[currentFrame],100,100,WHITE);
 
             if(IsKeyPressed(KEY_ENTER)) level++;
@@ -204,14 +207,14 @@ int main(){
 
             if(IsKeyDown(KEY_ENTER)) framesCounterText+=20; else framesCounterText++;
 
-            DrawTextEx(vikingFont, TextSubtext(texto[paragrafo], 0, framesCounterText/4), (Vector2){screenWidth/14, screenHeight/10}, 18,0,WHITE);
+            DrawTextEx(vikingFont, TextSubtext(texto[paragrafo], 0, framesCounterText/4), (Vector2){screenWidth/14, screenHeight/10}, screenWidth/108, 0,WHITE);
 
             if(framesCounterText/4 >= strlen(texto[paragrafo])) {
                 
                 if(IsKeyPressed(KEY_ENTER)) {
                     paragrafo++;
                     framesCounterText=0;
-                    if(paragrafo>=3) level++;
+                    if(paragrafo>=2) level++;
                 }
             }
 
