@@ -59,7 +59,7 @@ static Player player;
 
 static int level=0;
 
-Camera2D camera = {0};
+Camera2D camera;
 
 //-----------------
 
@@ -168,6 +168,7 @@ int main(){
         RunPhysicsStep();
         
         BeginDrawing();
+        
         ClearBackground(BLACK);
         
         framesCounter++;
@@ -230,7 +231,11 @@ int main(){
             break;
 
             case 2:
-
+            
+            drawHearts();
+            
+            BeginMode2D(camera);
+            
             if(player.walking==0){
                 DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 player.max_frames = 5;
@@ -240,13 +245,14 @@ int main(){
             
             player.max_frames = 8;
             }
-            
-            drawHearts();
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
- 
+
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
+            
+            EndMode2D();
+            
             break;
             
         }
@@ -258,7 +264,7 @@ int main(){
 
         movement();
    
-        drawPhysicsEdge();
+        //drawPhysicsEdge();
 
         EndDrawing();
         
@@ -291,8 +297,10 @@ void initGame(){
 
 
     //camera
-    camera.target = (Vector2){player.rec.x, player.rec.y};
-    camera.rotation = 0.0f;
+    camera.target = (Vector2){player.body->position.x, player.body->position.y};
+    camera.rotation = 0;
+    camera.zoom = 1;
+    camera.offset = (Vector2){player.body->position.x, player.body->position.y};
     
     
 }
@@ -322,6 +330,7 @@ void movement(){
         player.max_frames = 8;
     }
     
+    camera.target = (Vector2){player.body->position.x, screenHeight/2};   
 
     if(IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
     
