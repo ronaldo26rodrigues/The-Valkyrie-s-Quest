@@ -148,6 +148,16 @@ int main(){
         LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_6.png"),
         LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_7.png")
     };
+    
+     Texture2D hildaDash[7] = {
+        LoadTexture("imagens/Dash/Warrior_Dash_1.png"),
+        LoadTexture("imagens/Dash/Warrior_Dash_2.png"),
+        LoadTexture("imagens/Dash/Warrior_Dash_3.png"),
+        LoadTexture("imagens/Dash/Warrior_Dash_4.png"),
+        LoadTexture("imagens/Dash/Warrior_Dash_5.png"),
+        LoadTexture("imagens/Dash/Warrior_Dash_6.png"),
+        LoadTexture("imagens/Dash/Warrior_Dash_7.png"), 
+        };
 
     heart = LoadTexture("imagens/heart_animated_2.png");
 
