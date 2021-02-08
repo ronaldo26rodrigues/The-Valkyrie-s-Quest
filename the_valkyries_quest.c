@@ -398,13 +398,13 @@ void initGame(){
 void movement(){
     // movimento do personagem
     
-    if(IsKeyDown(KEY_RIGHT)) {
+    if(IsKeyDown(KEY_RIGHT) && !(IsKeyDown(KEY_X))) {
         player.body->velocity.x = player.speed;
         player.walking = 1;
         player.max_frames = 8;
         player.orientation = 1;
     }
-    if(IsKeyDown(KEY_LEFT)){
+    if(IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_X))){
         player.body->velocity.x = -player.speed;
         player.walking = 1;
         player.max_frames = 8;
@@ -428,11 +428,10 @@ void movement(){
         player.max_frames = 3;
     }
 
-    if(IsKeyPressed(KEY_X) && player.body->isGrounded==true) {
-        player.body->velocity.x = player.speed * 2; //?????
-        player.walking = 3; // 3 pra dash
+    if(IsKeyPressed(KEY_X)) {
+        player.body->velocity.x = (player.speed * 2) * player.orientation;
+        player.walking = 3;
         player.max_frames = 7;
-        //TESTE
     }
 
     
