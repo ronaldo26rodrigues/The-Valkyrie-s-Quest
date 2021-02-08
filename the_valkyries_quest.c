@@ -251,7 +251,7 @@ int main(){
                 player.max_frames = 5;
             } else {
 
-            DrawTextureRec(hildaRun[currentFrame], (Rectangle){-hildaRun[currentFrame].width/1.3, -hildaRun[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+            DrawTextureRec(hildaRun[currentFrame], (Rectangle){0, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
             
             player.max_frames = 8;
             }
