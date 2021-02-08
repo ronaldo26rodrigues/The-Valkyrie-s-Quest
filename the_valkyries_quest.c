@@ -39,6 +39,7 @@ typedef struct Player {
     int orientation;
     int walking;
     int max_frames;
+    bool caiu;
 } Player;
 
 //-------------
@@ -292,6 +293,7 @@ int main(){
             EndMode2D();
 
             drawHearts();
+            DrawText(FormatText("%f", player.body->velocity.x), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
@@ -363,6 +365,7 @@ void initGame(){
     player.max_frames=5;
     player.walking=0;
     player.orientation=1;
+    player.caiu = false;
 
     player.vida = 16;
     
@@ -387,31 +390,41 @@ void movement(){
     
     if(IsKeyDown(KEY_RIGHT)) {
         player.body->velocity.x = player.speed;
+        player.walking = 1;
         player.max_frames = 8;
         player.orientation = 1;
     }
     if(IsKeyDown(KEY_LEFT)){
         player.body->velocity.x = -player.speed;
-
+        player.walking = 1;
         player.max_frames = 8;
         player.orientation = -1;
     }
     if(IsKeyDown(KEY_DOWN)){
         player.body->velocity.y = player.speed;
-
+        player.walking = 1;
         player.max_frames = 8;
+    }
+    
+    
+    if(player.caiu==false && player.body->isGrounded==true) {
+        player.caiu = true;
+        player.walking=0;
     }
     if(IsKeyPressed(KEY_UP) && player.body->isGrounded==true){
         player.body->velocity.y = -2.25f;
         player.walking = 2;
+        player.caiu=false;
         player.max_frames = 3;
     }
+
+    
 
     
     
     camera.target = (Vector2){player.body->position.x, screenHeight/1.8f};   
 
-    if(IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
+    if((IsKeyReleased(KEY_RIGHT) || IsKeyReleased(KEY_LEFT))) player.walking = 0;
     
     //if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN)) player.body->velocity.y = 0;
     //if (!IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) player.body->velocity.x = 0;
