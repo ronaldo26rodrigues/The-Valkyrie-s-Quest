@@ -95,6 +95,8 @@ int main(){
     InitPhysics();
     
     //SetPhysicsGravity(0, 26);
+
+    InitAudioDevice();
     
     int transparencia = 0;
     int sobe = true;
@@ -105,7 +107,7 @@ int main(){
     Texture2D menuBG = LoadTexture("imagens/arvore_da_vida.png");
     Font vikingFont = LoadFont("VIKING-N.TTF");
     Font superMario = LoadFont("Super-Mario-World.ttf");
-    
+    Music zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
     
     hilda[0] = LoadTexture("imagens/hilda/idle/Warrior_Idle_1.png");
     hilda[1] = LoadTexture("imagens/hilda/idle/Warrior_Idle_2.png");
@@ -167,6 +169,7 @@ int main(){
 
     initGame();
     
+    PlayMusicStream(zeldaMus);
     
     player.max_frames = 5;
     
@@ -195,6 +198,10 @@ int main(){
         switch(level){
             
             case 0:
+            
+            UpdateMusicStream(zeldaMus);
+
+
             
             if(transparencia <=0) sobe = true;
             if(transparencia>=255) sobe=false;
@@ -284,6 +291,7 @@ int main(){
         
         
     }
+    CloseAudioDevice();
     
     CloseWindow(); 
 }
@@ -365,7 +373,7 @@ void movement(){
 
     //InitWindow(screenWidth, screenHeight, "raylib [audio] example - sound loading and playing");
 
-    InitAudioDevice();      // Initialize audio device
+          // Initialize audio device
 
     Sound fxOgg = LoadSound("som/musica_do_game1.Ogg");        // Load OGG audio file
 
