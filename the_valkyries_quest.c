@@ -59,7 +59,11 @@ static Player player;
 
 static int level=0;
 
+int posParallax=0;
+
 Camera2D camera;
+
+bool criouCorpos = 0;
 
 //-----------------
 
@@ -82,6 +86,8 @@ Texture2D heart;
 int main(){
     srand(time(NULL));
     
+    
+
     InitWindow(screenWidth, screenHeight, "The Valkyrie's Quest");
     screenWidth = GetMonitorWidth(0);
     screenHeight = GetMonitorHeight(0);
@@ -103,6 +109,8 @@ int main(){
     
     int framesCounter =0;
     int currentFrame = 0;
+    
+    Vector2 iniciodoLvl = {0,screenHeight*80/100};
     
     Texture2D menuBG = LoadTexture("imagens/arvore_da_vida.png");
     Font vikingFont = LoadFont("VIKING-N.TTF");
@@ -160,10 +168,27 @@ int main(){
         LoadTexture("imagens/Dash/Warrior_Dash_6.png"),
         LoadTexture("imagens/Dash/Warrior_Dash_7.png"), 
         };
+    
+    Texture2D hildaJump[3] = {
+        LoadTexture("imagens/hilda/Jump/Warrior_Jump_1.png"),
+        LoadTexture("imagens/hilda/Jump/Warrior_Jump_2.png"),
+        LoadTexture("imagens/hilda/Jump/Warrior_Jump_3.png"),
+    };
+
+    Texture2D bglvl1 = LoadTexture("imagens/cenario/bglvl1.png");
+
+    Texture2D plataformas[] = {
+        LoadTexture("imagens/cenario/plataforma1.png"),
+    };
+
+    
+
 
     heart = LoadTexture("imagens/heart_animated_2.png");
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
+    
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+50+plataformas[0].width/2, iniciodoLvl.y-180+plataformas[0].height/2}, plataformas[0].width, plataformas[0].height,1)->enabled=false;
     CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
     
 
@@ -249,18 +274,46 @@ int main(){
 
             case 2:
             
-            drawHearts();
-            
+            if(criouCorpos==false){
+                
+                
+
+
+
+                criouCorpos = true;
+            }
+
             BeginMode2D(camera);
+
             
+            DrawTexture(bglvl1,0,0,WHITE);
+            DrawTexture(plataformas[0], iniciodoLvl.x+50, iniciodoLvl.y-180, WHITE);
+            
+            EndMode2D();
+
+            drawHearts();
+
+            BeginMode2D(camera);
+
             if(player.walking==0){
                 DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 player.max_frames = 5;
-            } else {
-
-            DrawTextureRec(hildaRun[currentFrame], (Rectangle){0, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+            } else if(player.walking == 1) {
             
-            player.max_frames = 8;
+                if(player.orientation==1){
+                DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation==-1){
+                DrawTextureRec(hildaRun[currentFrame], (Rectangle){0, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                player.max_frames = 8;
+            } else if(player.walking == 2){
+                if(player.orientation==1){
+                DrawTextureRec(hildaJump[currentFrame], (Rectangle){hildaJump[currentFrame].width/4.6f, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation==-1){
+                DrawTextureRec(hildaJump[currentFrame], (Rectangle){0, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
@@ -280,8 +333,9 @@ int main(){
         //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
 
         movement();
-   
-        //drawPhysicsEdge();
+
+
+        drawPhysicsEdge();
 
         EndDrawing();
         
@@ -331,31 +385,33 @@ void initGame(){
 void movement(){
     // movimento do personagem
     
-    if(IsKeyDown(KEY_RIGHT) && player.rec.x<screenWidth-40) {
+    if(IsKeyDown(KEY_RIGHT)) {
         player.body->velocity.x = player.speed;
         player.max_frames = 8;
         player.orientation = 1;
     }
-    if(IsKeyDown(KEY_LEFT) && player.rec.x>30){
+    if(IsKeyDown(KEY_LEFT)){
         player.body->velocity.x = -player.speed;
 
         player.max_frames = 8;
         player.orientation = -1;
     }
-    if(IsKeyDown(KEY_DOWN) && player.rec.y<screenHeight-25){
+    if(IsKeyDown(KEY_DOWN)){
         player.body->velocity.y = player.speed;
 
         player.max_frames = 8;
     }
-    if(IsKeyDown(KEY_UP) && player.body->isGrounded==true){
-        player.body->velocity.y = -2.0f;
-
-        player.max_frames = 8;
+    if(IsKeyPressed(KEY_UP) && player.body->isGrounded==true){
+        player.body->velocity.y = -2.25f;
+        player.walking = 2;
+        player.max_frames = 3;
     }
-    
-    camera.target = (Vector2){player.body->position.x, screenHeight/2};   
 
-    if(IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
+    
+    
+    camera.target = (Vector2){player.body->position.x, screenHeight/1.8f};   
+
+    if(IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) player.walking = 1; else player.walking = 0;
     
     //if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN)) player.body->velocity.y = 0;
     //if (!IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) player.body->velocity.x = 0;
@@ -364,52 +420,6 @@ void movement(){
     player.rec.y = player.body->position.y-player.rec.height/2;
             
     
-}
-                                /* SOM DO GAME */
- void som(){ // Initialization
-    //--------------------------------------------------------------------------------------
-    //const int screenWidth = 800;
-    //const int screenHeight = 450;
-
-    //InitWindow(screenWidth, screenHeight, "raylib [audio] example - sound loading and playing");
-
-          // Initialize audio device
-
-    Sound fxOgg = LoadSound("som/musica_do_game1.Ogg");        // Load OGG audio file
-
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
-
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        // Update
-        //----------------------------------------------------------------------------------
-        
-        if (IsKeyPressed(KEY_ENTER)) PlaySound(fxOgg);      // Play OGG sound
-        //----------------------------------------------------------------------------------
-
-        // Draw
-        //----------------------------------------------------------------------------------
-        //BeginDrawing();
-
-            //ClearBackground(RAYWHITE);
-
-            //DrawText("Press ENTER to PLAY the OGG sound!", 200, 220, 20, LIGHTGRAY);
-
-        //EndDrawing();
-        //----------------------------------------------------------------------------------
-    }
-
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    
-    UnloadSound(fxOgg);     // Unload sound data
-
-    CloseAudioDevice();     // Close audio device
-
-    CloseWindow();          // Close window and OpenGL context
- //--------------------------------------------------------------------------------------
 }
 
 void delay(float seconds){
