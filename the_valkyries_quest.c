@@ -373,7 +373,7 @@ void movement(){
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!WindowShouldClose(ESC key))    // Detect window close button or ESC key
+    while (!WindowShouldClose('ESC'))    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
