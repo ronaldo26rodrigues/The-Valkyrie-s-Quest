@@ -297,6 +297,7 @@ int main(){
 
             BeginMode2D(camera);
 
+            //0 = parada, 1 = andando, 2 = pulando, 3 = dash
             if(player.walking==0){
                 DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 player.max_frames = 5;
@@ -316,6 +317,14 @@ int main(){
                 if(player.orientation==-1){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){0, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
+              else if (player.walking == 3) {
+                if(player.orientation == 1) {
+                DrawTextureRec(hildaDash[currentFrame], (Rectangle) {hildaDash[currentFrame].width/4.6f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2) {player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1) {
+                DrawTextureRec(hildaDash[currentFrame], (Rectangle){0, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+              }                  
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
@@ -337,7 +346,7 @@ int main(){
         movement();
 
 
-        drawPhysicsEdge();
+        //drawPhysicsEdge();
 
         EndDrawing();
         
@@ -418,7 +427,12 @@ void movement(){
         player.max_frames = 3;
     }
 
-    
+    if(IsKeyPressed(KEY_X) && player.body->isGrounded==true) {
+        player.body->velocity.x = player.speed * 2; //?????
+        player.walking = 3; // 3 pra dash
+        player.max_frames = 7;
+        //TESTE
+    }
 
     
     
