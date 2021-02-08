@@ -262,6 +262,11 @@ int main(){
 
         EndDrawing();
         
+        som();
+        
+        
+        
+        
     }
     
     CloseWindow(); 
@@ -336,6 +341,52 @@ void movement(){
     player.rec.y = player.body->position.y-player.rec.height/2;
             
     
+}
+                                /* SOM DO GAME */
+ void som(){ // Initialization
+    //--------------------------------------------------------------------------------------
+    //const int screenWidth = 800;
+    //const int screenHeight = 450;
+
+    //InitWindow(screenWidth, screenHeight, "raylib [audio] example - sound loading and playing");
+
+    InitAudioDevice();      // Initialize audio device
+
+    Sound fxOgg = LoadSound("som/musica_do_game1.Ogg");        // Load OGG audio file
+
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    //--------------------------------------------------------------------------------------
+
+    // Main game loop
+    while (!WindowShouldClose(ESC key))    // Detect window close button or ESC key
+    {
+        // Update
+        //----------------------------------------------------------------------------------
+        
+        if (IsKeyPressed(KEY_ENTER)) PlaySound(fxOgg);      // Play OGG sound
+        //----------------------------------------------------------------------------------
+
+        // Draw
+        //----------------------------------------------------------------------------------
+        //BeginDrawing();
+
+            //ClearBackground(RAYWHITE);
+
+            //DrawText("Press ENTER to PLAY the OGG sound!", 200, 220, 20, LIGHTGRAY);
+
+        //EndDrawing();
+        //----------------------------------------------------------------------------------
+    }
+
+    // De-Initialization
+    //--------------------------------------------------------------------------------------
+    
+    UnloadSound(fxOgg);     // Unload sound data
+
+    CloseAudioDevice();     // Close audio device
+
+    CloseWindow();          // Close window and OpenGL context
+ //--------------------------------------------------------------------------------------
 }
 
 void delay(float seconds){
