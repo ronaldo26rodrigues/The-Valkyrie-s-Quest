@@ -278,7 +278,7 @@ int main(){
 
         EndDrawing();
         
-        som();
+        //som();
         
         
         
@@ -373,7 +373,7 @@ void movement(){
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!WindowShouldClose('ESC'))    // Detect window close button or ESC key
+    while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
