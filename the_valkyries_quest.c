@@ -188,16 +188,16 @@ int main(){
         };
         
     Texture2D hildaDashAttack[10] = {
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_1"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_2"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_3"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_4"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_5"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_6"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_7"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_8"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_9"),
-        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_10")
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_1"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_2"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_3"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_4"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_5"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_6"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_7"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_8"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_9"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_10")
     };
     
     Texture2D hildaJump[3] = {
@@ -383,7 +383,7 @@ int main(){
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){0, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-                player.max_frames = 10;
+                //'player.max_frames = 10;
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
@@ -487,30 +487,26 @@ void movement(){
     }
 
     //attack
-    if(IsKeyPressed(KEY_Z)) {
+    if(IsKeyPressed(KEY_Z) && !(IsKeyPressed(KEY_X))) {
         //attack
         //currentFrame = 0;
         player.max_frames = 12;
-        player.walking = 3;   
-        if(IsKeyPressed(KEY_Z) && IsKeyPressed(KEY_X)) { //dash attack
-            currentFrame = 0; //????? TESTE
-            player.max_frames = 10;
-            player.walking = 5;
-        }
+        player.walking = 3;
     }
     
     //dash
-    if(IsKeyPressed(KEY_X)) {
+    if(IsKeyPressed(KEY_X) && !(IsKeyPressed(KEY_Z))) {
         player.body->velocity.x = (player.speed * 2) * player.orientation;
         player.walking = 4;
         currentFrame = 0;
-        player.max_frames = 7;
-        if(IsKeyPressed(KEY_X) && IsKeyPressed(KEY_Z)) { //dash attack
-            currentFrame = 0;
-            player.max_frames = 10;
-            player.walking = 5;
-            //TESTE
-        }
+        player.max_frames = 7; 
+    }
+    
+    //dash attack
+    if (IsKeyPressed(KEY_X) && IsKeyPressed(KEY_Z)) {
+        currentFrame = 0;
+        player.max_frames = 10;
+        player.walking = 5;
     }
 
     
