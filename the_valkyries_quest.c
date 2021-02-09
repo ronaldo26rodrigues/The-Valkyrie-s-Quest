@@ -248,8 +248,8 @@ int main(){
             currentFrame++;
             
             if(currentFrame>=player.max_frames) {
-                currentFrame=0;
-                if(player.walking == 3) player.walking = 0;
+                currentFrame = 0;
+                if(player.walking == 3 || player.walking == 4) player.walking = 0;
                 }
         }
 
@@ -332,24 +332,24 @@ int main(){
             BeginMode2D(camera);
 
             //0 = parada, 1 = andando, 2 = pulando, 3 = attack, 4 = dash, 5 = dash attack
-            if(player.walking==0){
+            if(player.walking == 0){
                 DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 player.max_frames = 5;
             }
             else if(player.walking == 1) {
-                if(player.orientation==1){
+                if(player.orientation == 1){
                 DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-                if(player.orientation==-1){
+                if(player.orientation == -1){
                 DrawTextureRec(hildaRun[currentFrame], (Rectangle){0, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 player.max_frames = 8;
             }
             else if(player.walking == 2){
-                if(player.orientation==1){
+                if(player.orientation == 1){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){hildaJump[currentFrame].width/4.6f, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-                if(player.orientation==-1){
+                if(player.orientation == -1){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){0, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
             }
@@ -363,7 +363,7 @@ int main(){
                 if(player.orientation == -1){
                 DrawTextureRec(hildaAttack[currentFrame], (Rectangle){0, -hildaAttack[currentFrame].height/1.10, (hildaAttack[currentFrame].width/1.0f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/1.2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-                //player.max_frames = 12;
+                player.max_frames = 12;
             }
               
             else if (player.walking == 4) {
@@ -373,7 +373,7 @@ int main(){
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){0, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-                //player.max_frames = 7;  
+                player.max_frames = 7;  
             }
 
             else if (player.walking == 5) {
@@ -383,7 +383,7 @@ int main(){
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){0, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-                //player.max_frames = 10;
+                player.max_frames = 10;
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
@@ -430,9 +430,9 @@ void initGame(){
     player.rec.height = hilda[0].height*80/100;
     player.speed = 0.45;
     player.color = YELLOW;
-    player.max_frames=5;
-    player.walking=0;
-    player.orientation=1;
+    player.max_frames = 5;
+    player.walking = 0;
+    player.orientation = 1;
     player.caiu = false;
 
     player.vida = 16;
@@ -458,13 +458,13 @@ void movement(){
     
     if(IsKeyDown(KEY_RIGHT) && !(IsKeyDown(KEY_X))) {
         player.body->velocity.x = player.speed;
-        if(player.walking != 3) player.walking = 1;
+        if(player.walking != 3 && player.walking != 4) player.walking = 1;
         player.max_frames = 8;
         player.orientation = 1;
     }
     if(IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_X))){
         player.body->velocity.x = -player.speed;
-        if(player.walking!=3) player.walking = 1;
+        if(player.walking != 3 && player.walking != 4) player.walking = 1;
         player.max_frames = 8;
         player.orientation = -1;
     }
