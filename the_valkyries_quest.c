@@ -68,6 +68,10 @@ bool criouCorpos = 0;
 
 int currentFrame = 0;
 
+bool dashOpen = true;
+
+clock_t start;
+
 //-----------------
 
 
@@ -228,6 +232,8 @@ int main(){
     PlayMusicStream(zeldaMus);
     
     player.max_frames = 5;
+
+    start = clock();
     
     while(!WindowShouldClose() && victory==false){
         
@@ -327,7 +333,10 @@ int main(){
             EndMode2D();
 
             drawHearts();
-            DrawText(FormatText("%f", player.body->velocity.x), 100,300,20,WHITE);
+            
+            if(IsKeyPressed(KEY_T)) start = clock();
+
+            DrawText(FormatText("%i", (clock() - start)/1000), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
@@ -402,6 +411,7 @@ int main(){
 
         //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
 
+        
         movement();
 
 
@@ -468,6 +478,7 @@ void movement(){
         player.max_frames = 8;
         player.orientation = -1;
     }
+
     if(IsKeyDown(KEY_DOWN)){
         player.body->velocity.y = player.speed;
         player.walking = 1;
@@ -500,10 +511,11 @@ void movement(){
     }
     
     //dash
-    if(IsKeyPressed(KEY_X)) {
+    if(IsKeyPressed(KEY_X) && ((clock() - start)/1000)>=2) {
         player.body->velocity.x = (player.speed * 2) * player.orientation;
         player.walking = 4;
         currentFrame = 0;
+        start = clock();
         player.max_frames = 7;
         if(IsKeyPressed(KEY_X) && IsKeyPressed(KEY_Z)) { //dash attack
             currentFrame = 0;
@@ -534,6 +546,15 @@ void delay(float seconds){
 
     while((clock() - start) * 1000 / CLOCKS_PER_SEC < milliseconds);
 }
+
+void tempo(float seconds){
+    float milliseconds = seconds*1000;
+    clock_t start = clock();
+
+    while((clock() - start) * 1000 / CLOCKS_PER_SEC > milliseconds);
+
+}
+
 
 
 void drawHearts(){
