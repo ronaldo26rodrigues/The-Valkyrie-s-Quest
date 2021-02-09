@@ -188,16 +188,16 @@ int main(){
         };
         
     Texture2D hildaDashAttack[10] = {
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_1"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_2"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_3"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_4"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_5"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_6"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_7"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_8"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_9"),
-        LoadTexture("imagens/DashAttack/Warrior_DashAttack_10")
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_1.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_2.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_3.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_4.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_5.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_6.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_7.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_8.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_9.png"),
+        LoadTexture("imagens/DashAttack/Warrior_DashAttack_10.png")
     };
     
     Texture2D hildaJump[3] = {
@@ -504,6 +504,7 @@ void movement(){
     
     //dash attack
     if (IsKeyPressed(KEY_X) && IsKeyPressed(KEY_Z)) {
+        player.body->velocity.x = (player.speed * 2) * player.orientation;
         currentFrame = 0;
         player.max_frames = 10;
         player.walking = 5;
