@@ -162,6 +162,21 @@ int main(){
         LoadTexture("imagens/hilda/Run/up/Warrior-Ladder-Grab_7.png")
     };
     
+     Texture2D hildaAttack[12] = {
+         LoadTexture("imagens/Attack/Warrior_Attack_1.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_2.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_3.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_4.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_5.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_6.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_7.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_8.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_9.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_10.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_11.png"),
+         LoadTexture("imagens/Attack/Warrior_Attack_12.png")
+     };
+     
      Texture2D hildaDash[7] = {
         LoadTexture("imagens/Dash/Warrior_Dash_1.png"),
         LoadTexture("imagens/Dash/Warrior_Dash_2.png"),
@@ -234,7 +249,7 @@ int main(){
             
             if(currentFrame>=player.max_frames) {
                 currentFrame=0;
-                if(player.walking==3) player.walking=0;
+                if(player.walking == 3) player.walking = 0;
                 }
         }
 
@@ -316,12 +331,12 @@ int main(){
 
             BeginMode2D(camera);
 
-            //0 = parada, 1 = andando, 2 = pulando, 3 = dash
+            //0 = parada, 1 = andando, 2 = pulando, 3 = attack, 4 = dash, 5 = dash attack
             if(player.walking==0){
                 DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 player.max_frames = 5;
-            } else if(player.walking == 1) {
-            
+            }
+            else if(player.walking == 1) {
                 if(player.orientation==1){
                 DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
@@ -329,22 +344,46 @@ int main(){
                 DrawTextureRec(hildaRun[currentFrame], (Rectangle){0, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 player.max_frames = 8;
-            } else if(player.walking == 2){
+            }
+            else if(player.walking == 2){
                 if(player.orientation==1){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){hildaJump[currentFrame].width/4.6f, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(player.orientation==-1){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){0, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
+            }
+            
+            //attack
+            //tava width/4.6f, height/1.25, width/1.6f, width/2, height/2
+            else if (player.walking == 3) {
+                if(player.orientation == 1){
+                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-              else if (player.walking == 3) {
+                if(player.orientation == -1){
+                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){0, -hildaAttack[currentFrame].height/1.10, (hildaAttack[currentFrame].width/1.0f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/1.2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                //player.max_frames = 12;
+            }
+              
+            else if (player.walking == 4) {
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){hildaDash[currentFrame].width/4.6f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){0, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-                player.max_frames = 7;  
-              }                  
+                }
+                //player.max_frames = 7;  
+            }
+
+            else if (player.walking == 5) {
+                if(player.orientation == 1) {
+                DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){hildaDashAttack[currentFrame].width/4.6f, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1) {
+                DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){0, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                //player.max_frames = 10;
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
@@ -419,7 +458,7 @@ void movement(){
     
     if(IsKeyDown(KEY_RIGHT) && !(IsKeyDown(KEY_X))) {
         player.body->velocity.x = player.speed;
-        if(player.walking!=3) player.walking = 1;
+        if(player.walking != 3) player.walking = 1;
         player.max_frames = 8;
         player.orientation = 1;
     }
@@ -438,20 +477,40 @@ void movement(){
     
     if(player.caiu==false && player.body->isGrounded==true) {
         player.caiu = true;
-        player.walking=0;
+        player.walking = 0;
     }
     if(IsKeyPressed(KEY_UP) && player.body->isGrounded==true){
         player.body->velocity.y = -2.25f;
         player.walking = 2;
-        player.caiu=false;
+        player.caiu = false;
         player.max_frames = 3;
     }
 
+    //attack
+    if(IsKeyPressed(KEY_Z)) {
+        //attack
+        //currentFrame = 0;
+        player.max_frames = 12;
+        player.walking = 3;   
+        if(IsKeyPressed(KEY_Z) && IsKeyPressed(KEY_X)) { //dash attack
+            currentFrame = 0; //????? TESTE
+            player.max_frames = 10;
+            player.walking = 5;
+        }
+    }
+    
+    //dash
     if(IsKeyPressed(KEY_X)) {
         player.body->velocity.x = (player.speed * 2) * player.orientation;
-        player.walking = 3;
+        player.walking = 4;
         currentFrame = 0;
         player.max_frames = 7;
+        if(IsKeyPressed(KEY_X) && IsKeyPressed(KEY_Z)) { //dash attack
+            currentFrame = 0;
+            player.max_frames = 10;
+            player.walking = 5;
+            //TESTE
+        }
     }
 
     
