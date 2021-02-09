@@ -169,6 +169,19 @@ int main(){
         LoadTexture("imagens/Dash/Warrior_Dash_6.png"),
         LoadTexture("imagens/Dash/Warrior_Dash_7.png"), 
         };
+        
+    Texture2D hildaDashAttack[10] = {
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_1"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_2"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_3"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_4"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_5"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_6"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_7"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_8"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_9"),
+        LoadTexture("imagens/DashAttack/Warrior_Dash-Attack_10")
+    };
     
     Texture2D hildaJump[3] = {
         LoadTexture("imagens/hilda/Jump/Warrior_Jump_1.png"),
@@ -287,7 +300,8 @@ int main(){
             BeginMode2D(camera);
 
             
-            DrawTexture(bglvl1,0,0,WHITE);
+            //DrawTexture(bglvl1,0,0,WHITE);
+            DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,0,bglvl1.width, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             DrawTexture(plataformas[0], iniciodoLvl.x+50, iniciodoLvl.y-180, WHITE);
             
             EndMode2D();
