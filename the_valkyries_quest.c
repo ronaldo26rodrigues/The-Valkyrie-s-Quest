@@ -66,6 +66,8 @@ Camera2D camera;
 
 bool criouCorpos = 0;
 
+int currentFrame = 0;
+
 //-----------------
 
 
@@ -109,7 +111,7 @@ int main(){
     int sobe = true;
     
     int framesCounter =0;
-    int currentFrame = 0;
+    
     
     Vector2 iniciodoLvl = {0,screenHeight*80/100};
     
@@ -230,7 +232,10 @@ int main(){
             
             currentFrame++;
             
-            if(currentFrame>=player.max_frames) currentFrame=0;
+            if(currentFrame>=player.max_frames) {
+                currentFrame=0;
+                if(player.walking==3) player.walking=0;
+                }
         }
 
         
@@ -414,13 +419,13 @@ void movement(){
     
     if(IsKeyDown(KEY_RIGHT) && !(IsKeyDown(KEY_X))) {
         player.body->velocity.x = player.speed;
-        player.walking = 1;
+        if(player.walking!=3) player.walking = 1;
         player.max_frames = 8;
         player.orientation = 1;
     }
     if(IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_X))){
         player.body->velocity.x = -player.speed;
-        player.walking = 1;
+        if(player.walking!=3) player.walking = 1;
         player.max_frames = 8;
         player.orientation = -1;
     }
@@ -445,6 +450,7 @@ void movement(){
     if(IsKeyPressed(KEY_X)) {
         player.body->velocity.x = (player.speed * 2) * player.orientation;
         player.walking = 3;
+        currentFrame = 0;
         player.max_frames = 7;
     }
 
