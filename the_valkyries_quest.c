@@ -320,8 +320,8 @@ int main(){
             BeginMode2D(camera);
 
             
-            //DrawTexture(bglvl1,0,0,WHITE);
-            DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,0,bglvl1.width, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
+            DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
+            //DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,0,bglvl1.width, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             DrawTexture(plataformas[0], iniciodoLvl.x+50, iniciodoLvl.y-180, WHITE);
             
             EndMode2D();
