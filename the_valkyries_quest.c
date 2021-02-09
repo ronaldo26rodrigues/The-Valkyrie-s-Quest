@@ -128,17 +128,18 @@ int main(){
     hilda[5] = LoadTexture("imagens/hilda/idle/Warrior_Idle_6.png");
     
     Texture2D hildaDeath[11] = {
-        LoadTexture("imagens/Death-Effect/Warrior_Death_1.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_2.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_3.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_4.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_5.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_6.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_7.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_8.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_9.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_10.png"),
-        LoadTexture("imagens/Death-Effect/Warrior_Death_11.png")};
+        LoadTexture("imagens/DeathEffect/Warrior_Death_1.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_2.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_3.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_4.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_5.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_6.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_7.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_8.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_9.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_10.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_11.png")
+    };
     
     Texture2D hildaRun[8] = {
         LoadTexture("imagens/hilda/Run/Warrior_Run_1.png"),
@@ -205,7 +206,7 @@ int main(){
         LoadTexture("imagens/hilda/Jump/Warrior_Jump_2.png"),
         LoadTexture("imagens/hilda/Jump/Warrior_Jump_3.png"),
     };
-
+    
     Texture2D bglvl1 = LoadTexture("imagens/cenario/bglvl1.png");
 
     Texture2D plataformas[] = {
@@ -249,7 +250,7 @@ int main(){
             
             if(currentFrame>=player.max_frames) {
                 currentFrame = 0;
-                if(player.walking == 3 || player.walking == 4) player.walking = 0;
+                if(player.walking == 3 || player.walking == 4 || player.walking == 5) player.walking = 0;
                 }
         }
 
@@ -358,7 +359,7 @@ int main(){
             //tava width/4.6f, height/1.25, width/1.6f, width/2, height/2
             else if (player.walking == 3) {
                 if(player.orientation == 1){
-                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.25f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(player.orientation == -1){
                 DrawTextureRec(hildaAttack[currentFrame], (Rectangle){0, -hildaAttack[currentFrame].height/1.10, (hildaAttack[currentFrame].width/1.0f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/1.2, player.body->position.y-player.rec.height/2}, WHITE);
@@ -368,7 +369,7 @@ int main(){
               
             else if (player.walking == 4) {
                 if(player.orientation == 1) {
-                DrawTextureRec(hildaDash[currentFrame], (Rectangle){hildaDash[currentFrame].width/4.6f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                DrawTextureRec(hildaDash[currentFrame], (Rectangle){hildaDash[currentFrame].width/4.4f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){0, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
@@ -378,12 +379,12 @@ int main(){
 
             else if (player.walking == 5) {
                 if(player.orientation == 1) {
-                DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){hildaDashAttack[currentFrame].width/4.6f, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){hildaDashAttack[currentFrame].width/4.4f, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){0, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-                //'player.max_frames = 10;
+                //player.max_frames = 10;
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
@@ -458,13 +459,13 @@ void movement(){
     
     if(IsKeyDown(KEY_RIGHT) && !(IsKeyDown(KEY_X))) {
         player.body->velocity.x = player.speed;
-        if(player.walking != 3 && player.walking != 4) player.walking = 1;
+        if(player.walking != 3 && player.walking != 4 && player.walking != 5) player.walking = 1;
         player.max_frames = 8;
         player.orientation = 1;
     }
     if(IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_X))){
         player.body->velocity.x = -player.speed;
-        if(player.walking != 3 && player.walking != 4) player.walking = 1;
+        if(player.walking != 3 && player.walking != 4 && player.walking != 5) player.walking = 1;
         player.max_frames = 8;
         player.orientation = -1;
     }
