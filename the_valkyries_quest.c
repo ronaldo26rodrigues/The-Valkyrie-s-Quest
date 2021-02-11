@@ -37,7 +37,7 @@ typedef struct Player {
     float vida;
     PhysicsBody body;
     int orientation;
-    int walking;
+    int mode;
     int max_frames;
     bool caiu;
 } Player;
@@ -67,6 +67,8 @@ Camera2D camera;
 bool criouCorpos = 0;
 
 int currentFrame = 0;
+clock_t timer_dash;
+
 
 //-----------------
 
@@ -250,7 +252,7 @@ int main(){
             
             if(currentFrame>=player.max_frames) {
                 currentFrame = 0;
-                if(player.walking == 3 || player.walking == 4 || player.walking == 5) player.walking = 0;
+                if(player.mode == 3 || player.mode == 4 || player.mode == 5) player.mode = 0;
                 }
         }
 
@@ -311,10 +313,6 @@ int main(){
             
             if(criouCorpos==false){
                 
-                
-
-
-
                 criouCorpos = true;
             }
 
@@ -333,11 +331,11 @@ int main(){
             BeginMode2D(camera);
 
             //0 = parada, 1 = andando, 2 = pulando, 3 = attack, 4 = dash, 5 = dash attack
-            if(player.walking == 0){
+            if(player.mode == 0){
                 DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 player.max_frames = 5;
             }
-            else if(player.walking == 1) {
+            else if(player.mode == 1) {
                 if(player.orientation == 1){
                 DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
@@ -346,7 +344,7 @@ int main(){
                 }
                 player.max_frames = 8;
             }
-            else if(player.walking == 2){
+            else if(player.mode == 2){
                 if(player.orientation == 1){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){hildaJump[currentFrame].width/4.6f, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
@@ -358,7 +356,7 @@ int main(){
             //teste
             //attack
             //tava width/4.6f, height/1.25, width/1.6f, width/2, height/2
-            else if (player.walking == 3) {
+            else if (player.mode == 3) {
                 if(player.orientation == 1){
                 DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.25f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
@@ -368,7 +366,7 @@ int main(){
                 player.max_frames = 12;
             }
               
-            else if (player.walking == 4) {
+            else if (player.mode == 4) {
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){hildaDash[currentFrame].width/4.4f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
@@ -378,7 +376,7 @@ int main(){
                 player.max_frames = 7;  
             }
 
-            else if (player.walking == 5) {
+            else if (player.mode == 5) {
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){hildaDashAttack[currentFrame].width/4.4f, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
@@ -433,7 +431,7 @@ void initGame(){
     player.speed = 0.45;
     player.color = YELLOW;
     player.max_frames = 5;
-    player.walking = 0;
+    player.mode = 0;
     player.orientation = 1;
     player.caiu = false;
 
@@ -452,6 +450,7 @@ void initGame(){
     camera.zoom = 1;
     camera.offset = (Vector2){player.body->position.x, player.body->position.y};
     
+    timer_dash = clock();
     
 }
 
@@ -460,30 +459,25 @@ void movement(){
     
     if(IsKeyDown(KEY_RIGHT) && !(IsKeyDown(KEY_X))) {
         player.body->velocity.x = player.speed;
-        if(player.walking != 3 && player.walking != 4 && player.walking != 5) player.walking = 1;
+        if(player.mode != 3 && player.mode != 4 && player.mode != 5) player.mode = 1;
         player.max_frames = 8;
         player.orientation = 1;
     }
     if(IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_X))){
         player.body->velocity.x = -player.speed;
-        if(player.walking != 3 && player.walking != 4 && player.walking != 5) player.walking = 1;
+        if(player.mode != 3 && player.mode != 4 && player.mode != 5) player.mode = 1;
         player.max_frames = 8;
         player.orientation = -1;
-    }
-    if(IsKeyDown(KEY_DOWN)){
-        player.body->velocity.y = player.speed;
-        player.walking = 1;
-        player.max_frames = 8;
     }
     
     
     if(player.caiu==false && player.body->isGrounded==true) {
         player.caiu = true;
-        player.walking = 0;
+        player.mode = 0;
     }
     if(IsKeyPressed(KEY_UP) && player.body->isGrounded==true){
         player.body->velocity.y = -2.25f;
-        player.walking = 2;
+        player.mode = 2;
         player.caiu = false;
         player.max_frames = 3;
     }
@@ -493,15 +487,17 @@ void movement(){
         //attack
         //currentFrame = 0;
         player.max_frames = 12;
-        player.walking = 3;
+        player.mode = 3;
     }
     
+
     //dash
-    if(IsKeyPressed(KEY_X) && !(IsKeyPressed(KEY_Z))) {
+    if(IsKeyPressed(KEY_X) && !(IsKeyPressed(KEY_Z)) && (clock()-timer_dash)/1000>2) {
         player.body->velocity.x = (player.speed * 2) * player.orientation;
-        player.walking = 4;
+        player.mode = 4;
         currentFrame = 0;
         player.max_frames = 7; 
+        timer_dash=clock();
     }
     
     //dash attack
@@ -509,14 +505,14 @@ void movement(){
         player.body->velocity.x = (player.speed * 2) * player.orientation;
         currentFrame = 0;
         player.max_frames = 10;
-        player.walking = 5;
+        player.mode = 5;
     }
 
     
     
     camera.target = (Vector2){player.body->position.x, screenHeight/1.8f};   
 
-    if((IsKeyReleased(KEY_RIGHT) || IsKeyReleased(KEY_LEFT))) player.walking = 0;
+    if((IsKeyReleased(KEY_RIGHT) || IsKeyReleased(KEY_LEFT))) player.mode = 0;
     
     //if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN)) player.body->velocity.y = 0;
     //if (!IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) player.body->velocity.x = 0;
