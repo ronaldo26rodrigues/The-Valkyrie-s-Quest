@@ -355,6 +355,7 @@ int main(){
                 }
             }
             
+            //teste
             //attack
             //tava width/4.6f, height/1.25, width/1.6f, width/2, height/2
             else if (player.walking == 3) {
