@@ -221,6 +221,17 @@ int main(){
         LoadTexture("imagens/cenario/espinhos.png"),
 
     };
+    
+    Texture2D pilar[2] = {
+        LoadTexture("imagens/cenario/pilar.png"),
+        LoadTexture("imagens/cenario/pilar.png"),
+
+    };
+     Texture2D terra[2] = {
+        LoadTexture("imagens/cenario/terra.png"),
+        LoadTexture("imagens/cenario/terra.png"),
+
+    };
 
     
 
@@ -245,11 +256,18 @@ int main(){
     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
    
     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+pilar[1].width/2, iniciodoLvl.y-400+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+    
+        CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+terra[1].width/2, iniciodoLvl.y-200+terra[1].height/10}, terra[1].width, pilar[1].height,1)->enabled=false;
 
     
     
-    
      CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+espinhos[1].width/2, iniciodoLvl.y-60+espinhos[1].height/2}, espinhos[1].width*15, espinhos[1].height,1)->enabled=false;
+     
+     
+     
      
      
     
@@ -357,8 +375,8 @@ int main(){
             
 
             
-            DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
-            //DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,0,bglvl1.width, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
+            //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
+            DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl1.height,bglvl1.width*2, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             
             drawPhysicsEdge();
               
@@ -378,7 +396,9 @@ int main(){
             
             DrawTexture(plataformas[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
             
+            DrawTexture(pilar[1], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
             
+            DrawTexture(terra[1], iniciodoLvl.x+7000, iniciodoLvl.y-200, WHITE);
             
             DrawTexture(espinhos[1], iniciodoLvl.x+2300, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+2360, iniciodoLvl.y-60, WHITE);
