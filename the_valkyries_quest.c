@@ -42,6 +42,15 @@ typedef struct Player {
     bool caiu;
 } Player;
 
+typedef struct Esqueleto {
+    Rectangle rec;
+    float speed;
+    Color color;
+    float vida;
+    PhysicsBody body;
+    int orientation;
+    int max_frames;
+} Esqueleto;
 //-------------
 
 
@@ -57,6 +66,7 @@ static bool victory = false;
 
 
 static Player player;
+static Esqueleto esqueleto[4];
 
 static int level=0;
 
@@ -239,6 +249,10 @@ int main(){
     heart = LoadTexture("imagens/heart_animated_2.png");
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
+
+    Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
+    Texture2D skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
+    Texture2D skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
     
     
     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
@@ -366,6 +380,17 @@ int main(){
             case 2:
             
             if(criouCorpos==false){
+                for(int i =0;i<4;i++){
+                esqueleto[i].rec.x = rand() % bglvl1.width;
+                esqueleto[i].rec.y = player.rec.y;
+                esqueleto[i].rec.height=skeletonIdle.height;
+                esqueleto[i].rec.width=skeletonIdle.width/11;
+                
+                esqueleto[i].body = CreatePhysicsBodyRectangle((Vector2){esqueleto[i].rec.x, esqueleto[i].rec.y}, esqueleto[i].rec.width, esqueleto[i].rec.height, 10);
+                esqueleto[i].body->freezeOrient=true;
+                
+                }
+
                 
                 criouCorpos = true;
             }
