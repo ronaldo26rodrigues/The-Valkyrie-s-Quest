@@ -42,6 +42,16 @@ typedef struct Player {
     bool caiu;
 } Player;
 
+typedef struct Esqueleto {
+    Rectangle rec;
+    float speed;
+    Color color;
+    float vida;
+    PhysicsBody body;
+    int orientation;
+    int max_frames;
+} Esqueleto;
+
 //-------------
 
 
@@ -57,6 +67,7 @@ static bool victory = false;
 
 
 static Player player;
+static Esqueleto esqueleto[4];
 
 static int level=0;
 
@@ -81,6 +92,7 @@ static void movement(void);
 void delay(float seconds);
 void drawPhysicsEdge(void);
 void drawHearts(void);
+
 
 //--------
 
@@ -222,12 +234,13 @@ int main(){
 
     };
 
-    
-
-
     heart = LoadTexture("imagens/heart_animated_2.png");
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
+
+    Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
+    Texture2D skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
+    Texture2D skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
     
     
     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
@@ -246,18 +259,10 @@ int main(){
    
     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
 
-    
-    
-    
-     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+espinhos[1].width/2, iniciodoLvl.y-60+espinhos[1].height/2}, espinhos[1].width*15, espinhos[1].height,1)->enabled=false;
+
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+espinhos[1].width/2, iniciodoLvl.y-60+espinhos[1].height/2}, espinhos[1].width*15, espinhos[1].height,1)->enabled=false;
      
-     
-    
-    
-    
-    
-    
-    
+
     CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
 
     
@@ -349,6 +354,19 @@ int main(){
             
             if(criouCorpos==false){
                 
+                for(int i =0;i<4;i++){
+                esqueleto[i].rec.x = rand() % bglvl1.width;
+                esqueleto[i].rec.y = player.rec.y;
+                esqueleto[i].rec.height=skeletonIdle.height;
+                esqueleto[i].rec.width=skeletonIdle.width/11;
+                
+                esqueleto[i].body = CreatePhysicsBodyRectangle((Vector2){esqueleto[i].rec.x, esqueleto[i].rec.y}, esqueleto[i].rec.width, esqueleto[i].rec.height, 10);
+                esqueleto[i].body->freezeOrient=true;
+                
+                }
+
+                
+
                 criouCorpos = true;
             }
 
@@ -493,7 +511,7 @@ int main(){
         
     }
     CloseAudioDevice();
-    
+    ClosePhysics();
     CloseWindow(); 
 }
 
@@ -620,9 +638,9 @@ void drawHearts(){
         } else {
             DrawTextureRec(heart, (Rectangle){0,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
         }
- 
     }
 }
+
 
 
 void drawPhysicsEdge(){
