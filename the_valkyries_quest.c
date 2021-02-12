@@ -211,8 +211,9 @@ int main(){
     
     Texture2D bglvl1 = LoadTexture("imagens/cenario/bglvl1.png");
 
-    Texture2D plataformas[] = {
+    Texture2D plataformas[2] = {
         LoadTexture("imagens/cenario/plataforma1.png"),
+        LoadTexture("imagens/cenario/plataforma2.png"),
     };
 
     
@@ -222,8 +223,12 @@ int main(){
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
     
-    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+50+plataformas[0].width/2, iniciodoLvl.y-180+plataformas[0].height/2}, plataformas[0].width, plataformas[0].height,1)->enabled=false;
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+80+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1000+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
     CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
+
     
 
     initGame();
@@ -321,7 +326,11 @@ int main(){
             
             DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             //DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,0,bglvl1.width, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
-            DrawTexture(plataformas[0], iniciodoLvl.x+50, iniciodoLvl.y-180, WHITE);
+            DrawTexture(plataformas[1], iniciodoLvl.x+70, iniciodoLvl.y-180, WHITE);
+            
+            
+            DrawTexture(plataformas[1], iniciodoLvl.x+1000, iniciodoLvl.y-180, WHITE);
+            
             
             EndMode2D();
 
