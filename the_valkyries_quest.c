@@ -215,6 +215,12 @@ int main(){
         LoadTexture("imagens/cenario/plataforma1.png"),
         LoadTexture("imagens/cenario/plataforma2.png"),
     };
+    
+    Texture2D espinhos[2] = {
+        LoadTexture("imagens/cenario/espinhos.png"),
+        LoadTexture("imagens/cenario/espinhos.png"),
+
+    };
 
     
 
@@ -223,9 +229,34 @@ int main(){
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
     
-    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+80+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
     
-    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1000+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2300+plataformas[1].width/2, iniciodoLvl.y-260+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2700+plataformas[1].width/2, iniciodoLvl.y-320+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3200+plataformas[1].width/2, iniciodoLvl.y-140+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+     
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+     
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+   
+    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+
+    
+    
+    
+     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+espinhos[1].width/2, iniciodoLvl.y-60+espinhos[1].height/2}, espinhos[1].width*15, espinhos[1].height,1)->enabled=false;
+     
+     
+    
+    
+    
+    
+    
     
     CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
 
@@ -322,14 +353,51 @@ int main(){
             }
 
             BeginMode2D(camera);
+            
+            
 
             
             DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             //DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,0,bglvl1.width, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
-            DrawTexture(plataformas[1], iniciodoLvl.x+70, iniciodoLvl.y-180, WHITE);
+            
+            drawPhysicsEdge();
+              
+            DrawTexture(plataformas[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
+            
+            DrawTexture(plataformas[1], iniciodoLvl.x+2300, iniciodoLvl.y-260, WHITE);
+            
+            DrawTexture(plataformas[1], iniciodoLvl.x+2700, iniciodoLvl.y-320, WHITE);
+            
+            DrawTexture(plataformas[1], iniciodoLvl.x+3200, iniciodoLvl.y-140, WHITE);
+            
+            DrawTexture(plataformas[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
+            
+            DrawTexture(plataformas[1], iniciodoLvl.x+5000, iniciodoLvl.y-340, WHITE);
+            
+            DrawTexture(plataformas[1], iniciodoLvl.x+5400, iniciodoLvl.y-180, WHITE);
+            
+            DrawTexture(plataformas[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
             
             
-            DrawTexture(plataformas[1], iniciodoLvl.x+1000, iniciodoLvl.y-180, WHITE);
+            
+            DrawTexture(espinhos[1], iniciodoLvl.x+2300, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2360, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2420, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2480, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2440, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2500, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2560, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2620, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2680, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2740, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2800, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2860, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2920, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+2980, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+3040, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+3100, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+3160, iniciodoLvl.y-60, WHITE);
+            
             
             
             EndMode2D();
