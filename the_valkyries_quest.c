@@ -617,7 +617,7 @@ void movement(){
     
 
     //dash
-    if(IsKeyPressed(KEY_X) && !(IsKeyPressed(KEY_Z)) && (clock()-timer_dash)/1000>2) {
+    if(IsKeyPressed(KEY_X) && !(IsKeyPressed(KEY_Z)) && (clock()-timer_dash)/500>2) {
         player.body->velocity.x = (player.speed * 2) * player.orientation;
         player.mode = 4;
         currentFrame = 0;
