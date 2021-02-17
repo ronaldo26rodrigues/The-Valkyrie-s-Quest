@@ -90,6 +90,7 @@ static void movement(void);
 void delay(float seconds);
 void drawPhysicsEdge(void);
 void drawHearts(void);
+void criaresqueleto(int bglvl_width);
 
 //--------
 
@@ -380,19 +381,8 @@ int main(){
             case 2:
             
             if(IsKeyPressed(KEY_C)){
-                Esqueleto esqueleto[4];
-                for(int i =0;i<4;i++){
-                esqueleto[i].rec.x = rand() % bglvl1.width;
-                esqueleto[i].rec.y = player.rec.y;
-                esqueleto[i].rec.height=skeletonIdle.height;
-                esqueleto[i].rec.width=skeletonIdle.width/11;
-                
-                esqueleto[i].body = CreatePhysicsBodyRectangle((Vector2){esqueleto[i].rec.x, esqueleto[i].rec.y}, esqueleto[i].rec.width, esqueleto[i].rec.height, 1);
-                esqueleto[i].body->freezeOrient=true;
-                }
-                criouCorpos = true;
+                criaresqueleto(bglvl1.width);
             }
-
             BeginMode2D(camera);
             
             
@@ -710,4 +700,21 @@ void drawPhysicsEdge(){
             }
         }
     }
+}
+
+void criaresqueleto(int bglvl_width) {
+    Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
+    Texture2D skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
+    Texture2D skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
+    Esqueleto esqueleto[4];
+    
+    for(int i =0;i<4;i++){
+        esqueleto[i].rec.x = rand() % bglvl_width;
+        esqueleto[i].rec.y = player.rec.y;
+        esqueleto[i].rec.height=skeletonIdle.height;
+        esqueleto[i].rec.width=skeletonIdle.width/11;
+                
+        esqueleto[i].body = CreatePhysicsBodyRectangle((Vector2){esqueleto[i].rec.x, esqueleto[i].rec.y}, esqueleto[i].rec.width, esqueleto[i].rec.height, 1);               esqueleto[i].body->freezeOrient=true;
+    }
+    criouCorpos = true;
 }
