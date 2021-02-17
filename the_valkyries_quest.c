@@ -655,6 +655,21 @@ void delay(float seconds){
 
 
 void drawHearts(){
+    
+    Texture2D hildaDeath[11] = {
+        LoadTexture("imagens/DeathEffect/Warrior_Death_1.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_2.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_3.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_4.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_5.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_6.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_7.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_8.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_9.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_10.png"),
+        LoadTexture("imagens/DeathEffect/Warrior_Death_11.png")
+    };
+    
     static float vidaParte;
     for(int i=0;i<=player.vida/4;i++){
         vidaParte = player.vida/4 - floor(player.vida/4);
@@ -666,6 +681,10 @@ void drawHearts(){
         } else {
             DrawTextureRec(heart, (Rectangle){0,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
         }
+        if(vidaParte < 0.25){
+                DrawTextureRec(hildaDeath[currentFrame], (Rectangle){hildaDeath[currentFrame].width/4.4f, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+        
  
     }
 }
