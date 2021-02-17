@@ -219,6 +219,7 @@ int main(){
         LoadTexture("imagens/hilda/Jump/Warrior_Jump_3.png"),
     };
     
+    
     Texture2D bglvl1 = LoadTexture("imagens/cenario/bglvl1.png");
 
     Texture2D plataformas[2] = {
@@ -411,6 +412,10 @@ int main(){
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100})) player.vida-=1;
+            
+            if (player.vida < 0.25) {
+                player.mode = 6;
+            }
 
             DrawTexture(espinhos[1], iniciodoLvl.x+2300, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+2360, iniciodoLvl.y-60, WHITE);
@@ -493,6 +498,15 @@ int main(){
                 DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){0, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 //player.max_frames = 10;
+            }
+            
+            else if (player.mode == 6) {
+                if(player.orientation == 1) {
+                DrawTextureRec(hildaDeath[currentFrame], (Rectangle){hildaDeath[currentFrame].width/4.4f, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1) {
+                DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
@@ -617,7 +631,7 @@ void movement(){
         player.mode = 5;
     }
 
-    
+
     
     camera.target = (Vector2){player.body->position.x, screenHeight/1.8f};   
 
@@ -642,19 +656,7 @@ void delay(float seconds){
 
 void drawHearts(){
     
-    Texture2D hildaDeath[11] = {
-        LoadTexture("imagens/DeathEffect/Warrior_Death_1.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_2.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_3.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_4.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_5.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_6.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_7.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_8.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_9.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_10.png"),
-        LoadTexture("imagens/DeathEffect/Warrior_Death_11.png")
-    };
+
     
     static float vidaParte;
     for(int i=0;i<=player.vida/4;i++){
@@ -667,9 +669,6 @@ void drawHearts(){
         } else {
             DrawTextureRec(heart, (Rectangle){0,0,heart.width/5, heart.height}, (Vector2){100+(heart.width/5)*i,100}, WHITE);
         }
-        if(vidaParte < 0.25){
-                DrawTextureRec(hildaDeath[currentFrame], (Rectangle){hildaDeath[currentFrame].width/4.4f, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-                }
         
  
     }
