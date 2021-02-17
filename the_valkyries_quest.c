@@ -90,7 +90,7 @@ static void movement(void);
 void delay(float seconds);
 void drawPhysicsEdge(void);
 void drawHearts(void);
-void criaresqueleto(int bglvl_width);
+void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto* esqueleto);
 
 //--------
 
@@ -245,7 +245,9 @@ int main(){
     };
 
     
-
+    Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
+    Texture2D skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
+    Texture2D skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
 
     heart = LoadTexture("imagens/heart_animated_2.png");
 
@@ -276,7 +278,7 @@ int main(){
      
     
     
-    
+    Esqueleto esqueleto[4];
     
     
     
@@ -304,7 +306,7 @@ int main(){
         framesCounter++;
 
         if(framesCounter>=(60/8)){
-            framesCounter=0;
+            //framesCounter=0;
             
             currentFrame++;
             
@@ -312,6 +314,7 @@ int main(){
                 currentFrame = 0;
                 if(player.mode == 3 || player.mode == 4 || player.mode == 5) player.mode = 0;
                 }
+            
         }
 
         
@@ -377,8 +380,10 @@ int main(){
 
             case 2:
             
-            if(IsKeyPressed(KEY_C)){
-                criaresqueleto(bglvl1.width);
+            if(criouCorpos==false){
+                
+                
+                criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
             }
             BeginMode2D(camera);
             
@@ -440,9 +445,24 @@ int main(){
             EndMode2D();
 
             drawHearts();
-            DrawText(FormatText("%f", player.body->velocity.x), 100,300,20,WHITE);
+            static int framesSklt;
+            DrawText(FormatText("%i", framesCounter), 100,300,20,WHITE);
 
             BeginMode2D(camera);
+
+            
+
+            for(int i=0;i<4;i++){
+                //DrawTexture(skeletonIdle, esqueleto[i].body->position.x, esqueleto[i].body->position.y, WHITE);
+                DrawTextureRec(skeletonIdle, (Rectangle){(skeletonIdle.width/11)*framesSklt, 0, skeletonIdle.width/11,skeletonIdle.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+                //DrawTexturePro(skeletonIdle, (Rectangle){0,0,skeletonIdle.width, skeletonIdle.height}, (Rectangle){(skeletonIdle.width/11)*framesSklt, 0, skeletonIdle.width/11,skeletonIdle.height}, (Vector2){esqueleto[i].body->position.x, esqueleto[i].body->position.y}, 0,WHITE);
+            }
+            if(framesCounter>=(60/8)){
+                framesCounter=0;
+                framesSklt++;
+                if(framesSklt>=11) framesSklt=0;
+            }
+            
 
             //0 = parada, 1 = andando, 2 = pulando, 3 = attack, 4 = dash, 5 = dash attack
             if(player.mode == 0){
@@ -697,17 +717,15 @@ void drawPhysicsEdge(){
     }
 }
 
-void criaresqueleto(int bglvl_width) {
-    Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
-    Texture2D skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
-    Texture2D skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
-    Esqueleto esqueleto[4];
+void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto* esqueleto) {
+    
+    
     
     for(int i =0;i<4;i++){
         esqueleto[i].rec.x = rand() % bglvl_width;
         esqueleto[i].rec.y = player.rec.y;
-        esqueleto[i].rec.height=skeletonIdle.height;
-        esqueleto[i].rec.width=skeletonIdle.width/11;
+        esqueleto[i].rec.height=sklt_width;
+        esqueleto[i].rec.width=sklt_height/11;
                 
         esqueleto[i].body = CreatePhysicsBodyRectangle((Vector2){esqueleto[i].rec.x, esqueleto[i].rec.y}, esqueleto[i].rec.width, esqueleto[i].rec.height, 1);               esqueleto[i].body->freezeOrient=true;
     }
