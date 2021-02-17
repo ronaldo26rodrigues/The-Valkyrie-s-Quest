@@ -249,10 +249,6 @@ int main(){
     heart = LoadTexture("imagens/heart_animated_2.png");
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
-
-    Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
-    Texture2D skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
-    Texture2D skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
     
     CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
 
