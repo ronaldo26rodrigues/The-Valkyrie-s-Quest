@@ -539,10 +539,18 @@ int main(){
             else if (player.mode == 6) {
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDeath[currentFrame], (Rectangle){hildaDeath[currentFrame].width/4.4f, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                
+
                 }
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                
+               
                 }
+               player.max_frames = 12;  
+               
+               
+               
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
