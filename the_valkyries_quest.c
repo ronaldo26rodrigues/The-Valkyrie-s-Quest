@@ -244,6 +244,12 @@ int main(){
         LoadTexture("imagens/cenario/terra.png"),
 
     };
+    Texture2D pocao[2] = {
+        LoadTexture("imagens/itens/pocao.png"),
+        LoadTexture("imagens/itens/pocao.png"),
+        
+    };
+    
 
     
     Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
@@ -262,7 +268,7 @@ int main(){
     
     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2700+plataformas[1].width/2, iniciodoLvl.y-320+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
     
-    // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3200+plataformas[1].width/2, iniciodoLvl.y-140+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+     //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3200+plataformas[1].width/2, iniciodoLvl.y-140+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
      
     // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
      
@@ -272,7 +278,7 @@ int main(){
     
     // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
  
-     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+pilar[1].width/2, iniciodoLvl.y-399+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+     //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+pilar[1].width/2, iniciodoLvl.y-399+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
      
      CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+terra[1].width/2, iniciodoLvl.y-190+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
      
@@ -402,7 +408,7 @@ int main(){
             
             DrawTexture(plataformas[1], iniciodoLvl.x+2700, iniciodoLvl.y-320, WHITE);
             
-            DrawTexture(plataformas[1], iniciodoLvl.x+3200, iniciodoLvl.y-140, WHITE);
+            //DrawTexture(plataformas[1], iniciodoLvl.x+3200, iniciodoLvl.y-140, WHITE);
             
             DrawTexture(plataformas[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
             
@@ -412,13 +418,15 @@ int main(){
             
             DrawTexture(plataformas[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
             
-            DrawTexture(pilar[1], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
+            DrawTexture(pocao[1], iniciodoLvl.x+5330, iniciodoLvl.y-250, WHITE);
+            
+            //DrawTexture(pilar[2], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
             
             DrawTexture(terra[1], iniciodoLvl.x+7000, iniciodoLvl.y-200, WHITE);
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100})) player.vida-=1;
-            
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+7000, iniciodoLvl.y-35, espinhos[1].width*13.5f, espinhos[1].height*60/100}))  player.vida-=1;
             if (player.vida < 0.25) {
                 player.mode = 6;
             }
@@ -438,8 +446,24 @@ int main(){
             DrawTexture(espinhos[1], iniciodoLvl.x+2920, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+2980, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+3040, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+3100, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+3160, iniciodoLvl.y-60, WHITE);
+            //DrawTexture(espinhos[1], iniciodoLvl.x+3100, iniciodoLvl.y-60, WHITE);
+            //DrawTexture(espinhos[1], iniciodoLvl.x+3160, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7000, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7060, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7120, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7180, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7240, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7300, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7360, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7420, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7480, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7540, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7600, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7660, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7720, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7780, iniciodoLvl.y-60, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+7840, iniciodoLvl.y-60, WHITE);
+            
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
             
@@ -551,10 +575,18 @@ int main(){
             else if (player.mode == 6) {
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDeath[currentFrame], (Rectangle){hildaDeath[currentFrame].width/4.4f, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                
+
                 }
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                
+               
                 }
+               player.max_frames = 12;  
+               
+               
+               
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
