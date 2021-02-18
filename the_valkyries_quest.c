@@ -244,9 +244,9 @@ int main(){
         LoadTexture("imagens/cenario/terra.png"),
 
     };
-    Texture2D pocao[1] = {
-        LoadTexture("imagens/itens/poção.png"),
-        LoadTexture("imagens/itens/poção.png"),
+    Texture2D pocao[2] = {
+        LoadTexture("imagens/itens/pocao.png"),
+        LoadTexture("imagens/itens/pocao.png"),
         
     };
     
@@ -278,7 +278,7 @@ int main(){
     
     // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
  
-     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+pilar[1].width/2, iniciodoLvl.y-399+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+     //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+pilar[1].width/2, iniciodoLvl.y-399+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
      
      CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+terra[1].width/2, iniciodoLvl.y-190+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
      
@@ -418,11 +418,11 @@ int main(){
             
             DrawTexture(plataformas[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
             
-            DrawTexture(pilar[1], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
+            DrawTexture(pocao[1], iniciodoLvl.x+5330, iniciodoLvl.y-250, WHITE);
+            
+            //DrawTexture(pilar[2], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
             
             DrawTexture(terra[1], iniciodoLvl.x+7000, iniciodoLvl.y-200, WHITE);
-            
-            DrawTexture(pocao[1], iniciodoLvl.x+7200, iniciodoLvl.y-300, WHITE);
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100})) player.vida-=1;
