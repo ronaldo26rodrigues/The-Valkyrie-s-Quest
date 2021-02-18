@@ -452,12 +452,23 @@ int main(){
             BeginMode2D(camera);
 
             
-
+            //mode 0 = atacando; mode 1 = parado; mode 2 = andando;
             for(int i=0;i<4;i++){
-                if(esqueleto[i].body->velocity.x>(float){0.03f} || esqueleto[i].body->velocity.x<(float){-0.03f}){
+                if(esqueleto[i].mode == 0){
+                    if(esqueleto[i].orientation == 1){
+                DrawTextureRec(skeletonAtk[framesSklt], (Rectangle){skeletonAtk[framesSklt].width/4.6f, -skeletonAtk[framesSklt].height/1.25, (skeletonAtk[framesSklt].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                   else if(esqueleto[i].orientation == -1){
+                       ){
+                DrawTextureRec(skeletonAtk[framesSklt], (Rectangle){0, -skeletonAtk[framesSklt].height/1.25, (skeletonAtk[framesSklt].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                   }
+                
+                else(esqueleto[i].body->velocity.x>(float){0.03f} || esqueleto[i].body->velocity.x<(float){-0.03f}){
                     DrawTextureRec(skeletonWalk, (Rectangle){(skeletonWalk.width/13)*framesSklt, 0, (skeletonWalk.width/13)*esqueleto[i].orientation,skeletonWalk.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
                 } else {
                     DrawTextureRec(skeletonIdle, (Rectangle){(skeletonIdle.width/11)*framesSklt, 0, (skeletonIdle.width/11)*esqueleto[i].orientation,skeletonIdle.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+                   
 
                 }
                 if(abs(esqueleto[i].body->position.x-player.body->position.x)<5){
