@@ -244,6 +244,12 @@ int main(){
         LoadTexture("imagens/cenario/terra.png"),
 
     };
+    Texture2D pocao[1] = {
+        LoadTexture("imagens/itens/poção.png"),
+        LoadTexture("imagens/itens/poção.png"),
+        
+    };
+    
 
     
     Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
@@ -415,6 +421,8 @@ int main(){
             DrawTexture(pilar[1], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
             
             DrawTexture(terra[1], iniciodoLvl.x+7000, iniciodoLvl.y-200, WHITE);
+            
+            DrawTexture(pocao[1], iniciodoLvl.x+7200, iniciodoLvl.y-300, WHITE);
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100})) player.vida-=1;
