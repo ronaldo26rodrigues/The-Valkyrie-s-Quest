@@ -470,7 +470,8 @@ int main(){
                         esqueleto[i].body->velocity.x = -0.1f;
                         esqueleto[i].orientation = -1;
                     }
-                    
+                esqueleto[i].rec.x = esqueleto[i].body->position.x-esqueleto[i].rec.width/2;
+                esqueleto[i].rec.y = esqueleto[i].body->position.y-esqueleto[i].rec.height/2;
             }
 
             if(framesCounter>=(60/8)){
@@ -503,6 +504,8 @@ int main(){
                 }
             }
             
+            
+
             //teste
             //attack
             //tava width/4.6f, height/1.25, width/1.6f, width/2, height/2
@@ -511,9 +514,18 @@ int main(){
                 DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.25f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(player.orientation == -1){
-                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){0, -hildaAttack[currentFrame].height/1.10, (hildaAttack[currentFrame].width/1.0f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/1.2, player.body->position.y-player.rec.height/2}, WHITE);
+                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){0, -hildaAttack[currentFrame].height/1.18f, (hildaAttack[currentFrame].width)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width-36, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(currentFrame>=6){
+                    for(int i=0;i<4;i++){
+                        if(CheckCollisionRecs(esqueleto[i].rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height})){
+                            esqueleto[i].body->enabled=false;
+                        }
+                        
+                    }
                 }
                 player.max_frames = 12;
+
             }
               
             else if (player.mode == 4) {
@@ -549,7 +561,7 @@ int main(){
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
-            
+            //DrawRectangle(player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height, (Color){255,0,0,100});
             EndMode2D();
             
             break;
@@ -644,7 +656,7 @@ void movement(){
     //attack
     if(IsKeyPressed(KEY_Z) && !(IsKeyPressed(KEY_X))) {
         //attack
-        //currentFrame = 0;
+        currentFrame = 0;
         player.max_frames = 12;
         player.mode = 3;
     }
