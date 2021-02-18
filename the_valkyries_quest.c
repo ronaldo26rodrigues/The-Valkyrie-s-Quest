@@ -50,6 +50,7 @@ typedef struct Esqueleto {
     PhysicsBody body;
     int orientation;
     int max_frames;
+    int mode;
 } Esqueleto;
 //-------------
 
@@ -446,21 +447,36 @@ int main(){
 
             drawHearts();
             static int framesSklt;
-            DrawText(FormatText("%i", framesCounter), 100,300,20,WHITE);
+            DrawText(FormatText("%f", esqueleto[0].body->velocity.x), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
             
 
             for(int i=0;i<4;i++){
-                //DrawTexture(skeletonIdle, esqueleto[i].body->position.x, esqueleto[i].body->position.y, WHITE);
-                DrawTextureRec(skeletonIdle, (Rectangle){(skeletonIdle.width/11)*framesSklt, 0, skeletonIdle.width/11,skeletonIdle.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
-                //DrawTexturePro(skeletonIdle, (Rectangle){0,0,skeletonIdle.width, skeletonIdle.height}, (Rectangle){(skeletonIdle.width/11)*framesSklt, 0, skeletonIdle.width/11,skeletonIdle.height}, (Vector2){esqueleto[i].body->position.x, esqueleto[i].body->position.y}, 0,WHITE);
+                if(esqueleto[i].body->velocity.x>(float){0.03f} || esqueleto[i].body->velocity.x<(float){-0.03f}){
+                    DrawTextureRec(skeletonWalk, (Rectangle){(skeletonWalk.width/13)*framesSklt, 0, (skeletonWalk.width/13)*esqueleto[i].orientation,skeletonWalk.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+                } else {
+                    DrawTextureRec(skeletonIdle, (Rectangle){(skeletonIdle.width/11)*framesSklt, 0, (skeletonIdle.width/11)*esqueleto[i].orientation,skeletonIdle.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+
+                }
+                if(abs(esqueleto[i].body->position.x-player.body->position.x)<5){
+                        esqueleto[i].body->velocity.x=0.0f;
+                        esqueleto[i].orientation = 1;
+                    } else if(esqueleto[i].body->position.x<player.body->position.x){
+                        esqueleto[i].body->velocity.x = 0.1f;
+                        esqueleto[i].orientation = 1;
+                    } else if(esqueleto[i].body->position.x>player.body->position.x) {
+                        esqueleto[i].body->velocity.x = -0.1f;
+                        esqueleto[i].orientation = -1;
+                    }
+                    
             }
+
             if(framesCounter>=(60/8)){
                 framesCounter=0;
                 framesSklt++;
-                if(framesSklt>=11) framesSklt=0;
+                if(framesSklt>=13) framesSklt=0;
             }
             
 
