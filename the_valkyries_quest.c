@@ -50,7 +50,9 @@ typedef struct Esqueleto {
     PhysicsBody body;
     int orientation;
     int max_frames;
+    int frames;
     int mode;
+    bool enabled;
 } Esqueleto;
 //-------------
 
@@ -255,6 +257,7 @@ int main(){
     Texture2D skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
     Texture2D skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
     Texture2D skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
+    Texture2D skeletonDead = LoadTexture("imagens/esqueleto/Skeleton Dead.png");
 
     heart = LoadTexture("imagens/heart_animated_2.png");
 
@@ -400,7 +403,7 @@ int main(){
             //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl1.height,bglvl1.width*2, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             
-            drawPhysicsEdge();
+            //drawPhysicsEdge();
               
             DrawTexture(plataformas[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
             
@@ -470,18 +473,22 @@ int main(){
             EndMode2D();
 
             drawHearts();
-            static int framesSklt;
+            // int esqueleto[i].frames;
             DrawText(FormatText("%f", esqueleto[0].body->velocity.x), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
             
 
-            for(int i=0;i<4;i++){
-                if(esqueleto[i].body->velocity.x>(float){0.03f} || esqueleto[i].body->velocity.x<(float){-0.03f}){
-                    DrawTextureRec(skeletonWalk, (Rectangle){(skeletonWalk.width/13)*framesSklt, 0, (skeletonWalk.width/13)*esqueleto[i].orientation,skeletonWalk.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+        for(int i=0;i<4;i++){
+                if(esqueleto[i].enabled==true){
+                    if(esqueleto[i].mode == 0){
+                    if(esqueleto[i].body->velocity.x>(float){0.03f} || esqueleto[i].body->velocity.x<(float){-0.03f}){
+                    DrawTextureRec(skeletonWalk, (Rectangle){(skeletonWalk.width/13)*esqueleto[i].frames, 0, (skeletonWalk.width/13)*esqueleto[i].orientation,skeletonWalk.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+                    esqueleto[i].max_frames = 13;
                 } else {
-                    DrawTextureRec(skeletonIdle, (Rectangle){(skeletonIdle.width/11)*framesSklt, 0, (skeletonIdle.width/11)*esqueleto[i].orientation,skeletonIdle.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+                    DrawTextureRec(skeletonIdle, (Rectangle){(skeletonIdle.width/11)*esqueleto[i].frames, 0, (skeletonIdle.width/11)*esqueleto[i].orientation,skeletonIdle.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+                    esqueleto[i].max_frames = 11;
 
                 }
                 if(abs(esqueleto[i].body->position.x-player.body->position.x)<5){
@@ -494,15 +501,48 @@ int main(){
                         esqueleto[i].body->velocity.x = -0.1f;
                         esqueleto[i].orientation = -1;
                     }
+                }
+                    
+                //mode 1 = morto
+                if(esqueleto[i].mode==1){
+                    esqueleto[i].max_frames = 15;
+                    DrawTextureRec(skeletonDead, (Rectangle){(skeletonDead.width/15)*esqueleto[i].frames, 0, (skeletonDead.width/15)*esqueleto[i].orientation,skeletonDead.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
+                    if(esqueleto[i].frames>=14) {
+                        esqueleto[i].enabled = false;
+                        
+                    }
+                }
+                
+                if(abs(esqueleto[i].body->position.x-player.body->position.x)<esqueleto[i].rec.width && esqueleto[i].mode!=2 && esqueleto[i].mode!=1){
+                    esqueleto[i].mode = 2;
+                    esqueleto[i].max_frames = 18;
+                    esqueleto[i].frames = 0;
+                }
+
+                if(esqueleto[i].mode==2){
+                    DrawTextureRec(skeletonAtk, (Rectangle){(skeletonAtk.width/18)*esqueleto[i].frames, 0, (skeletonAtk.width/18)*esqueleto[i].orientation,skeletonAtk.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width, esqueleto[i].body->position.y-esqueleto[i].rec.height/1.47f}, WHITE);
+                    if(esqueleto[i].frames>=8 && esqueleto[i].frames<=11){
+                        if(CheckCollisionRecs(player.rec, (Rectangle){esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height})){
+                            player.vida-=0.0001f;
+                        }
+                    }
+                    
+                    if(esqueleto[i].frames>=17) esqueleto[i].mode = 0;
+
+                }
+                //DrawRectangle(esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height, (Color){255,0,0,100});
                 esqueleto[i].rec.x = esqueleto[i].body->position.x-esqueleto[i].rec.width/2;
                 esqueleto[i].rec.y = esqueleto[i].body->position.y-esqueleto[i].rec.height/2;
+                if(framesCounter>=(60/8)){
+                    
+                    esqueleto[i].frames++;
+                    if(esqueleto[i].frames>=esqueleto[i].max_frames) esqueleto[i].frames=0;
+                }
+                //DrawText(FormatText("%i", i), esqueleto[i].body->position.x, esqueleto[i].body->position.y-100, 20, WHITE);
             }
+        }
 
-            if(framesCounter>=(60/8)){
-                framesCounter=0;
-                framesSklt++;
-                if(framesSklt>=13) framesSklt=0;
-            }
+            
             
 
             //0 = parada, 1 = andando, 2 = pulando, 3 = attack, 4 = dash, 5 = dash attack
@@ -543,7 +583,10 @@ int main(){
                 if(currentFrame>=6){
                     for(int i=0;i<4;i++){
                         if(CheckCollisionRecs(esqueleto[i].rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height})){
-                            esqueleto[i].body->enabled=false;
+                            //esqueleto[i].body->enabled=false;
+                            esqueleto[i].mode = 1;
+                            esqueleto[i].frames = 0;
+                            if(esqueleto[i].body->enabled==true) DestroyPhysicsBody(esqueleto[i].body);
                         }
                         
                     }
@@ -606,7 +649,9 @@ int main(){
         //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
 
         movement();
-
+        if(framesCounter>=(60/8)){
+            framesCounter=0;
+        }
 
         //drawPhysicsEdge();
 
@@ -786,6 +831,10 @@ void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto*
         esqueleto[i].rec.y = player.rec.y;
         esqueleto[i].rec.height=sklt_width;
         esqueleto[i].rec.width=sklt_height/11;
+        esqueleto[i].max_frames = 11;
+        esqueleto[i].mode = 0;
+        esqueleto[i].enabled = true;
+        esqueleto[i].frames = 0;
                 
         esqueleto[i].body = CreatePhysicsBodyRectangle((Vector2){esqueleto[i].rec.x, esqueleto[i].rec.y}, esqueleto[i].rec.width, esqueleto[i].rec.height, 1);               esqueleto[i].body->freezeOrient=true;
     }
