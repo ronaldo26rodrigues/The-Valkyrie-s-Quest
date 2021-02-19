@@ -321,7 +321,7 @@ int main(){
             currentFrame++;
             
             if(currentFrame>=player.max_frames) {
-                currentFrame = 0;
+                if(player.mode!=6) currentFrame = 0;
                 if(player.mode == 3 || player.mode == 4 || player.mode == 5) player.mode = 0;
                 }
             
@@ -508,8 +508,10 @@ int main(){
                     esqueleto[i].max_frames = 15;
                     DrawTextureRec(skeletonDead, (Rectangle){(skeletonDead.width/15)*esqueleto[i].frames, 0, (skeletonDead.width/15)*esqueleto[i].orientation,skeletonDead.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
                     if(esqueleto[i].frames>=14) {
-                        esqueleto[i].enabled = false;
-                        
+                        //esqueleto[i].enabled = false;
+                        esqueleto[i].rec.x = rand()%bglvl1.width;
+                        esqueleto[i].body = CreatePhysicsBodyRectangle((Vector2){esqueleto[i].rec.x, esqueleto[i].rec.y}, esqueleto[i].rec.width, esqueleto[i].rec.height, 1);               esqueleto[i].body->freezeOrient=true;
+                        esqueleto[i].mode = 0;
                     }
                 }
                 
@@ -582,7 +584,7 @@ int main(){
                 }
                 if(currentFrame>=6){
                     for(int i=0;i<4;i++){
-                        if(CheckCollisionRecs(esqueleto[i].rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height})){
+                        if(CheckCollisionRecs(esqueleto[i].rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && esqueleto[i].mode!=1){
                             //esqueleto[i].body->enabled=false;
                             esqueleto[i].mode = 1;
                             esqueleto[i].frames = 0;
@@ -616,8 +618,11 @@ int main(){
             }
             
             else if (player.mode == 6) {
+                if(currentFrame>=10) {
+                    currentFrame=10;
+                    }
                 if(player.orientation == 1) {
-                DrawTextureRec(hildaDeath[currentFrame], (Rectangle){hildaDeath[currentFrame].width/4.4f, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 
 
                 }
@@ -626,6 +631,7 @@ int main(){
                 
                
                 }
+                
                player.max_frames = 12;  
                
                
