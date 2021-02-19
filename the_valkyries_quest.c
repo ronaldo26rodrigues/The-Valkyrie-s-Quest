@@ -235,6 +235,11 @@ int main(){
         LoadTexture("imagens/cenario2/plataformas2.png"),
     };
     
+     Texture2D plataforminha[2] = {
+        LoadTexture("imagens/cenario2/plataforminha.png"),
+        LoadTexture("imagens/cenario2/plataforminha.png"),
+    };
+    
     Texture2D espinhos[2] = {
         LoadTexture("imagens/cenario/espinhos.png"),
         LoadTexture("imagens/cenario/espinhos.png"),
@@ -244,6 +249,11 @@ int main(){
     Texture2D pilar[2] = {
         LoadTexture("imagens/cenario/pilar.png"),
         LoadTexture("imagens/cenario/pilar.png"),
+    };
+        
+    Texture2D pilar2[2] = {
+        LoadTexture("imagens/cenario2/pilar.png"),
+        LoadTexture("imagens/cenario2/pilar.png"),
 
     };
      Texture2D terra[2] = {
@@ -673,25 +683,23 @@ int main(){
               
             DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
             
-            DrawTexture(plataformas2[1], iniciodoLvl.x+2300, iniciodoLvl.y-260, WHITE);
+            DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
             
-            DrawTexture(plataformas2[1], iniciodoLvl.x+2700, iniciodoLvl.y-320, WHITE);
+            DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
             
-            //DrawTexture(plataformas[1], iniciodoLvl.x+3200, iniciodoLvl.y-140, WHITE);
+             DrawTexture(plataforminha[1], iniciodoLvl.x+2900, iniciodoLvl.y-320, WHITE);
+             
+             DrawTexture(pilar2[1], iniciodoLvl.x+3200, iniciodoLvl.y-320, WHITE);
             
-            DrawTexture(plataformas2[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
             
-            DrawTexture(plataformas2[1], iniciodoLvl.x+5000, iniciodoLvl.y-340, WHITE);
-            
-            DrawTexture(plataformas2[1], iniciodoLvl.x+5400, iniciodoLvl.y-180, WHITE);
             
             DrawTexture(plataformas2[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
             
-            DrawTexture(pocao[1], iniciodoLvl.x+5330, iniciodoLvl.y-250, WHITE);
             
-            //DrawTexture(pilar[2], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
             
-            DrawTexture(terra[1], iniciodoLvl.x+7000, iniciodoLvl.y-200, WHITE);
+            
+            
+           
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
@@ -700,38 +708,6 @@ int main(){
                 player.mode = 6;
             }
 
-            DrawTexture(espinhos[1], iniciodoLvl.x+2300, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2360, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2420, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2480, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2440, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2500, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2560, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2620, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2680, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2740, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2800, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2860, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2920, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2980, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+3040, iniciodoLvl.y-60, WHITE);
-            //DrawTexture(espinhos[1], iniciodoLvl.x+3100, iniciodoLvl.y-60, WHITE);
-            //DrawTexture(espinhos[1], iniciodoLvl.x+3160, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7000, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7060, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7120, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7180, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7240, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7300, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7360, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7420, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7480, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7540, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7600, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7660, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7720, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7780, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7840, iniciodoLvl.y-60, WHITE);
             
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
@@ -746,69 +722,7 @@ int main(){
 
             
 
-        for(int i=0;i<4;i++){
-                if(esqueleto[i].enabled==true){
-                    if(esqueleto[i].mode == 0){
-                    if(esqueleto[i].body->velocity.x>(float){0.03f} || esqueleto[i].body->velocity.x<(float){-0.03f}){
-                    DrawTextureRec(skeletonWalk, (Rectangle){(skeletonWalk.width/13)*esqueleto[i].frames, 0, (skeletonWalk.width/13)*esqueleto[i].orientation,skeletonWalk.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
-                    esqueleto[i].max_frames = 13;
-                } else {
-                    DrawTextureRec(skeletonIdle, (Rectangle){(skeletonIdle.width/11)*esqueleto[i].frames, 0, (skeletonIdle.width/11)*esqueleto[i].orientation,skeletonIdle.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
-                    esqueleto[i].max_frames = 11;
-
-                }
-                if(abs(esqueleto[i].body->position.x-player.body->position.x)<5){
-                        esqueleto[i].body->velocity.x=0.0f;
-                        esqueleto[i].orientation = 1;
-                    } else if(esqueleto[i].body->position.x<player.body->position.x){
-                        esqueleto[i].body->velocity.x = 0.1f;
-                        esqueleto[i].orientation = 1;
-                    } else if(esqueleto[i].body->position.x>player.body->position.x) {
-                        esqueleto[i].body->velocity.x = -0.1f;
-                        esqueleto[i].orientation = -1;
-                    }
-                }
-                    
-                //mode 1 = morto
-                if(esqueleto[i].mode==1){
-                    esqueleto[i].max_frames = 15;
-                    DrawTextureRec(skeletonDead, (Rectangle){(skeletonDead.width/15)*esqueleto[i].frames, 0, (skeletonDead.width/15)*esqueleto[i].orientation,skeletonDead.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width/2, esqueleto[i].body->position.y-esqueleto[i].rec.height/2}, WHITE);
-                    if(esqueleto[i].frames>=14) {
-                        //esqueleto[i].enabled = false;
-                        esqueleto[i].rec.x = rand()%bglvl1.width;
-                        esqueleto[i].body = CreatePhysicsBodyRectangle((Vector2){esqueleto[i].rec.x, esqueleto[i].rec.y}, esqueleto[i].rec.width, esqueleto[i].rec.height, 1);               esqueleto[i].body->freezeOrient=true;
-                        esqueleto[i].mode = 0;
-                    }
-                }
-                
-                if(abs(esqueleto[i].body->position.x-player.body->position.x)<esqueleto[i].rec.width && esqueleto[i].mode!=2 && esqueleto[i].mode!=1){
-                    esqueleto[i].mode = 2;
-                    esqueleto[i].max_frames = 18;
-                    esqueleto[i].frames = 0;
-                }
-
-                if(esqueleto[i].mode==2){
-                    DrawTextureRec(skeletonAtk, (Rectangle){(skeletonAtk.width/18)*esqueleto[i].frames, 0, (skeletonAtk.width/18)*esqueleto[i].orientation,skeletonAtk.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width, esqueleto[i].body->position.y-esqueleto[i].rec.height/1.47f}, WHITE);
-                    if(esqueleto[i].frames==8){
-                        if(CheckCollisionRecs(player.rec, (Rectangle){esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height})){
-                            player.vida-=1;
-                        }
-                    }
-                    
-                    if(esqueleto[i].frames>=17) esqueleto[i].mode = 0;
-
-                }
-                //DrawRectangle(esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height, (Color){255,0,0,100});
-                esqueleto[i].rec.x = esqueleto[i].body->position.x-esqueleto[i].rec.width/2;
-                esqueleto[i].rec.y = esqueleto[i].body->position.y-esqueleto[i].rec.height/2;
-                if(framesCounter>=(60/8)){
-                    
-                    esqueleto[i].frames++;
-                    if(esqueleto[i].frames>=esqueleto[i].max_frames) esqueleto[i].frames=0;
-                }
-                DrawText(FormatText("%i", esqueleto[i].frames), esqueleto[i].body->position.x, esqueleto[i].body->position.y-100, 20, WHITE);
-            }
-        }
+       
 
             
             
