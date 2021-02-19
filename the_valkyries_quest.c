@@ -521,9 +521,9 @@ int main(){
 
                 if(esqueleto[i].mode==2){
                     DrawTextureRec(skeletonAtk, (Rectangle){(skeletonAtk.width/18)*esqueleto[i].frames, 0, (skeletonAtk.width/18)*esqueleto[i].orientation,skeletonAtk.height},(Vector2){esqueleto[i].body->position.x-esqueleto[i].rec.width, esqueleto[i].body->position.y-esqueleto[i].rec.height/1.47f}, WHITE);
-                    if(esqueleto[i].frames>=8 && esqueleto[i].frames<=11){
+                    if(esqueleto[i].frames==8){
                         if(CheckCollisionRecs(player.rec, (Rectangle){esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height})){
-                            player.vida-=0.0001f;
+                            player.vida-=1;
                         }
                     }
                     
@@ -538,7 +538,7 @@ int main(){
                     esqueleto[i].frames++;
                     if(esqueleto[i].frames>=esqueleto[i].max_frames) esqueleto[i].frames=0;
                 }
-                //DrawText(FormatText("%i", i), esqueleto[i].body->position.x, esqueleto[i].body->position.y-100, 20, WHITE);
+                DrawText(FormatText("%i", esqueleto[i].frames), esqueleto[i].body->position.x, esqueleto[i].body->position.y-100, 20, WHITE);
             }
         }
 
@@ -681,7 +681,7 @@ void initGame(){
     player.orientation = 1;
     player.caiu = false;
 
-    player.vida = 16;
+    player.vida = 40;
     
     player.body = CreatePhysicsBodyRectangle((Vector2){screenWidth/2, screenHeight/2}, player.rec.width, player.rec.height, 10);
     
@@ -731,7 +731,7 @@ void movement(){
     }
 
     //attack
-    if(IsKeyPressed(KEY_Z) && !(IsKeyPressed(KEY_X))) {
+    if(IsKeyPressed(KEY_Z) && !(IsKeyPressed(KEY_X)) && player.mode!=3) {
         //attack
         currentFrame = 0;
         player.max_frames = 12;
