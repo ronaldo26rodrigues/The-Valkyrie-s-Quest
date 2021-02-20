@@ -81,7 +81,10 @@ bool criouCorpos = 0;
 int currentFrame = 0;
 clock_t timer_dash;
 
-
+int transparencia = 0;
+int sobe = true;
+    
+int framesCounter =0;
 //-----------------
 
 
@@ -96,16 +99,23 @@ void drawHearts(void);
 void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto* esqueleto);
 void destroyAllBodies(void);
 void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter);
-
+void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun);
+void level_1(void);
 //--------
 
 
 Texture2D hilda[6];
+Texture2D hildaRun[8];
 Texture2D heart;
 Texture2D skeletonIdle;
 Texture2D skeletonAtk;
 Texture2D skeletonWalk;
 Texture2D skeletonDead;
+
+Font vikingFont;
+Music zeldaMus;
+
+
 
 int main(){
     srand(time(NULL));
@@ -127,12 +137,7 @@ int main(){
     //SetPhysicsGravity(0, 26);
 
     InitAudioDevice();
-    
-    int transparencia = 0;
-    int sobe = true;
-    
-    int framesCounter =0;
-    
+      
     
     Vector2 iniciodoLvl = {0,screenHeight*80/100};
     
@@ -349,59 +354,18 @@ int main(){
             
             case 0:
             
-            UpdateMusicStream(zeldaMus);
+            //UpdateMusicStream(zeldaMus);
 
-
-            
-            if(transparencia <=0) sobe = true;
-            if(transparencia>=255) sobe=false;
-            
-            if(sobe==true) transparencia+=3; else transparencia-=3;
-            
-            DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, LIGHTGRAY);
-            
-            DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
-            DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
-            
-            player.max_frames = 8;
-
-            DrawTexture(hildaRun[currentFrame],100,100,WHITE);
-
-            if(IsKeyPressed(KEY_ENTER)) {
-                level++;
-                UnloadTexture(menuBG);
-                }
+            level_0(menuBG, vikingFont, hildaRun);
 
             break;
 
 
             case 1: ;
+
             
-            char texto[2][800] = {"No início do mundo, não havia nada além do fogo e do gelo. No encontro destes dois elementos, surgiu a névoa primordial,\no Ginnungagap, e dela surgiu Ymir, o primeiro gigante, que daria origem para as duas raças: A raça dos Gigantes e os\nprimeiros grandes Deuses.Por estarem em constante conflito, os Deuses acabam assassinando Ymir, dando origem aos mundos.\nA árvore da vida era a responsável por portar os nove mundos, os Deuses se dividiram em dois clãs, os responsáveis pela guerra\n,Aesir, habitantes de Asgard, liderados por Bor, que passou este cargo para seu filho Odin, e infelizmente não passará para Thor,\npois sua morte já está escrita, os responsáveis pela Natureza, Vanir, habitantes de Vanaheim liderados por Frey e Freya,\nDeuses do verão e da primavera.\nA vida então se espalhou por todos os nove mundos, e como toda grande história, escrita em sangue, morte e heroismo.\nMidgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua própria soberba, Nidavellir,\no mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisão de constante conflito e situações\nextremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcançaveis.\nToda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poços de Helheim, cumprindo\nsua sentença para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla,\no salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim.\n", "E existem aquelas responsaveis por dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas\npor Odin,que levam as almas dos mortos, e assim tudo funcionou por milênios…\nAte os dias de hoje... misteriosamente, almas de guerreiros e lendas passaram a cair de volta aos mundos dos vivos, causando\ncaos e atraindo monstros.\nEm tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas\n\npara Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma\nverdadeira heroína…\n\n\nOdin: Levante-se, pequena. . ."};
+            level_1();
 
-            static int framesCounterText;
-            static int paragrafo = 0;
-
-            //DrawText(texto, 10,10,20,WHITE);
-
-            if(IsKeyDown(KEY_ENTER)) framesCounterText+=20; else framesCounterText++;
-
-            //DrawTextEx(superMario, TextSubtext(texto[paragrafo], 0, framesCounterText/4), (Vector2){screenWidth/14, screenHeight/10}, screenWidth/75, 0,WHITE);
-            DrawText(TextSubtext(texto[paragrafo], 0, framesCounterText/4), screenWidth/14, screenHeight/10, screenWidth/70, WHITE);
-
-            if(framesCounterText/4 >= strlen(texto[paragrafo])) {
-                
-                if(IsKeyPressed(KEY_ENTER)) {
-                    paragrafo++;
-                    framesCounterText=0;
-                    if(paragrafo>=1) {
-                        free(&texto);
-                        free(&framesCounterText);
-                        free(&paragrafo);
-                        level++;
-                        }
-                }
-            }
 
             break;
 
@@ -1055,4 +1019,66 @@ void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter){
                 DrawText(FormatText("%i", esqueleto[i].frames), esqueleto[i].body->position.x, esqueleto[i].body->position.y-100, 20, WHITE);
             }
         }
+}
+
+void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
+        
+        Music zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
+        UpdateMusicStream(zeldaMus);
+ 
+
+        if(transparencia <= 0) sobe = true;
+        if(transparencia >= 255) sobe=false;
+            
+        if(sobe==true) transparencia+=3; else transparencia-=3;
+            
+        DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, LIGHTGRAY);
+            
+        DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
+        DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
+            
+        player.max_frames = 8;
+
+        DrawTexture(hildaRun[currentFrame],100,100,WHITE);
+        if(framesCounter>=(60/8)) currentFrame++;
+        
+        //DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+        
+        if(IsKeyPressed(KEY_ENTER)) {
+            level++;
+            UnloadTexture(menuBG);
+        }
+}
+
+void level_1() {
+
+     
+     static int framesCounterText;
+     static int paragrafo = 0;
+     
+     char texto[2][800] = {"No início do mundo, não havia nada além do fogo e do gelo. No encontro destes dois elementos, surgiu a névoa primordial,\no Ginnungagap, e dela surgiu Ymir, o primeiro gigante, que daria origem para as duas raças: A raça dos Gigantes e os\nprimeiros grandes Deuses.Por estarem em constante conflito, os Deuses acabam assassinando Ymir, dando origem aos mundos.\nA árvore da vida era a responsável por portar os nove mundos, os Deuses se dividiram em dois clãs, os responsáveis pela guerra\n,Aesir, habitantes de Asgard, liderados por Bor, que passou este cargo para seu filho Odin, e infelizmente não passará para Thor,\npois sua morte já está escrita, os responsáveis pela Natureza, Vanir, habitantes de Vanaheim liderados por Frey e Freya,\nDeuses do verão e da primavera.\nA vida então se espalhou por todos os nove mundos, e como toda grande história, escrita em sangue, morte e heroismo.\nMidgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua própria soberba, Nidavellir,\no mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisão de constante conflito e situações\nextremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcançaveis.\nToda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poços de Helheim, cumprindo\nsua sentença para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla,\no salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim.\n", "E existem aquelas responsaveis por dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas\npor Odin,que levam as almas dos mortos, e assim tudo funcionou por milênios…\nAte os dias de hoje... misteriosamente, almas de guerreiros e lendas passaram a cair de volta aos mundos dos vivos, causando\ncaos e atraindo monstros.\nEm tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas\n\npara Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma\nverdadeira heroína…\n\n\nOdin: Levante-se, pequena. . ."};
+
+
+  
+
+    //DrawText(texto, 10,10,20,WHITE);
+
+    if(IsKeyDown(KEY_ENTER)) framesCounterText+=20; else framesCounterText++;
+
+    //DrawTextEx(superMario, TextSubtext(texto[paragrafo], 0, framesCounterText/4), (Vector2){screenWidth/14, screenHeight/10}, screenWidth/75, 0,WHITE);
+    DrawText(TextSubtext(texto[paragrafo], 0, framesCounterText/4), screenWidth/14, screenHeight/10, screenWidth/70, WHITE);
+    
+                if(framesCounterText/4 >= strlen(texto[paragrafo])) {
+                
+                if(IsKeyPressed(KEY_ENTER)) {
+                    paragrafo++;
+                    framesCounterText=0;
+                    if(paragrafo>=1) {
+                        free(&texto);
+                        free(&framesCounterText);
+                        free(&paragrafo);
+                        level++;
+                        }
+                }
+            }
 }
