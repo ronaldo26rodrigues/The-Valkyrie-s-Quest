@@ -94,6 +94,7 @@ void delay(float seconds);
 void drawPhysicsEdge(void);
 void drawHearts(void);
 void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto* esqueleto);
+void destroyAllBodies(void);
 
 //--------
 
@@ -280,13 +281,8 @@ int main(){
     
     Texture2D chao2 = LoadTexture("imagens/cenario2/chao2.png");
     
-    CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
+    //CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
 
-    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
-    
-    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2300+plataformas[1].width/2, iniciodoLvl.y-260+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
-    
-    CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2700+plataformas[1].width/2, iniciodoLvl.y-320+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
     
      //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3200+plataformas[1].width/2, iniciodoLvl.y-140+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
      
@@ -300,7 +296,6 @@ int main(){
  
      //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+pilar[1].width/2, iniciodoLvl.y-399+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
      
-     CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+terra[1].width/2, iniciodoLvl.y-190+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
      
      
     
@@ -408,8 +403,18 @@ int main(){
             case 2:
             
             if(criouCorpos==false){
+                CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
+
                 
-                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2300+plataformas[1].width/2, iniciodoLvl.y-260+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2700+plataformas[1].width/2, iniciodoLvl.y-320+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+    
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+terra[1].width/2, iniciodoLvl.y-190+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
+
+                initGame();
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
             }
             BeginMode2D(camera);
@@ -667,8 +672,10 @@ int main(){
             case 3:
             
             if(criouCorpos==false){
+                destroyAllBodies();
+                CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
                 
-                
+                initGame();
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
             }
             BeginMode2D(camera);
@@ -817,7 +824,7 @@ int main(){
                
                
             }
-
+            drawPhysicsEdge();
             DrawTexture(chao2,0,screenHeight*80/100,WHITE);
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
@@ -829,7 +836,11 @@ int main(){
             
         }
         
-        if(IsKeyPressed(KEY_PAGE_UP)) level++;
+        if(IsKeyPressed(KEY_PAGE_UP)) {
+            destroyAllBodies();
+            level++;
+            criouCorpos = false;
+            }
         if(IsKeyPressed(KEY_PAGE_DOWN)) level--;
 
         //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
@@ -1005,6 +1016,16 @@ void drawPhysicsEdge(){
                 DrawLineV(vertexA, vertexB, GREEN);     // Draw a line between two vertex positions
             }
         }
+    }
+}
+
+void destroyAllBodies(){
+    int bodiesCount = GetPhysicsBodiesCount();
+    for(int i=0;i<100;i++){
+        PhysicsBody body = GetPhysicsBody(i);
+        //if(body != NULL){
+            DestroyPhysicsBody(body);
+        //}
     }
 }
 
