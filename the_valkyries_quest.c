@@ -375,6 +375,7 @@ int main(){
 
             case 2:
             
+            
             if(criouCorpos==false){
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
 
@@ -408,6 +409,7 @@ int main(){
             
 
             
+            
             //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl1.height,bglvl1.width*2, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             
@@ -425,16 +427,24 @@ int main(){
                                    
             DrawTexture(terra[1], iniciodoLvl.x+5600, iniciodoLvl.y-180, WHITE);
             
+            int pegou_pocao = 0;
+
             DrawTexture(pocao[1], iniciodoLvl.x+5320, iniciodoLvl.y-375, WHITE);
+
             
-            
-            
-           
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}))  player.vida+=2                   
-            ;
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100})) {
+                if (player.vida < 40) {
+                    player.vida+=2;
+                    if (player.vida > 40) player.vida = 40;
+                }
+                pegou_pocao = 1;
+            }
+            
+            
+
             
             if (player.vida < 0.25) {
                 player.mode = 6;
