@@ -235,6 +235,8 @@ int main(){
     
     
     Texture2D bglvl1 = LoadTexture("imagens/cenario/bglvl1.png");
+    
+     Texture2D bglvl2 = LoadTexture("imagens/cenario2/bglvl1.png");
 
     Texture2D plataformas[2] = {
         LoadTexture("imagens/cenario/plataforma1.png"),
@@ -589,8 +591,8 @@ int main(){
             
             
             //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
-            DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl1.height,bglvl1.width*2, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
-            esqueletosIA(esqueleto, bglvl1, framesCounter);
+            DrawTexturePro(bglvl2, (Rectangle){0,0, bglvl2.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl2.height,bglvl1.width*2, bglvl2.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
+            esqueletosIA(esqueleto, bglvl2, framesCounter);
             //drawPhysicsEdge();
               
             DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
