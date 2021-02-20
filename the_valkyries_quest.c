@@ -282,6 +282,7 @@ int main(){
     
     
     
+    
    
 
     
@@ -387,6 +388,8 @@ int main(){
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5200+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5600+terra[1].width/2, iniciodoLvl.y-180+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
+                
                 
                 
                
@@ -416,15 +419,11 @@ int main(){
             
             DrawTexture(plataformas[1], iniciodoLvl.x+2750, iniciodoLvl.y-260, WHITE);
             
-           
-            
             DrawTexture(plataformas[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
             
             DrawTexture(plataformas[1], iniciodoLvl.x+5200, iniciodoLvl.y-340, WHITE);
-            
-            DrawTexture(plataformas[1], iniciodoLvl.x+5800, iniciodoLvl.y-180, WHITE);
-            
-            DrawTexture(plataformas[1], iniciodoLvl.x+6000, iniciodoLvl.y-340, WHITE);
+                                   
+            DrawTexture(terra[1], iniciodoLvl.x+5600, iniciodoLvl.y-180, WHITE);
             
             DrawTexture(pocao[1], iniciodoLvl.x+5320, iniciodoLvl.y-375, WHITE);
             
@@ -434,9 +433,7 @@ int main(){
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}))  player.vida+=2
-            
-            
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}))  player.vida+=2                   
             ;
             
             if (player.vida < 0.25) {
@@ -586,6 +583,12 @@ int main(){
                 destroyAllBodies();
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
                 
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                                                              
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                
                 initGame();
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
 
@@ -607,14 +610,12 @@ int main(){
             DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
             
             DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
-            
-             DrawTexture(plataforminha[1], iniciodoLvl.x+2900, iniciodoLvl.y-320, WHITE);
              
-             DrawTexture(pilar2[1], iniciodoLvl.x+3200, iniciodoLvl.y-320, WHITE);
+             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
             
             
             
-            DrawTexture(plataformas2[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
+            
             
             
             
