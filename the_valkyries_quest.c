@@ -443,7 +443,9 @@ int main(){
                 pegou_pocao = 1;
             }
             
-            
+            if (pegou_pocao == 1) {
+                UnloadTexture(pocao[1]);
+            }
 
             
             if (player.vida < 0.25) {
