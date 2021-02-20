@@ -362,10 +362,8 @@ int main(){
 
 
             case 1: ;
-
             
             level_1();
-
 
             break;
 
