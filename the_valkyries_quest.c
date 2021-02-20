@@ -381,7 +381,7 @@ int main(){
     
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2700+plataformas[1].width/2, iniciodoLvl.y-320+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
     
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+terra[1].width/2, iniciodoLvl.y-190+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+terra[1].width/2, iniciodoLvl.y-200+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
 
                 initGame();
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
@@ -457,8 +457,7 @@ int main(){
             DrawTexture(espinhos[1], iniciodoLvl.x+7720, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+7780, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+7840, iniciodoLvl.y-60, WHITE);
-            
-            
+                
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
             
             EndMode2D();
@@ -572,6 +571,7 @@ int main(){
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
             //DrawRectangle(player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height, (Color){255,0,0,100});
+            if(CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5300, iniciodoLvl.y-250, pocao[1].width*1.0f, pocao[1].height*60/100}))  player.vida+=0.5 , Destroydrawtexture(pocao);
             EndMode2D();
             
             break;
@@ -621,7 +621,7 @@ int main(){
             if (player.vida < 0.25) {
                 player.mode = 6;
             }
-
+            
             
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
