@@ -84,7 +84,9 @@ clock_t timer_dash;
 int transparencia = 0;
 int sobe = true;
     
-int framesCounter =0;
+int framesCounter = 0;
+
+int morreu = 0;
 //-----------------
 
 
@@ -101,6 +103,7 @@ void destroyAllBodies(void);
 void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter);
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun);
 void level_1(void);
+void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia);
 //--------
 
 
@@ -140,6 +143,8 @@ int main(){
       
     
     Vector2 iniciodoLvl = {0,screenHeight*80/100};
+    
+    
     
     Texture2D menuBG = LoadTexture("imagens/arvore_da_vida.png");
     Font vikingFont = LoadFont("VIKING-N.TTF");
@@ -286,7 +291,7 @@ int main(){
    
 
     
-     skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
+    skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
     skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
     skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
     skeletonDead = LoadTexture("imagens/esqueleto/Skeleton Dead.png");
@@ -450,6 +455,7 @@ int main(){
             
             if (player.vida < 0.25) {
                 player.mode = 6;
+                morreu = 1;
             }
 
             DrawTexture(espinhos[1], iniciodoLvl.x+2300, iniciodoLvl.y-60, WHITE);
@@ -579,8 +585,13 @@ int main(){
                
                
             }
-
+            
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
+
+            if (morreu == 1) {
+                //função de morte aqui
+                reinicializar(vikingFont, screenWidth, screenHeight, transparencia);
+            }
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
@@ -640,6 +651,7 @@ int main(){
           //  if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+7000, iniciodoLvl.y-35, espinhos[1].width*13.5f, espinhos[1].height*60/100}))  player.vida-=1;
             if (player.vida < 0.25) {
                 player.mode = 6;
+                morreu = 1;
             }
 
             
@@ -1055,7 +1067,7 @@ void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
         DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, LIGHTGRAY);
             
         DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
-        DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
+        DrawTextEx(vikingFont, "Pressione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
             
         player.max_frames = 8;
 
@@ -1101,4 +1113,20 @@ void level_1() {
                         }
                 }
             }
+}
+
+void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia) {
+    
+    BeginDrawing();
+
+    
+    DrawTextEx(vikingFont, "VOCE MORREU", (Vector2){screenWidth/3.5, screenHeight/4}, 80,0,WHITE);
+    
+    DrawTextEx(vikingFont, "Pressione enter para reiniciar", (Vector2){screenWidth/3.35, screenHeight*60/100}, 30,0, (Color){255, 255, 255, transparencia});
+    
+    //if(IsKeyDown(KEY_ENTER)) {
+        //level = 0;
+    //}
+    
+    EndDrawing();
 }
