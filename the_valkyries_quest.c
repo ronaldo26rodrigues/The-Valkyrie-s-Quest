@@ -104,8 +104,6 @@ void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter);
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun);
 void level_1(void);
 void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia);
-void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, Cogumelo* cogumelo);
-void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter);
 //--------
 
 
@@ -116,11 +114,6 @@ Texture2D skeletonIdle;
 Texture2D skeletonAtk;
 Texture2D skeletonWalk;
 Texture2D skeletonDead;
-Texture2D mushroomIdle;
-Texture2D mushroomWalk;
-Texture2D mushroomDead;
-Texture2D mushroomAtk;
-Texture2D mushroomHit;
 
 Font vikingFont;
 Music zeldaMus;
@@ -302,13 +295,7 @@ int main(){
     skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
     skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
     skeletonDead = LoadTexture("imagens/esqueleto/Skeleton Dead.png");
-    
-    mushroomIdle = LoadTexture("imagens/cogumelo/Idle.png");
-    mushroomAtk = LoadTexture("imagens/cogumelo/Attack.png");
-    mushroomWalk = LoadTexture("imagens/cogumelo/Run.png");
-    mushroomDead = LoadTexture("imagens/cogumelo/Death.png");
-    mushroomHit = LoadTexture("imagens/cogumelo/Take Hit.png");
-    
+
     heart = LoadTexture("imagens/heart_animated_2.png");
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
@@ -335,7 +322,7 @@ int main(){
     
     
     Esqueleto esqueleto[4];
-    Cogumelo cogumelo[5];
+    
     
     
     
@@ -985,7 +972,7 @@ void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto*
     
     
     
-    for(int i =0;i<3;i++){
+    for(int i =0;i<4;i++){
         esqueleto[i].rec.x = rand() % bglvl_width;
         esqueleto[i].rec.y = player.rec.y;
         esqueleto[i].rec.height=sklt_width;
@@ -1001,7 +988,7 @@ void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto*
 }
 
 void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter){
-    for(int i=0;i<3;i++){
+    for(int i=0;i<4;i++){
                 if(esqueleto[i].enabled==true){
                     if(esqueleto[i].mode == 0){
                     if(esqueleto[i].body->velocity.x>(float){0.03f} || esqueleto[i].body->velocity.x<(float){-0.03f}){
@@ -1065,89 +1052,6 @@ void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter){
             }
         }
 }
-
-
-void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, Cogumelo* cogumelo){
-    for(int i =0;i<3;i++){
-        cogumelo[i].rec.x = rand() % bglvl_width;
-        cogumelo[i].rec.y = player.rec.y;
-        cogumelo[i].rec.height=sklt_width;
-        cogumelo[i].rec.width=sklt_height/11;
-        cogumelo[i].max_frames = 11;
-        cogumelo[i].mode = 0;
-        cogumelo[i].enabled = true;
-        cogumelo[i].frames = 0;
-                
-        cogumelo[i].body = CreatePhysicsBodyRectangle((Vector2){cogumelo[i].rec.x, cogumelo[i].rec.y}, cogumelo[i].rec.width, cogumelo[i].rec.height, 1); cogumelo[i].body->freezeOrient=true;
-    }
-    criouCorpos = true;
-}
-
-void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
-    for(int i=0; i<3, i++){
-        if(cogumelo[i].enabled==true) {
-                                if(cogumelo[i].mode == 0){
-                    if(cogumelo[i].body->velocity.x>(float){0.03f} || cogumelo[i].body->velocity.x<(float){-0.03f}){
-                    DrawTextureRec(mushroomWalk, (Rectangle){(mushroomWalk.width/13)*esqueleto[i].frames, 0, (mushroomWalk.width/13)*esqueleto[i].orientation,mushroomWalk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    cogumelo[i].max_frames = 13;
-                } else {
-                    DrawTextureRec(mushroomIdle, (Rectangle){(mushroomIdle.width/11)*cogumelo[i].frames, 0, (mushroomIdle.width/11)*cogumelo[i].orientation,mushroomIdle.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    cogumelo[i].max_frames = 11;
-
-                }
-                if(abs(cogumelo[i].body->position.x-player.body->position.x)<5){
-                        cogumelo[i].body->velocity.x=0.0f;
-                        cogumelo[i].orientation = 1;
-                    } else if(cogumelo[i].body->position.x<player.body->position.x){
-                        cogumelo[i].body->velocity.x = 0.1f;
-                        cogumelo[i].orientation = 1;
-                    } else if(cogumelo[i].body->position.x>player.body->position.x) {
-                        cogumelo[i].body->velocity.x = -0.1f;
-                        cogumelo[i].orientation = -1;
-                    }
-                }
-                    
-                //mode 1 = morto
-                if(cogumelo[i].mode==1){
-                    cogumelo[i].max_frames = 15;
-                    DrawTextureRec(mushroomDead, (Rectangle){(mushroomDead.width/15)*cogumelo[i].frames, 0, (mushroomDead.width/15)*cogumelo[i].orientation,mushroomDead.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    if(cogumelo[i].frames>=14) {
-                        //esqueleto[i].enabled = false;
-                        cogumelo[i].rec.x = rand()%bglvl1.width;
-                        cogumelo[i].body = CreatePhysicsBodyRectangle((Vector2){cogumelo[i].rec.x, cogumelo[i].rec.y}, cogumelo[i].rec.width, cogumelo[i].rec.height, 1);               cogumelo[i].body->freezeOrient=true;
-                        cogumelo[i].mode = 0;
-                    }
-                }
-                
-                if(abs(cogumelo[i].body->position.x-player.body->position.x)<cogumelo[i].rec.width && cogumelo[i].mode!=2 && cogumelo[i].mode!=1){
-                    cogumelo[i].mode = 2;
-                    cogumelo[i].max_frames = 18;
-                    cogumelo[i].frames = 0;
-                }
-
-                if(cogumelo[i].mode==2){
-                    DrawTextureRec(mushroomAtk, (Rectangle){(mushroomAtk.width/18)*cogumelo[i].frames, 0, (mushroomAtk.width/18)*cogumelo[i].orientation,mushroomAtk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width, cogumelo[i].body->position.y-cogumelo[i].rec.height/1.47f}, WHITE);
-                    if(cogumelo[i].frames==8){
-                        if(CheckCollisionRecs(player.rec, (Rectangle){cogumelo[i].rec.x+10+(mushroomAtk.width/36*cogumelo[i].orientation), cogumelo[i].rec.y, 44, cogumelo[i].rec.height})){
-                            player.vida-=3;
-                        }
-                    }
-                    
-                    if(cogumelo[i].frames>=17) cogumelo[i].mode = 0;
-
-                }
-                //DrawRectangle(esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height, (Color){255,0,0,100});
-                cogumelo[i].rec.x = cogumelo[i].body->position.x-cogumelo[i].rec.width/2;
-                cogumelo[i].rec.y = cogumelo[i].body->position.y-cogumelo[i].rec.height/2;
-                if(framesCounter>=(60/8)){
-                    
-                    cogumelo[i].frames++;
-                    if(cogumelo[i].frames>=cogumelo[i].max_frames) cogumelo[i].frames=0;
-                }
-                DrawText(FormatText("%i", cogumelo[i].frames), cogumelo[i].body->position.x, cogumelo[i].body->position.y-100, 20, WHITE);
-            }
-        }
-    }
 
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
         
