@@ -56,6 +56,18 @@ typedef struct Esqueleto {
 } Esqueleto;
 //-------------
 
+typedef struct Cogumelo {
+    Rectangle rec;
+    float speed;
+    Color color;
+    float vida;
+    PhysicsBody body;
+    int orientation;
+    int max_frames;
+    int frames;
+    int mode;
+    bool enabled;
+} Cogumelo;
 
 //=================
 // Variaveis gloais
@@ -1067,12 +1079,12 @@ void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter){
 }
 
 
-void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, Cogumelo* cogumelo){
+void criarcogumelo(int bglvl_width, int mushroom_height, int mushroom_width, Cogumelo* cogumelo){
     for(int i =0;i<3;i++){
         cogumelo[i].rec.x = rand() % bglvl_width;
         cogumelo[i].rec.y = player.rec.y;
-        cogumelo[i].rec.height=sklt_width;
-        cogumelo[i].rec.width=sklt_height/11;
+        cogumelo[i].rec.height=mushroom_width;
+        cogumelo[i].rec.width=mushroom_height/11;
         cogumelo[i].max_frames = 11;
         cogumelo[i].mode = 0;
         cogumelo[i].enabled = true;
@@ -1084,11 +1096,11 @@ void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, Co
 }
 
 void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
-    for(int i=0; i<3, i++){
+    for(int i=0; i<3; i++){
         if(cogumelo[i].enabled==true) {
                                 if(cogumelo[i].mode == 0){
                     if(cogumelo[i].body->velocity.x>(float){0.03f} || cogumelo[i].body->velocity.x<(float){-0.03f}){
-                    DrawTextureRec(mushroomWalk, (Rectangle){(mushroomWalk.width/13)*esqueleto[i].frames, 0, (mushroomWalk.width/13)*esqueleto[i].orientation,mushroomWalk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    DrawTextureRec(mushroomWalk, (Rectangle){(mushroomWalk.width/13)*cogumelo[i].frames, 0, (mushroomWalk.width/13)*cogumelo[i].orientation,mushroomWalk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
                     cogumelo[i].max_frames = 13;
                 } else {
                     DrawTextureRec(mushroomIdle, (Rectangle){(mushroomIdle.width/11)*cogumelo[i].frames, 0, (mushroomIdle.width/11)*cogumelo[i].orientation,mushroomIdle.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
