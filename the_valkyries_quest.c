@@ -69,6 +69,19 @@ typedef struct Cogumelo {
     bool enabled;
 } Cogumelo;
 
+typedef struct Beowulf {
+    Rectangle rec;
+    float speed;
+    Color color;
+    float vida;
+    PhysicsBody body;
+    int orientation;
+    int max_frames;
+    int frames;
+    int mode;
+    bool enabled;    
+} Beowulf;
+
 //=================
 // Variaveis gloais
 
@@ -133,6 +146,13 @@ Texture2D mushroomWalk;
 Texture2D mushroomDead;
 Texture2D mushroomAtk;
 Texture2D mushroomHit;
+Texture2D beowulfIdle;
+Texture2D beowulfWalk;
+Texture2D beowulfAttack;
+Texture2D beowulfDashAttack;
+Texture2D beowulfSlash;
+Texture2D beowulfStomp;
+Texture2D beowulfDeath;
 
 Font vikingFont;
 Music zeldaMus;
@@ -168,7 +188,7 @@ int main(){
     Texture2D menuBG = LoadTexture("imagens/arvore_da_vida.png");
     Font vikingFont = LoadFont("VIKING-N.TTF");
     Font superMario = LoadFont("Super-Mario-World.ttf");
-    Music zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
+    zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
     
     hilda[0] = LoadTexture("imagens/hilda/idle/Warrior_Idle_1.png");
     hilda[1] = LoadTexture("imagens/hilda/idle/Warrior_Idle_2.png");
@@ -310,10 +330,13 @@ int main(){
     };
     
     
-    
-    
-   
-
+    beowulfIdle = LoadTexture("images/beowulf/beowulf-idle.png");
+    beowulfWalk = LoadTexture("images/beowulf/beowulf-walk.png");
+    beowulfAttack = LoadTexture("images/beowulf/beowulf-attack.png");
+    beowulfDashAttack = LoadTexture("images/beowulf/beowulf-dash-attack.png");
+    beowulfSlash = LoadTexture("images/beowulf/beowulf-slash.png");
+    beowulfStomp = LoadTexture("images/beowulf/beowulf-ground-stomp.png");
+    beowulfDeath = LoadTexture("images/beowulf/beowulf-death.png");
     
     skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
     skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
@@ -353,7 +376,7 @@ int main(){
     
     Esqueleto esqueleto[4];
     Cogumelo cogumelo[5];
-    
+    Beowulf beowulf[7];
     
     
 
@@ -395,7 +418,7 @@ int main(){
             
             case 0:
             
-            //UpdateMusicStream(zeldaMus);
+            UpdateMusicStream(zeldaMus);
 
             level_0(menuBG, vikingFont, hildaRun);
 
@@ -1247,7 +1270,7 @@ void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
 
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
         
-        Music zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
+
         UpdateMusicStream(zeldaMus);
  
 
