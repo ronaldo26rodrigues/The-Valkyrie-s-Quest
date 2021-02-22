@@ -335,6 +335,12 @@ int main(){
     
     Texture2D chao2 = LoadTexture("imagens/cenario2/chao2.png");
     
+    Texture2D beowulfIdle = LoadTexture("imagens/beowulf/beowulf-idle.png");
+    Texture2D beowulfWalk = LoadTexture("imagens/beowulf/beowulf-walk.png");
+    Texture2D beowulfAttk = LoadTexture("imagens/beowulf/beowulf-attack.png");
+    Texture2D beowulfDashAttk = LoadTexture("imagens/beowulf/beowulf-dash-attack.png");
+    Texture2D beowulfSlash = LoadTexture("imagens/beowulf/beowulf-slash.png");
+    Texture2D beowulfStomp = LoadTexture("imagens/beowulf/beowulf-ground-stomp.png");
     Texture2D beowulfDeath = LoadTexture("imagens/beowulf/beowulf-death.png");
     
     //CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
