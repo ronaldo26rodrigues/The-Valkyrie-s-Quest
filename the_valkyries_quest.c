@@ -1119,8 +1119,8 @@ void criarcogumelo(int bglvl_width, int mushroom_height, int mushroom_width, Cog
         cogumelo[i].rec.x = rand() % bglvl_width;
         cogumelo[i].rec.y = player.rec.y;
         cogumelo[i].rec.height=mushroom_width;
-        cogumelo[i].rec.width=mushroom_height/11;
-        cogumelo[i].max_frames = 11;
+        cogumelo[i].rec.width=mushroom_height/4;
+        cogumelo[i].max_frames = 4;
         cogumelo[i].mode = 0;
         cogumelo[i].enabled = true;
         cogumelo[i].frames = 0;
@@ -1135,11 +1135,11 @@ void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
         if(cogumelo[i].enabled==true) {
                                 if(cogumelo[i].mode == 0){
                     if(cogumelo[i].body->velocity.x>(float){0.03f} || cogumelo[i].body->velocity.x<(float){-0.03f}){
-                    DrawTextureRec(mushroomWalk, (Rectangle){(mushroomWalk.width/13)*cogumelo[i].frames, 0, (mushroomWalk.width/13)*cogumelo[i].orientation,mushroomWalk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    cogumelo[i].max_frames = 13;
+                    DrawTextureRec(mushroomWalk, (Rectangle){(mushroomWalk.width/8)*cogumelo[i].frames, 0, (mushroomWalk.width/8)*cogumelo[i].orientation,mushroomWalk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    cogumelo[i].max_frames = 8;
                 } else {
-                    DrawTextureRec(mushroomIdle, (Rectangle){(mushroomIdle.width/11)*cogumelo[i].frames, 0, (mushroomIdle.width/11)*cogumelo[i].orientation,mushroomIdle.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    cogumelo[i].max_frames = 11;
+                    DrawTextureRec(mushroomIdle, (Rectangle){(mushroomIdle.width/4)*cogumelo[i].frames, 0, (mushroomIdle.width/4)*cogumelo[i].orientation,mushroomIdle.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    cogumelo[i].max_frames = 4;
 
                 }
                 if(abs(cogumelo[i].body->position.x-player.body->position.x)<5){
@@ -1156,9 +1156,9 @@ void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
                     
                 //mode 1 = morto
                 if(cogumelo[i].mode==1){
-                    cogumelo[i].max_frames = 15;
-                    DrawTextureRec(mushroomDead, (Rectangle){(mushroomDead.width/15)*cogumelo[i].frames, 0, (mushroomDead.width/15)*cogumelo[i].orientation,mushroomDead.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    if(cogumelo[i].frames>=14) {
+                    cogumelo[i].max_frames = 5;
+                    DrawTextureRec(mushroomDead, (Rectangle){(mushroomDead.width/5)*cogumelo[i].frames, 0, (mushroomDead.width/5)*cogumelo[i].orientation,mushroomDead.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    if(cogumelo[i].frames>=4) {
                         //esqueleto[i].enabled = false;
                         cogumelo[i].rec.x = rand()%bglvl1.width;
                         cogumelo[i].body = CreatePhysicsBodyRectangle((Vector2){cogumelo[i].rec.x, cogumelo[i].rec.y}, cogumelo[i].rec.width, cogumelo[i].rec.height, 1);               cogumelo[i].body->freezeOrient=true;
@@ -1168,19 +1168,19 @@ void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
                 
                 if(abs(cogumelo[i].body->position.x-player.body->position.x)<cogumelo[i].rec.width && cogumelo[i].mode!=2 && cogumelo[i].mode!=1){
                     cogumelo[i].mode = 2;
-                    cogumelo[i].max_frames = 18;
+                    cogumelo[i].max_frames = 8;
                     cogumelo[i].frames = 0;
                 }
 
                 if(cogumelo[i].mode==2){
-                    DrawTextureRec(mushroomAtk, (Rectangle){(mushroomAtk.width/18)*cogumelo[i].frames, 0, (mushroomAtk.width/18)*cogumelo[i].orientation,mushroomAtk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width, cogumelo[i].body->position.y-cogumelo[i].rec.height/1.47f}, WHITE);
-                    if(cogumelo[i].frames==8){
+                    DrawTextureRec(mushroomAtk, (Rectangle){(mushroomAtk.width/8)*cogumelo[i].frames, 0, (mushroomAtk.width/8)*cogumelo[i].orientation,mushroomAtk.height},(Vector2){cogumelo[i].body->position.x-(mushroomAtk.width/8)/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/1.47f}, WHITE);
+                    if(cogumelo[i].frames==6){
                         if(CheckCollisionRecs(player.rec, (Rectangle){cogumelo[i].rec.x+10+(mushroomAtk.width/36*cogumelo[i].orientation), cogumelo[i].rec.y, 44, cogumelo[i].rec.height})){
                             player.vida-=3;
                         }
                     }
                     
-                    if(cogumelo[i].frames>=17) cogumelo[i].mode = 0;
+                    if(cogumelo[i].frames>=7) cogumelo[i].mode = 0;
 
                 }
                 //DrawRectangle(esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height, (Color){255,0,0,100});
