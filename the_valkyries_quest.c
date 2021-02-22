@@ -373,7 +373,6 @@ int main(){
             
             if(criouCorpos==false){
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
-
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
     
@@ -387,9 +386,7 @@ int main(){
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
             }
             BeginMode2D(camera);
-            
-            
-
+                  
             
             //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl1.height,bglvl1.width*2, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
@@ -467,13 +464,10 @@ int main(){
             DrawText(FormatText("%f", esqueleto[0].body->velocity.x), 100,300,20,WHITE);
 
             BeginMode2D(camera);
-
-            
+         
 
         esqueletosIA(esqueleto, bglvl1, framesCounter);
 
-            
-            
 
             //0 = parada, 1 = andando, 2 = pulando, 3 = attack, 4 = dash, 5 = dash attack
             if(player.mode == 0){
@@ -496,9 +490,7 @@ int main(){
                 if(player.orientation == -1){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){0, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
-            }
-            
-            
+            }          
 
             //teste
             //attack
@@ -520,7 +512,7 @@ int main(){
                         }
                         
                     }
-                }
+                }//esqueleto
                 player.max_frames = 12;
 
             }
@@ -551,19 +543,13 @@ int main(){
                     }
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-                
-
                 }
                 if(player.orientation == -1) {
                 DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-                
-               
-                }
-                
+ 
+                }         
                player.max_frames = 12;  
-               
-               
-               
+
             }
 
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
@@ -571,7 +557,7 @@ int main(){
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
             //DrawRectangle(player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height, (Color){255,0,0,100});
-            if(CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5300, iniciodoLvl.y-250, pocao[1].width*1.0f, pocao[1].height*60/100}))  player.vida+=0.5 , Destroydrawtexture(pocao);
+          
             EndMode2D();
             
             break;
@@ -601,12 +587,10 @@ int main(){
             
             DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
             
-             DrawTexture(plataforminha[1], iniciodoLvl.x+2900, iniciodoLvl.y-320, WHITE);
+            DrawTexture(plataforminha[1], iniciodoLvl.x+2900, iniciodoLvl.y-320, WHITE);
              
-             DrawTexture(pilar2[1], iniciodoLvl.x+3200, iniciodoLvl.y-320, WHITE);
-            
-            
-            
+            DrawTexture(pilar2[1], iniciodoLvl.x+3200, iniciodoLvl.y-320, WHITE);
+     
             DrawTexture(plataformas2[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
             
             
@@ -621,6 +605,16 @@ int main(){
             if (player.vida < 0.25) {
                 player.mode = 6;
             }
+            if(currentFrame>=3){
+                    for(int i=0;i<4;i++){
+                        if(CheckCollisionRecs(pocao[i].rec, (Rectangle){player.rec.x+(hilda[currentFrame].width/1.0f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && pocao[i].mode!=1){
+                            //esqueleto[i].body->enabled=false;
+                            pocao[i].mode = 1;
+                            pocao[i].frames = 0;
+                            if(pocao[i].body->enabled==true) DestroyPhysicsBody(pocao[i].body);
+                        }
+                        
+                    }
             
             
             
