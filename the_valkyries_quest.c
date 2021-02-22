@@ -317,8 +317,6 @@ int main(){
         
     };
     
-<<<<<<< HEAD
-=======
     Texture2D portal[2] = {
         LoadTexture("imagens/cenario/portal.png"),
         LoadTexture("imagens/cenario/portal.png"),
@@ -328,7 +326,6 @@ int main(){
     
     
    
->>>>>>> 31e0ed95310e28055a460bb165bd39673faa455a
 
     skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
     skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
@@ -685,15 +682,10 @@ int main(){
             if(criouCorpos==false){
                 destroyAllBodies();
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
-<<<<<<< HEAD
-
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
-=======
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3600+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
                 
                 
->>>>>>> 31e0ed95310e28055a460bb165bd39673faa455a
 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
