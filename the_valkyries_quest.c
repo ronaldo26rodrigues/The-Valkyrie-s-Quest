@@ -56,6 +56,19 @@ typedef struct Esqueleto {
 } Esqueleto;
 //-------------
 
+typedef struct Cogumelo {
+    Rectangle rec;
+    float speed;
+    Color color;
+    float vida;
+    PhysicsBody body;
+    int orientation;
+    int max_frames;
+    int frames;
+    int mode;
+    bool enabled;
+} Cogumelo;
+
 
 //=================
 // Variaveis gloais
@@ -69,6 +82,7 @@ static bool victory = false;
 
 
 static Player player;
+Esqueleto beowulf;
 
 static int level=0;
 
@@ -84,12 +98,14 @@ clock_t timer_dash;
 int transparencia = 0;
 int sobe = true;
     
-int framesCounter =0;
+int framesCounter = 0;
+
+int morreu = 0;
 //-----------------
 
 
 //========
-// Funções
+// FunÃ§Ãµes
 
 static void initGame(void);
 static void movement(void);
@@ -101,6 +117,9 @@ void destroyAllBodies(void);
 void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter);
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun);
 void level_1(void);
+void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia);
+void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, Cogumelo* cogumelo);
+void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter);
 //--------
 
 
@@ -111,6 +130,11 @@ Texture2D skeletonIdle;
 Texture2D skeletonAtk;
 Texture2D skeletonWalk;
 Texture2D skeletonDead;
+Texture2D mushroomIdle;
+Texture2D mushroomWalk;
+Texture2D mushroomDead;
+Texture2D mushroomAtk;
+Texture2D mushroomHit;
 
 Font vikingFont;
 Music zeldaMus;
@@ -140,6 +164,8 @@ int main(){
       
     
     Vector2 iniciodoLvl = {0,screenHeight*80/100};
+    
+    
     
     Texture2D menuBG = LoadTexture("imagens/arvore_da_vida.png");
     Font vikingFont = LoadFont("VIKING-N.TTF");
@@ -280,13 +306,23 @@ int main(){
         
     };
     
+    
+    
+    
+   
 
     
     skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
     skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
     skeletonWalk = LoadTexture("imagens/esqueleto/Skeleton Walk.png");
     skeletonDead = LoadTexture("imagens/esqueleto/Skeleton Dead.png");
-
+    
+    mushroomIdle = LoadTexture("imagens/cogumelo/Idle.png");
+    mushroomAtk = LoadTexture("imagens/cogumelo/Attack.png");
+    mushroomWalk = LoadTexture("imagens/cogumelo/Run.png");
+    mushroomDead = LoadTexture("imagens/cogumelo/Death.png");
+    mushroomHit = LoadTexture("imagens/cogumelo/Take Hit.png");
+    
     heart = LoadTexture("imagens/heart_animated_2.png");
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
@@ -313,7 +349,7 @@ int main(){
     
     
     Esqueleto esqueleto[4];
-    
+    Cogumelo cogumelo[5];
     
     
     
@@ -371,17 +407,31 @@ int main(){
 
             case 2:
             
+            
             if(criouCorpos==false){
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
 
-                
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+plataformas[1].width/2, iniciodoLvl.y-260+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
     
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2300+plataformas[1].width/2, iniciodoLvl.y-260+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                
+                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5200+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5600+terra[1].width/2, iniciodoLvl.y-180+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
+                
+                
+                
+               
+                
+                
     
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2700+plataformas[1].width/2, iniciodoLvl.y-320+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                
     
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+terra[1].width/2, iniciodoLvl.y-200+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
+                
 
                 initGame();
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
@@ -390,6 +440,7 @@ int main(){
             
             
 
+            
             
             //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl1.height,bglvl1.width*2, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
@@ -400,36 +451,23 @@ int main(){
             
             DrawTexture(plataformas[1], iniciodoLvl.x+2300, iniciodoLvl.y-260, WHITE);
             
-            DrawTexture(plataformas[1], iniciodoLvl.x+2700, iniciodoLvl.y-320, WHITE);
-            
-            //DrawTexture(plataformas[1], iniciodoLvl.x+3200, iniciodoLvl.y-140, WHITE);
+            DrawTexture(plataformas[1], iniciodoLvl.x+2750, iniciodoLvl.y-260, WHITE);
             
             DrawTexture(plataformas[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
             
-            DrawTexture(plataformas[1], iniciodoLvl.x+5000, iniciodoLvl.y-340, WHITE);
+            DrawTexture(plataformas[1], iniciodoLvl.x+5200, iniciodoLvl.y-340, WHITE);
+                                   
+            DrawTexture(terra[1], iniciodoLvl.x+5600, iniciodoLvl.y-180, WHITE);
             
-            DrawTexture(plataformas[1], iniciodoLvl.x+5400, iniciodoLvl.y-180, WHITE);
+            static int pegou_pocao = 0;
+
             
-            DrawTexture(plataformas[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
+
             
-<<<<<<< HEAD
-            DrawTexture(pocao[1], iniciodoLvl.x+5330, iniciodoLvl.y-250, WHITE);
             
-<<<<<<< HEAD
-            //DrawTexture(pilar[2], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
-            
-            DrawTexture(terra[1], iniciodoLvl.x+7000, iniciodoLvl.y-200, WHITE);
-=======
-=======
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
-            
-<<<<<<< HEAD
->>>>>>> parent of d939598 (bug)
-=======
->>>>>>> parent of d939598 (bug)
-            if(player.vida < 40){
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
                 if (player.vida < 40) {
                     player.vida+=2;
                     if (player.vida > 40) player.vida = 40;
@@ -438,37 +476,13 @@ int main(){
             }
             
             if (pegou_pocao == 0) {
-                DrawTexture(pocao[1], iniciodoLvl.x+4320, iniciodoLvl.y-375, WHITE);
-            }
-            }
-            
-            
-            
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
-                if (player.vida < 40) {
-                    player.vida+=2;
-                    if (player.vida > 40) player.vida = 40;
-                }
-                
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5900+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
-                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
-               
-                aparece_pilar = 1;
-            }
-            
-            if (aparece_pilar == 1) {
-                 
-                DrawTexture(pilar[1], iniciodoLvl.x+5000, iniciodoLvl.y-170, WHITE);
-                DrawTexture(pilar[1], iniciodoLvl.x+5900, iniciodoLvl.y-170, WHITE);
+                DrawTexture(pocao[1], iniciodoLvl.x+5320, iniciodoLvl.y-375, WHITE);
             }
 
->>>>>>> parent of d939598 (bug)
             
-            //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+7000, iniciodoLvl.y-35, espinhos[1].width*13.5f, espinhos[1].height*60/100}))  player.vida-=1;
             if (player.vida < 0.25) {
                 player.mode = 6;
+                morreu = 1;
             }
 
             DrawTexture(espinhos[1], iniciodoLvl.x+2300, iniciodoLvl.y-60, WHITE);
@@ -488,22 +502,9 @@ int main(){
             DrawTexture(espinhos[1], iniciodoLvl.x+3040, iniciodoLvl.y-60, WHITE);
             //DrawTexture(espinhos[1], iniciodoLvl.x+3100, iniciodoLvl.y-60, WHITE);
             //DrawTexture(espinhos[1], iniciodoLvl.x+3160, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7000, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7060, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7120, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7180, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7240, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7300, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7360, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7420, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7480, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7540, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7600, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7660, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7720, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7780, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+7840, iniciodoLvl.y-60, WHITE);
-                
+           
+            
+            
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
             
             EndMode2D();
@@ -611,13 +612,17 @@ int main(){
                
                
             }
-
+            
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
+
+            if (morreu == 1) {
+                //funÃ§Ã£o de morte aqui
+                reinicializar(vikingFont, screenWidth, screenHeight, transparencia);
+            }
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
             //DrawRectangle(player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height, (Color){255,0,0,100});
-            if(CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5300, iniciodoLvl.y-250, pocao[1].width*1.0f, pocao[1].height*60/100}))  player.vida+=0.5 , Destroydrawtexture(pocao);
             EndMode2D();
             
             break;
@@ -628,9 +633,18 @@ int main(){
                 destroyAllBodies();
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
                 
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                                                              
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                
                 initGame();
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
+
             }
+            
+            
             BeginMode2D(camera);
             
             
@@ -646,14 +660,12 @@ int main(){
             DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
             
             DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
-            
-             DrawTexture(plataforminha[1], iniciodoLvl.x+2900, iniciodoLvl.y-320, WHITE);
              
-             DrawTexture(pilar2[1], iniciodoLvl.x+3200, iniciodoLvl.y-320, WHITE);
+             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
             
             
             
-            DrawTexture(plataformas2[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
+            
             
             
             
@@ -662,12 +674,13 @@ int main(){
            
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+7000, iniciodoLvl.y-35, espinhos[1].width*13.5f, espinhos[1].height*60/100}))  player.vida-=1;
+           // if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
+          //  if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+7000, iniciodoLvl.y-35, espinhos[1].width*13.5f, espinhos[1].height*60/100}))  player.vida-=1;
             if (player.vida < 0.25) {
                 player.mode = 6;
+                morreu = 1;
             }
-            
+
             
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
@@ -986,7 +999,7 @@ void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto*
     
     
     
-    for(int i =0;i<4;i++){
+    for(int i =0;i<3;i++){
         esqueleto[i].rec.x = rand() % bglvl_width;
         esqueleto[i].rec.y = player.rec.y;
         esqueleto[i].rec.height=sklt_width;
@@ -1002,7 +1015,7 @@ void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto*
 }
 
 void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter){
-    for(int i=0;i<4;i++){
+    for(int i=0;i<3;i++){
                 if(esqueleto[i].enabled==true){
                     if(esqueleto[i].mode == 0){
                     if(esqueleto[i].body->velocity.x>(float){0.03f} || esqueleto[i].body->velocity.x<(float){-0.03f}){
@@ -1067,6 +1080,89 @@ void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter){
         }
 }
 
+
+void criarcogumelo(int bglvl_width, int mushroom_height, int mushroom_width, Cogumelo* cogumelo){
+    for(int i =0;i<3;i++){
+        cogumelo[i].rec.x = rand() % bglvl_width;
+        cogumelo[i].rec.y = player.rec.y;
+        cogumelo[i].rec.height=mushroom_width;
+        cogumelo[i].rec.width=mushroom_height/11;
+        cogumelo[i].max_frames = 11;
+        cogumelo[i].mode = 0;
+        cogumelo[i].enabled = true;
+        cogumelo[i].frames = 0;
+                
+        cogumelo[i].body = CreatePhysicsBodyRectangle((Vector2){cogumelo[i].rec.x, cogumelo[i].rec.y}, cogumelo[i].rec.width, cogumelo[i].rec.height, 1); cogumelo[i].body->freezeOrient=true;
+    }
+    criouCorpos = true;
+}
+
+void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
+    for(int i=0; i<3; i++){
+        if(cogumelo[i].enabled==true) {
+                                if(cogumelo[i].mode == 0){
+                    if(cogumelo[i].body->velocity.x>(float){0.03f} || cogumelo[i].body->velocity.x<(float){-0.03f}){
+                    DrawTextureRec(mushroomWalk, (Rectangle){(mushroomWalk.width/13)*cogumelo[i].frames, 0, (mushroomWalk.width/13)*cogumelo[i].orientation,mushroomWalk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    cogumelo[i].max_frames = 13;
+                } else {
+                    DrawTextureRec(mushroomIdle, (Rectangle){(mushroomIdle.width/11)*cogumelo[i].frames, 0, (mushroomIdle.width/11)*cogumelo[i].orientation,mushroomIdle.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    cogumelo[i].max_frames = 11;
+
+                }
+                if(abs(cogumelo[i].body->position.x-player.body->position.x)<5){
+                        cogumelo[i].body->velocity.x=0.0f;
+                        cogumelo[i].orientation = 1;
+                    } else if(cogumelo[i].body->position.x<player.body->position.x){
+                        cogumelo[i].body->velocity.x = 0.1f;
+                        cogumelo[i].orientation = 1;
+                    } else if(cogumelo[i].body->position.x>player.body->position.x) {
+                        cogumelo[i].body->velocity.x = -0.1f;
+                        cogumelo[i].orientation = -1;
+                    }
+                }
+                    
+                //mode 1 = morto
+                if(cogumelo[i].mode==1){
+                    cogumelo[i].max_frames = 15;
+                    DrawTextureRec(mushroomDead, (Rectangle){(mushroomDead.width/15)*cogumelo[i].frames, 0, (mushroomDead.width/15)*cogumelo[i].orientation,mushroomDead.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    if(cogumelo[i].frames>=14) {
+                        //esqueleto[i].enabled = false;
+                        cogumelo[i].rec.x = rand()%bglvl1.width;
+                        cogumelo[i].body = CreatePhysicsBodyRectangle((Vector2){cogumelo[i].rec.x, cogumelo[i].rec.y}, cogumelo[i].rec.width, cogumelo[i].rec.height, 1);               cogumelo[i].body->freezeOrient=true;
+                        cogumelo[i].mode = 0;
+                    }
+                }
+                
+                if(abs(cogumelo[i].body->position.x-player.body->position.x)<cogumelo[i].rec.width && cogumelo[i].mode!=2 && cogumelo[i].mode!=1){
+                    cogumelo[i].mode = 2;
+                    cogumelo[i].max_frames = 18;
+                    cogumelo[i].frames = 0;
+                }
+
+                if(cogumelo[i].mode==2){
+                    DrawTextureRec(mushroomAtk, (Rectangle){(mushroomAtk.width/18)*cogumelo[i].frames, 0, (mushroomAtk.width/18)*cogumelo[i].orientation,mushroomAtk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width, cogumelo[i].body->position.y-cogumelo[i].rec.height/1.47f}, WHITE);
+                    if(cogumelo[i].frames==8){
+                        if(CheckCollisionRecs(player.rec, (Rectangle){cogumelo[i].rec.x+10+(mushroomAtk.width/36*cogumelo[i].orientation), cogumelo[i].rec.y, 44, cogumelo[i].rec.height})){
+                            player.vida-=3;
+                        }
+                    }
+                    
+                    if(cogumelo[i].frames>=17) cogumelo[i].mode = 0;
+
+                }
+                //DrawRectangle(esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height, (Color){255,0,0,100});
+                cogumelo[i].rec.x = cogumelo[i].body->position.x-cogumelo[i].rec.width/2;
+                cogumelo[i].rec.y = cogumelo[i].body->position.y-cogumelo[i].rec.height/2;
+                if(framesCounter>=(60/8)){
+                    
+                    cogumelo[i].frames++;
+                    if(cogumelo[i].frames>=cogumelo[i].max_frames) cogumelo[i].frames=0;
+                }
+                DrawText(FormatText("%i", cogumelo[i].frames), cogumelo[i].body->position.x, cogumelo[i].body->position.y-100, 20, WHITE);
+            }
+        }
+    }
+
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
         
         Music zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
@@ -1081,7 +1177,7 @@ void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
         DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, LIGHTGRAY);
             
         DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
-        DrawTextEx(vikingFont, "Presione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
+        DrawTextEx(vikingFont, "Pressione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
             
         player.max_frames = 8;
 
@@ -1102,7 +1198,7 @@ void level_1() {
      static int framesCounterText;
      static int paragrafo = 0;
      
-     char texto[2][800] = {"No início do mundo, não havia nada além do fogo e do gelo. No encontro destes dois elementos, surgiu a névoa primordial,\no Ginnungagap, e dela surgiu Ymir, o primeiro gigante, que daria origem para as duas raças: A raça dos Gigantes e os\nprimeiros grandes Deuses.Por estarem em constante conflito, os Deuses acabam assassinando Ymir, dando origem aos mundos.\nA árvore da vida era a responsável por portar os nove mundos, os Deuses se dividiram em dois clãs, os responsáveis pela guerra\n,Aesir, habitantes de Asgard, liderados por Bor, que passou este cargo para seu filho Odin, e infelizmente não passará para Thor,\npois sua morte já está escrita, os responsáveis pela Natureza, Vanir, habitantes de Vanaheim liderados por Frey e Freya,\nDeuses do verão e da primavera.\nA vida então se espalhou por todos os nove mundos, e como toda grande história, escrita em sangue, morte e heroismo.\nMidgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua própria soberba, Nidavellir,\no mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisão de constante conflito e situações\nextremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcançaveis.\nToda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poços de Helheim, cumprindo\nsua sentença para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla,\no salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim.\n", "E existem aquelas responsaveis por dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas\npor Odin,que levam as almas dos mortos, e assim tudo funcionou por milênios…\nAte os dias de hoje... misteriosamente, almas de guerreiros e lendas passaram a cair de volta aos mundos dos vivos, causando\ncaos e atraindo monstros.\nEm tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas\n\npara Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma\nverdadeira heroína…\n\n\nOdin: Levante-se, pequena. . ."};
+     char texto[2][800] = {"No inÃ­cio do mundo, nÃ£o havia nada alÃ©m do fogo e do gelo. No encontro destes dois elementos, surgiu a nÃ©voa primordial,\no Ginnungagap, e dela surgiu Ymir, o primeiro gigante, que daria origem para as duas raÃ§as: A raÃ§a dos Gigantes e os\nprimeiros grandes Deuses.Por estarem em constante conflito, os Deuses acabam assassinando Ymir, dando origem aos mundos.\nA Ã¡rvore da vida era a responsÃ¡vel por portar os nove mundos, os Deuses se dividiram em dois clÃ£s, os responsÃ¡veis pela guerra\n,Aesir, habitantes de Asgard, liderados por Bor, que passou este cargo para seu filho Odin, e infelizmente nÃ£o passarÃ¡ para Thor,\npois sua morte jÃ¡ estÃ¡ escrita, os responsÃ¡veis pela Natureza, Vanir, habitantes de Vanaheim liderados por Frey e Freya,\nDeuses do verÃ£o e da primavera.\nA vida entÃ£o se espalhou por todos os nove mundos, e como toda grande histÃ³ria, escrita em sangue, morte e heroismo.\nMidgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua prÃ³pria soberba, Nidavellir,\no mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisÃ£o de constante conflito e situaÃ§Ãµes\nextremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcanÃ§aveis.\nToda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poÃ§os de Helheim, cumprindo\nsua sentenÃ§a para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla,\no salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim.\n", "E existem aquelas responsaveis por dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas\npor Odin,que levam as almas dos mortos, e assim tudo funcionou por milÃªniosâ€¦\nAte os dias de hoje... misteriosamente, almas de guerreiros e lendas passaram a cair de volta aos mundos dos vivos, causando\ncaos e atraindo monstros.\nEm tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas\n\npara Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma\nverdadeira heroÃ­naâ€¦\n\n\nOdin: Levante-se, pequena. . ."};
 
 
   
@@ -1127,4 +1223,20 @@ void level_1() {
                         }
                 }
             }
+}
+
+void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia) {
+    
+    BeginDrawing();
+
+    
+    DrawTextEx(vikingFont, "VOCE MORREU", (Vector2){screenWidth/3.5, screenHeight/4}, 80,0,WHITE);
+    
+    DrawTextEx(vikingFont, "Pressione enter para reiniciar", (Vector2){screenWidth/3.35, screenHeight*60/100}, 30,0, (Color){255, 255, 255, transparencia});
+    
+    //if(IsKeyDown(KEY_ENTER)) {
+        //level = 0;
+    //}
+    
+    EndDrawing();
 }
