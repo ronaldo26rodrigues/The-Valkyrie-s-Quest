@@ -536,37 +536,11 @@ int main(){
                 morreu = 1;
             }
 
-            DrawTexture(espinhos[1], iniciodoLvl.x+2300, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2360, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2420, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2480, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2440, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2500, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2560, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2620, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2680, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2740, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2800, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2860, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2920, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2980, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+3040, iniciodoLvl.y-60, WHITE);
+            for(int i=0;i<13;i++){
+                DrawTexture(espinhos[1], iniciodoLvl.x+(2300+(60*i)), iniciodoLvl.y-60, WHITE);
+            }
+
             
-            DrawTexture(espinhos[1], iniciodoLvl.x+5000, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5060, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5120, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5180, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5240, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5300, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5360, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5420, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5480, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5540, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5600, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5660, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5720, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5780, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5840, iniciodoLvl.y-240, WHITE);
            
             
             
@@ -825,6 +799,12 @@ int main(){
                             esqueleto[i].mode = 1;
                             esqueleto[i].frames = 0;
                             if(esqueleto[i].body->enabled==true) DestroyPhysicsBody(esqueleto[i].body);
+                        }
+                        if(CheckCollisionRecs(cogumelo[i].rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && cogumelo[i].mode!=1){
+                            //esqueleto[i].body->enabled=false;
+                            cogumelo[i].mode = 1;
+                            cogumelo[i].frames = 0;
+                            if(cogumelo[i].body->enabled==true) DestroyPhysicsBody(cogumelo[i].body);
                         }
                         
                     }
