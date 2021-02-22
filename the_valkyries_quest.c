@@ -69,7 +69,6 @@ typedef struct Cogumelo {
     bool enabled;
 } Cogumelo;
 
-
 //=================
 // Variaveis gloais
 
@@ -82,7 +81,6 @@ static bool victory = false;
 
 
 static Player player;
-Esqueleto beowulf;
 
 static int level=0;
 
@@ -105,7 +103,7 @@ int morreu = 0;
 
 
 //========
-// FunÃ§Ãµes
+// Funções
 
 static void initGame(void);
 static void movement(void);
@@ -412,16 +410,19 @@ int main(){
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+plataformas[1].width/2, iniciodoLvl.y-260+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;  
     
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2300+plataformas[1].width/2, iniciodoLvl.y-260+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
-                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5200+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4200+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5600+terra[1].width/2, iniciodoLvl.y-180+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+terra[1].width/2, iniciodoLvl.y-180+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
+                
+                                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2300+plataformas[1].width/2, iniciodoLvl.y-260+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
+
                 
                 
                 
@@ -453,13 +454,15 @@ int main(){
             
             DrawTexture(plataformas[1], iniciodoLvl.x+2750, iniciodoLvl.y-260, WHITE);
             
-            DrawTexture(plataformas[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
+            DrawTexture(plataformas[1], iniciodoLvl.x+4000, iniciodoLvl.y-180, WHITE);
             
-            DrawTexture(plataformas[1], iniciodoLvl.x+5200, iniciodoLvl.y-340, WHITE);
+            DrawTexture(plataformas[1], iniciodoLvl.x+4200, iniciodoLvl.y-340, WHITE);
                                    
-            DrawTexture(terra[1], iniciodoLvl.x+5600, iniciodoLvl.y-180, WHITE);
+            DrawTexture(terra[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
             
             static int pegou_pocao = 0;
+            
+            static int aparece_pilar = 0;
 
             
 
@@ -467,7 +470,9 @@ int main(){
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
+            
+            
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
                 if (player.vida < 40) {
                     player.vida+=2;
                     if (player.vida > 40) player.vida = 40;
@@ -476,7 +481,28 @@ int main(){
             }
             
             if (pegou_pocao == 0) {
-                DrawTexture(pocao[1], iniciodoLvl.x+5320, iniciodoLvl.y-375, WHITE);
+                DrawTexture(pocao[1], iniciodoLvl.x+4320, iniciodoLvl.y-375, WHITE);
+            }
+            
+            
+            
+            
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
+                if (player.vida < 40) {
+                    player.vida+=2;
+                    if (player.vida > 40) player.vida = 40;
+                }
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5900+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+               
+                aparece_pilar = 1;
+            }
+            
+            if (aparece_pilar == 1) {
+                 
+                DrawTexture(pilar[1], iniciodoLvl.x+5000, iniciodoLvl.y-170, WHITE);
+                DrawTexture(pilar[1], iniciodoLvl.x+5900, iniciodoLvl.y-170, WHITE);
             }
 
             
@@ -616,7 +642,7 @@ int main(){
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
 
             if (morreu == 1) {
-                //funÃ§Ã£o de morte aqui
+                //função de morte aqui
                 reinicializar(vikingFont, screenWidth, screenHeight, transparencia);
             }
 
@@ -632,6 +658,9 @@ int main(){
             if(criouCorpos==false){
                 destroyAllBodies();
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
+                
+                                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
+
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
@@ -1200,7 +1229,7 @@ void level_1() {
      static int framesCounterText;
      static int paragrafo = 0;
      
-     char texto[2][800] = {"No inÃ­cio do mundo, nÃ£o havia nada alÃ©m do fogo e do gelo. No encontro destes dois elementos, surgiu a nÃ©voa primordial,\no Ginnungagap, e dela surgiu Ymir, o primeiro gigante, que daria origem para as duas raÃ§as: A raÃ§a dos Gigantes e os\nprimeiros grandes Deuses.Por estarem em constante conflito, os Deuses acabam assassinando Ymir, dando origem aos mundos.\nA Ã¡rvore da vida era a responsÃ¡vel por portar os nove mundos, os Deuses se dividiram em dois clÃ£s, os responsÃ¡veis pela guerra\n,Aesir, habitantes de Asgard, liderados por Bor, que passou este cargo para seu filho Odin, e infelizmente nÃ£o passarÃ¡ para Thor,\npois sua morte jÃ¡ estÃ¡ escrita, os responsÃ¡veis pela Natureza, Vanir, habitantes de Vanaheim liderados por Frey e Freya,\nDeuses do verÃ£o e da primavera.\nA vida entÃ£o se espalhou por todos os nove mundos, e como toda grande histÃ³ria, escrita em sangue, morte e heroismo.\nMidgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua prÃ³pria soberba, Nidavellir,\no mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisÃ£o de constante conflito e situaÃ§Ãµes\nextremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcanÃ§aveis.\nToda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poÃ§os de Helheim, cumprindo\nsua sentenÃ§a para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla,\no salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim.\n", "E existem aquelas responsaveis por dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas\npor Odin,que levam as almas dos mortos, e assim tudo funcionou por milÃªniosâ€¦\nAte os dias de hoje... misteriosamente, almas de guerreiros e lendas passaram a cair de volta aos mundos dos vivos, causando\ncaos e atraindo monstros.\nEm tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas\n\npara Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma\nverdadeira heroÃ­naâ€¦\n\n\nOdin: Levante-se, pequena. . ."};
+     char texto[2][800] = {"No início do mundo, não havia nada além do fogo e do gelo. No encontro destes dois elementos, surgiu a névoa primordial,\no Ginnungagap, e dela surgiu Ymir, o primeiro gigante, que daria origem para as duas raças: A raça dos Gigantes e os\nprimeiros grandes Deuses.Por estarem em constante conflito, os Deuses acabam assassinando Ymir, dando origem aos mundos.\nA árvore da vida era a responsável por portar os nove mundos, os Deuses se dividiram em dois clãs, os responsáveis pela guerra\n,Aesir, habitantes de Asgard, liderados por Bor, que passou este cargo para seu filho Odin, e infelizmente não passará para Thor,\npois sua morte já está escrita, os responsáveis pela Natureza, Vanir, habitantes de Vanaheim liderados por Frey e Freya,\nDeuses do verão e da primavera.\nA vida então se espalhou por todos os nove mundos, e como toda grande história, escrita em sangue, morte e heroismo.\nMidgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua própria soberba, Nidavellir,\no mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisão de constante conflito e situações\nextremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcançaveis.\nToda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poços de Helheim, cumprindo\nsua sentença para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla,\no salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim.\n", "E existem aquelas responsaveis por dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas\npor Odin,que levam as almas dos mortos, e assim tudo funcionou por milênios…\nAte os dias de hoje... misteriosamente, almas de guerreiros e lendas passaram a cair de volta aos mundos dos vivos, causando\ncaos e atraindo monstros.\nEm tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas\n\npara Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma\nverdadeira heroína…\n\n\nOdin: Levante-se, pequena. . ."};
 
 
   
