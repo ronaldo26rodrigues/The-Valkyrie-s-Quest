@@ -304,6 +304,11 @@ int main(){
         
     };
     
+    Texture2D portal[2] = {
+        LoadTexture("imagens/cenario/portal.png"),
+        LoadTexture("imagens/cenario/portal.png"),
+    };
+    
     
     
     
@@ -421,6 +426,8 @@ int main(){
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4200+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
+                
+                
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+terra[1].width/2, iniciodoLvl.y-180+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
                 
                                 
@@ -462,6 +469,8 @@ int main(){
                                    
             DrawTexture(terra[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
             
+            DrawTexture(portal[1], iniciodoLvl.x+6000, iniciodoLvl.y-180, WHITE);
+            
             static int pegou_pocao = 0;
             
             static int aparece_pilar = 0;
@@ -472,6 +481,20 @@ int main(){
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
+            
+         //   if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5000, iniciodoLvl.y-180, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
+            
+            
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+6000, iniciodoLvl.y-180, portal[1].width*1.0f, portal[1].height*60/100}) ) {
+                
+                destroyAllBodies();
+            level++;
+            criouCorpos = false;
+               
+                
+            }
+            
+
             
             
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
@@ -528,10 +551,28 @@ int main(){
             DrawTexture(espinhos[1], iniciodoLvl.x+2920, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+2980, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+3040, iniciodoLvl.y-60, WHITE);
-            //DrawTexture(espinhos[1], iniciodoLvl.x+3100, iniciodoLvl.y-60, WHITE);
-            //DrawTexture(espinhos[1], iniciodoLvl.x+3160, iniciodoLvl.y-60, WHITE);
+            
+            DrawTexture(espinhos[1], iniciodoLvl.x+5000, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5060, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5120, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5180, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5240, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5300, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5360, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5420, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5480, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5540, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5600, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5660, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5720, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5780, iniciodoLvl.y-240, WHITE);
+            DrawTexture(espinhos[1], iniciodoLvl.x+5840, iniciodoLvl.y-240, WHITE);
            
             
+            
+          
+            
+          
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
             
@@ -661,10 +702,15 @@ int main(){
                 destroyAllBodies();
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
                 
-                                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
-
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3600+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
                 
+                
+
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3700+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                                                               
