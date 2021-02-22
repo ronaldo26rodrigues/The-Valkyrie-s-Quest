@@ -409,11 +409,48 @@ int main(){
             
             DrawTexture(plataformas[1], iniciodoLvl.x+5400, iniciodoLvl.y-340, WHITE);
             
+<<<<<<< HEAD
             DrawTexture(pocao[1], iniciodoLvl.x+5330, iniciodoLvl.y-250, WHITE);
             
             //DrawTexture(pilar[2], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
             
             DrawTexture(terra[1], iniciodoLvl.x+7000, iniciodoLvl.y-200, WHITE);
+=======
+            if(player.vida < 40){
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
+                if (player.vida < 40) {
+                    player.vida+=2;
+                    if (player.vida > 40) player.vida = 40;
+                }
+                pegou_pocao = 1;
+            }
+            
+            if (pegou_pocao == 0) {
+                DrawTexture(pocao[1], iniciodoLvl.x+4320, iniciodoLvl.y-375, WHITE);
+            }
+            }
+            
+            
+            
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
+                if (player.vida < 40) {
+                    player.vida+=2;
+                    if (player.vida > 40) player.vida = 40;
+                }
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5900+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+               
+                aparece_pilar = 1;
+            }
+            
+            if (aparece_pilar == 1) {
+                 
+                DrawTexture(pilar[1], iniciodoLvl.x+5000, iniciodoLvl.y-170, WHITE);
+                DrawTexture(pilar[1], iniciodoLvl.x+5900, iniciodoLvl.y-170, WHITE);
+            }
+
+>>>>>>> parent of d939598 (bug)
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
