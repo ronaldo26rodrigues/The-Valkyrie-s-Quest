@@ -412,10 +412,16 @@ int main(){
 <<<<<<< HEAD
             DrawTexture(pocao[1], iniciodoLvl.x+5330, iniciodoLvl.y-250, WHITE);
             
+<<<<<<< HEAD
             //DrawTexture(pilar[2], iniciodoLvl.x+7000, iniciodoLvl.y-400, WHITE);
             
             DrawTexture(terra[1], iniciodoLvl.x+7000, iniciodoLvl.y-200, WHITE);
 =======
+=======
+            //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
+            
+>>>>>>> parent of d939598 (bug)
             if(player.vida < 40){
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
                 if (player.vida < 40) {
