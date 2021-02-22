@@ -851,6 +851,7 @@ int main(){
                         
                     }
                 }
+                
                 player.max_frames = 12;
 
             }
@@ -897,6 +898,10 @@ int main(){
             }
             drawPhysicsEdge();
             DrawTexture(chao2,0,screenHeight*80/100,WHITE);
+            if (morreu == 1) {
+                //função de morte aqui
+                reinicializar(vikingFont, screenWidth, screenHeight, transparencia);
+            }
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
