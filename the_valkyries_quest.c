@@ -317,18 +317,6 @@ int main(){
         
     };
     
-<<<<<<< HEAD
-=======
-    Texture2D portal[2] = {
-        LoadTexture("imagens/cenario/portal.png"),
-        LoadTexture("imagens/cenario/portal.png"),
-    };
-    
-    
-    
-    
-   
->>>>>>> 31e0ed95310e28055a460bb165bd39673faa455a
 
     skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
     skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
@@ -447,8 +435,6 @@ int main(){
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4200+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
-                
-                
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+terra[1].width/2, iniciodoLvl.y-180+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
 
                 
@@ -472,8 +458,6 @@ int main(){
          
             DrawTexture(terra[1], iniciodoLvl.x+5000, iniciodoLvl.y-180, WHITE);
             
-            DrawTexture(portal[1], iniciodoLvl.x+6000, iniciodoLvl.y-180, WHITE);
-            
             static int pegou_pocao = 0;
             
             static int aparece_pilar = 0;
@@ -484,20 +468,6 @@ int main(){
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
-            
-         //   if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5000, iniciodoLvl.y-180, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
-            
-            
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+6000, iniciodoLvl.y-180, portal[1].width*1.0f, portal[1].height*60/100}) ) {
-                
-                destroyAllBodies();
-            level++;
-            criouCorpos = false;
-               
-                
-            }
-            
-
             
             
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
@@ -554,28 +524,10 @@ int main(){
             DrawTexture(espinhos[1], iniciodoLvl.x+2920, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+2980, iniciodoLvl.y-60, WHITE);
             DrawTexture(espinhos[1], iniciodoLvl.x+3040, iniciodoLvl.y-60, WHITE);
-            
-            DrawTexture(espinhos[1], iniciodoLvl.x+5000, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5060, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5120, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5180, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5240, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5300, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5360, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5420, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5480, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5540, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5600, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5660, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5720, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5780, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5840, iniciodoLvl.y-240, WHITE);
+            //DrawTexture(espinhos[1], iniciodoLvl.x+3100, iniciodoLvl.y-60, WHITE);
+            //DrawTexture(espinhos[1], iniciodoLvl.x+3160, iniciodoLvl.y-60, WHITE);
            
             
-            
-          
-            
-          
             
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
             
@@ -685,21 +637,10 @@ int main(){
             if(criouCorpos==false){
                 destroyAllBodies();
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
-<<<<<<< HEAD
 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
-=======
-                
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3600+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
-                
-                
->>>>>>> 31e0ed95310e28055a460bb165bd39673faa455a
 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
-                
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3700+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
-                
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                                                               
@@ -1119,8 +1060,8 @@ void criarcogumelo(int bglvl_width, int mushroom_height, int mushroom_width, Cog
         cogumelo[i].rec.x = rand() % bglvl_width;
         cogumelo[i].rec.y = player.rec.y;
         cogumelo[i].rec.height=mushroom_width;
-        cogumelo[i].rec.width=mushroom_height/4;
-        cogumelo[i].max_frames = 4;
+        cogumelo[i].rec.width=mushroom_height/11;
+        cogumelo[i].max_frames = 11;
         cogumelo[i].mode = 0;
         cogumelo[i].enabled = true;
         cogumelo[i].frames = 0;
@@ -1135,11 +1076,11 @@ void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
         if(cogumelo[i].enabled==true) {
                                 if(cogumelo[i].mode == 0){
                     if(cogumelo[i].body->velocity.x>(float){0.03f} || cogumelo[i].body->velocity.x<(float){-0.03f}){
-                    DrawTextureRec(mushroomWalk, (Rectangle){(mushroomWalk.width/8)*cogumelo[i].frames, 0, (mushroomWalk.width/8)*cogumelo[i].orientation,mushroomWalk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    cogumelo[i].max_frames = 8;
+                    DrawTextureRec(mushroomWalk, (Rectangle){(mushroomWalk.width/13)*cogumelo[i].frames, 0, (mushroomWalk.width/13)*cogumelo[i].orientation,mushroomWalk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    cogumelo[i].max_frames = 13;
                 } else {
-                    DrawTextureRec(mushroomIdle, (Rectangle){(mushroomIdle.width/4)*cogumelo[i].frames, 0, (mushroomIdle.width/4)*cogumelo[i].orientation,mushroomIdle.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    cogumelo[i].max_frames = 4;
+                    DrawTextureRec(mushroomIdle, (Rectangle){(mushroomIdle.width/11)*cogumelo[i].frames, 0, (mushroomIdle.width/11)*cogumelo[i].orientation,mushroomIdle.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    cogumelo[i].max_frames = 11;
 
                 }
                 if(abs(cogumelo[i].body->position.x-player.body->position.x)<5){
@@ -1156,9 +1097,9 @@ void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
                     
                 //mode 1 = morto
                 if(cogumelo[i].mode==1){
-                    cogumelo[i].max_frames = 5;
-                    DrawTextureRec(mushroomDead, (Rectangle){(mushroomDead.width/5)*cogumelo[i].frames, 0, (mushroomDead.width/5)*cogumelo[i].orientation,mushroomDead.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    if(cogumelo[i].frames>=4) {
+                    cogumelo[i].max_frames = 15;
+                    DrawTextureRec(mushroomDead, (Rectangle){(mushroomDead.width/15)*cogumelo[i].frames, 0, (mushroomDead.width/15)*cogumelo[i].orientation,mushroomDead.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
+                    if(cogumelo[i].frames>=14) {
                         //esqueleto[i].enabled = false;
                         cogumelo[i].rec.x = rand()%bglvl1.width;
                         cogumelo[i].body = CreatePhysicsBodyRectangle((Vector2){cogumelo[i].rec.x, cogumelo[i].rec.y}, cogumelo[i].rec.width, cogumelo[i].rec.height, 1);               cogumelo[i].body->freezeOrient=true;
@@ -1168,19 +1109,19 @@ void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
                 
                 if(abs(cogumelo[i].body->position.x-player.body->position.x)<cogumelo[i].rec.width && cogumelo[i].mode!=2 && cogumelo[i].mode!=1){
                     cogumelo[i].mode = 2;
-                    cogumelo[i].max_frames = 8;
+                    cogumelo[i].max_frames = 18;
                     cogumelo[i].frames = 0;
                 }
 
                 if(cogumelo[i].mode==2){
-                    DrawTextureRec(mushroomAtk, (Rectangle){(mushroomAtk.width/8)*cogumelo[i].frames, 0, (mushroomAtk.width/8)*cogumelo[i].orientation,mushroomAtk.height},(Vector2){cogumelo[i].body->position.x-(mushroomAtk.width/8)/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/1.47f}, WHITE);
-                    if(cogumelo[i].frames==6){
+                    DrawTextureRec(mushroomAtk, (Rectangle){(mushroomAtk.width/18)*cogumelo[i].frames, 0, (mushroomAtk.width/18)*cogumelo[i].orientation,mushroomAtk.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width, cogumelo[i].body->position.y-cogumelo[i].rec.height/1.47f}, WHITE);
+                    if(cogumelo[i].frames==8){
                         if(CheckCollisionRecs(player.rec, (Rectangle){cogumelo[i].rec.x+10+(mushroomAtk.width/36*cogumelo[i].orientation), cogumelo[i].rec.y, 44, cogumelo[i].rec.height})){
                             player.vida-=3;
                         }
                     }
                     
-                    if(cogumelo[i].frames>=7) cogumelo[i].mode = 0;
+                    if(cogumelo[i].frames>=17) cogumelo[i].mode = 0;
 
                 }
                 //DrawRectangle(esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height, (Color){255,0,0,100});
