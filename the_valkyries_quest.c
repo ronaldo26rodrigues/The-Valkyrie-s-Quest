@@ -303,14 +303,16 @@ int main(){
         LoadTexture("imagens/itens/pocao.png"),
         
     };
-
+    
     Texture2D portal[2] = {
         LoadTexture("imagens/cenario/portal.png"),
         LoadTexture("imagens/cenario/portal.png"),
     };
     
     
- 
+    
+    
+   
 
     
     skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
