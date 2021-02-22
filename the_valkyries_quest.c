@@ -168,7 +168,7 @@ int main(){
     Texture2D menuBG = LoadTexture("imagens/arvore_da_vida.png");
     Font vikingFont = LoadFont("VIKING-N.TTF");
     Font superMario = LoadFont("Super-Mario-World.ttf");
-    zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
+    Music zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
     
     hilda[0] = LoadTexture("imagens/hilda/idle/Warrior_Idle_1.png");
     hilda[1] = LoadTexture("imagens/hilda/idle/Warrior_Idle_2.png");
@@ -1204,6 +1204,7 @@ void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
 
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
         
+        Music zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
         UpdateMusicStream(zeldaMus);
  
 
