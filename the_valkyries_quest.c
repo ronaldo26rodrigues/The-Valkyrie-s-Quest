@@ -669,7 +669,7 @@ int main(){
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
                 
                 initGame();
-                criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
+                //criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
                 criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
 
             }
@@ -682,7 +682,7 @@ int main(){
             
             //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             DrawTexturePro(bglvl2, (Rectangle){0,0, bglvl2.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl2.height,bglvl1.width*2, bglvl2.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
-            esqueletosIA(esqueleto, bglvl2, framesCounter);
+            //esqueletosIA(esqueleto, bglvl2, framesCounter);
             CogumelosIA(cogumelo, bglvl2, framesCounter);
             //drawPhysicsEdge();
               
