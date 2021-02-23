@@ -516,7 +516,9 @@ int main(){
                     player.vida+=8;
                     if (player.vida > 40) player.vida = 40;
                 }
-                pegou_pocao = 1;
+                PlaySound(som_pocao);
+                pegou_pocao = 1; 
+                
             }
             
             if (pegou_pocao == 0) {
