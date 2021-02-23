@@ -316,7 +316,7 @@ int main(){
     beowulfIdle = LoadTexture("imagens/beowulf/resizedcom131/beowulf-idle-resized1.png"); //mudar isso aqui se ficar bom, por enquanto tá como teste
     beowulfWalk = LoadTexture("imagens/beowulf/resizedcom131/beowulf-walk-resized1.png");
     beowulfAttack = LoadTexture("imagens/beowulf/resizedcom131/beowulf-attack-resized1.png");
-    beowulfDashAttack = LoadTexture("imagens/beowulf/beowulf-dash-attack.png");
+    beowulfDashAttack = LoadTexture("imagens/beowulf/resizedcom131/beowulf-dash-attack-resized1.png");
     beowulfSlash = LoadTexture("imagens/beowulf/beowulf-slash.png");
     beowulfStomp = LoadTexture("imagens/beowulf/beowulf-ground-stomp.png");
     beowulfDeath = LoadTexture("imagens/beowulf/beowulf-death.png");
@@ -1316,18 +1316,60 @@ void BeowulfIA() {
             
             DrawTextureRec(beowulfAttack, (Rectangle){(beowulfAttack.width/6)*beowulf.frames, 0, (beowulfAttack.width/6)*beowulf.orientation,beowulfAttack.height},(Vector2){beowulf.body->position.x-(beowulfAttack.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
             
-            if(beowulf.frames == 4) {
+            if(beowulf.frames == 4) { //? o que é isso
                 if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
                     player.vida -= 6;
                 }
             }
         }
+        //beowulfDashAttack
+        if(beowulf.mode == 2) {
+            beowulf.max_frames = 1;
+            
+            DrawTextureRec(beowulfDashAttack, (Rectangle){(beowulfDashAttack.width)*beowulf.frames, 0, (beowulfDashAttack.width)*beowulf.orientation,beowulfDashAttack.height},(Vector2){beowulf.body->position.x-(beowulfDashAttack.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+            
+            if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
+                player.vida -= 10;
+            }
+        }
         
-        if(abs(beowulf.body->position.x-player.body->position.x)<beowulf.rec.width && beowulf.mode !=1) { //adicionar outros modos{
+        //beowulfSlash
+        if(beowulf.mode == 3) {
+            beowulf.max_frames = 9; //?
+            
+            DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/9)*beowulf.frames, 0, (beowulfSlash.width/9)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+            
+            if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
+                player.vida -= 14;
+            }
+        }  
+        
+        //beowulfStomp
+        if(beowulf.mode == 4) {
+            beowulf.max_frames = 10;
+            
+           DrawTextureRec(beowulfStomp, (Rectangle){(beowulfStomp.width/9)*beowulf.frames, 0, (beowulfStomp.width/9)*beowulf.orientation,beowulfStomp.height},(Vector2){beowulf.body->position.x-(beowulfStomp.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+            
+            if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
+                player.vida -= 18;
+            }
+        }
+        
+        //beowulfDeath
+        if(beowulf.mode == 5) {
+            beowulf.max_frames = 1;
+            
+            DrawTextureRec(beowulfDeath, (Rectangle){(beowulfDeath.width/9)*beowulf.frames, 0, (beowulfDeath.width/9)*beowulf.orientation,beowulfDeath.height},(Vector2){beowulf.body->position.x-(beowulfDeath.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+        }
+        
+        //atacar
+        if(abs(beowulf.body->position.x-player.body->position.x)<beowulf.rec.width && beowulf.mode != 1 && beowulf.mode != 2) {
             beowulf.mode = 1;
             beowulf.max_frames = 6;
             beowulf.frames = 0;
         }
+        
+        
         
         DrawText(FormatText("%i", beowulf.mode), 400,200,20,WHITE);
         if(framesCounter>=(60/8)){
