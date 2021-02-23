@@ -313,8 +313,8 @@ int main(){
     };
     
     
-    beowulfIdle = LoadTexture("imagens/beowulf/beowulf-idle.png");
-    beowulfWalk = LoadTexture("imagens/beowulf/beowulf-walk.png");
+    beowulfIdle = LoadTexture("imagens/beowulf/resizedcom131/beowulf-idle-resized1.png"); //mudar isso aqui se ficar bom, por enquanto tá como teste
+    beowulfWalk = LoadTexture("imagens/beowulf/resizedcom131/beowulf-walk-resized1.png");
     beowulfAttack = LoadTexture("imagens/beowulf/beowulf-attack.png");
     beowulfDashAttack = LoadTexture("imagens/beowulf/beowulf-dash-attack.png");
     beowulfSlash = LoadTexture("imagens/beowulf/beowulf-slash.png");
@@ -1314,9 +1314,8 @@ void BeowulfIA() {
         }
         DrawText(FormatText("%i", beowulf.mode), 400,200,20,WHITE);
         if(framesCounter>=(60/8)){
-                    
             beowulf.frames++;
-            if(beowulf.frames>=beowulf.max_frames) beowulf.frames=0;
+            if(beowulf.frames>=beowulf.max_frames) beowulf.frames = 0;
         }
         
         //beowulfAttack
