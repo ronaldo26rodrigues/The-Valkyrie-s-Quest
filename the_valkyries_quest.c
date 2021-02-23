@@ -329,7 +329,7 @@ int main(){
     mushroomIdle = LoadTexture("imagens/cogumelo/Idle.png");
     mushroomAtk = LoadTexture("imagens/cogumelo/Attack.png");
     mushroomWalk = LoadTexture("imagens/cogumelo/Run.png");
-    mushroomDead = LoadTexture("imagens/cogumelo/Death.png");
+    mushroomDead = LoadTexture("imagens/cogumelo/Morto.png");
     mushroomHit = LoadTexture("imagens/cogumelo/Take Hit.png");
     
     heart = LoadTexture("imagens/heart_animated_2.png");
@@ -775,11 +775,11 @@ int main(){
                 }
                 if(currentFrame>=6){
                     for(int i=0;i<4;i++){
-                        if(CheckCollisionRecs(esqueleto[i].rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && esqueleto[i].mode!=1){
+                        if(CheckCollisionRecs(cogumelo[i].rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && cogumelo[i].mode!=1){
                             //esqueleto[i].body->enabled=false;
-                            esqueleto[i].mode = 1;
-                            esqueleto[i].frames = 0;
-                            if(esqueleto[i].body->enabled==true) DestroyPhysicsBody(esqueleto[i].body);
+                            cogumelo[i].mode = 1;
+                            cogumelo[i].frames = 0;
+                            if(cogumelo[i].body->enabled==true) DestroyPhysicsBody(cogumelo[i].body);
                         }
                     }
                 }
@@ -1149,7 +1149,7 @@ void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter){
                     
                 //mode 1 = morto
                 if(cogumelo[i].mode==1){
-                    cogumelo[i].max_frames = 5;
+                    cogumelo[i].max_frames = 4;
                     DrawTextureRec(mushroomDead, (Rectangle){(mushroomDead.width/5)*cogumelo[i].frames, 0, (mushroomDead.width/5)*cogumelo[i].orientation,mushroomDead.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
                     if(cogumelo[i].frames>=4) {
                         //esqueleto[i].enabled = false;
