@@ -264,6 +264,8 @@ int main(){
     Texture2D bglvl1 = LoadTexture("imagens/cenario/bglvl1.png");
     
      Texture2D bglvl2 = LoadTexture("imagens/cenario2/bglvl1.png");
+     
+     Texture2D bglvl3 = LoadTexture("imagens/cenario3/bglvl3.png");
 
     Texture2D plataformas[2] = {
         LoadTexture("imagens/cenario/plataforma1.png"),
@@ -337,6 +339,8 @@ int main(){
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
     
     Texture2D chao2 = LoadTexture("imagens/cenario2/chao2.png");
+    
+    Texture2D chao3 = LoadTexture("imagens/cenario3/chao3.png");
     
     //CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
 
@@ -819,6 +823,172 @@ int main(){
             }
             drawPhysicsEdge();
             DrawTexture(chao2,0,screenHeight*80/100,WHITE);
+
+            if(IsKeyPressed(KEY_MINUS)) player.vida--;
+            if(IsKeyPressed(KEY_EQUAL)) player.vida++;
+            //DrawRectangle(player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height, (Color){255,0,0,100});
+            EndMode2D();
+            
+            break;
+            
+            case 4:
+            
+            if(criouCorpos==false){
+                destroyAllBodies();
+                CreatePhysicsBodyRectangle((Vector2){0+chao3.width/2,(screenHeight*80/100)+chao3.height/2}, chao3.width, chao3.height, 1)->enabled=false;
+
+
+                //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
+
+               // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
+
+               // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3600+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
+
+
+               // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                
+/*                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3700+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+ */
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                                                              
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                
+                initGame();
+                //criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
+                criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
+                criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
+                
+                criouCorpos = true;
+            }
+            
+            
+            BeginMode2D(camera);
+            
+            
+            
+            
+            //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
+            DrawTexturePro(bglvl3, (Rectangle){0,0, bglvl3.width, bglvl3.height}, (Rectangle){0,(screenHeight*80/100)-bglvl3.height,bglvl1.width*2, bglvl3.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
+            //esqueletosIA(esqueleto, bglvl2, framesCounter);
+            CogumelosIA(cogumelo, bglvl2, framesCounter);
+            BeowulfIA();
+            //drawPhysicsEdge();
+            DrawTexture(chao3,0,screenHeight*80/100,WHITE);
+            DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
+            DrawTexture(plataformas2[1], iniciodoLvl.x+3600, iniciodoLvl.y-180, WHITE);
+            DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
+            DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
+            
+            
+             
+            DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
+            
+            
+            
+
+            
+          //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
+          // if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
+          //  if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+7000, iniciodoLvl.y-35, espinhos[1].width*13.5f, espinhos[1].height*60/100}))  player.vida-=1;
+            if (player.vida < 0.25) {
+                player.mode = 6;
+                morreu = 1;
+            }
+
+  
+            
+            //DrawRectangleRec((Rectangle){iniciodoLvl.x+2750, iniciodoLvl.y-60, espinhos[1].width*16, espinhos[1].height}, GREEN);
+            
+            EndMode2D();
+
+            drawHearts();
+            // int esqueleto[i].frames;
+            DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
+
+            BeginMode2D(camera);
+
+            
+
+
+            
+            
+
+            //0 = parada, 1 = andando, 2 = pulando, 3 = attack, 4 = dash, 5 = dash attack
+            if(player.mode == 0){
+                DrawTextureRec(hilda[currentFrame], (Rectangle){-hilda[currentFrame].width/1.3, -hilda[currentFrame].height/1.25, player.rec.width*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                player.max_frames = 5;
+            }
+            else if(player.mode == 1) {
+                if(player.orientation == 1){
+                DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1){
+                DrawTextureRec(hildaRun[currentFrame], (Rectangle){0, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                player.max_frames = 8;
+            }
+            else if(player.mode == 2){
+                if(player.orientation == 1){
+                DrawTextureRec(hildaJump[currentFrame], (Rectangle){hildaJump[currentFrame].width/4.6f, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1){
+                DrawTextureRec(hildaJump[currentFrame], (Rectangle){0, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+            }
+            else if (player.mode == 3) {
+                if(player.orientation == 1){
+                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.25f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1){
+                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){0, -hildaAttack[currentFrame].height/1.18f, (hildaAttack[currentFrame].width)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width-36, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(currentFrame>=6){
+                    for(int i=0;i<4;i++){
+                        if(CheckCollisionRecs(cogumelo[i].rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && cogumelo[i].mode!=1){
+                            //esqueleto[i].body->enabled=false;
+                            cogumelo[i].mode = 1;
+                            cogumelo[i].frames = 0;
+                            if(cogumelo[i].body->enabled==true) DestroyPhysicsBody(cogumelo[i].body);
+                        }
+                    }
+                }
+                player.max_frames = 12;
+            }
+            else if (player.mode == 4) {
+                if(player.orientation == 1) {
+                DrawTextureRec(hildaDash[currentFrame], (Rectangle){hildaDash[currentFrame].width/4.4f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1) {
+                DrawTextureRec(hildaDash[currentFrame], (Rectangle){0, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                player.max_frames = 7;  
+            }
+
+            else if (player.mode == 5) {
+                if(player.orientation == 1) {
+                DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){hildaDashAttack[currentFrame].width/4.4f, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1) {
+                DrawTextureRec(hildaDashAttack[currentFrame], (Rectangle){0, -hildaDashAttack[currentFrame].height/1.25, (hildaDashAttack[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                //player.max_frames = 10;
+            }     
+            else if (player.mode == 6) {
+                if(currentFrame>=10) {
+                    currentFrame=10;
+                    }
+                if(player.orientation == 1) {
+                DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+                if(player.orientation == -1) {
+                DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                }
+               player.max_frames = 12;  
+            }
+            drawPhysicsEdge();
+            DrawTexture(chao3,0,screenHeight*80/100,WHITE);
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
