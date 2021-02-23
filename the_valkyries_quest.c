@@ -139,6 +139,10 @@ Texture2D beowulfDeath;
 
 Font vikingFont;
 Music zeldaMus;
+Sound sound_hilda_atk;
+Sound som_pocao;
+
+
 
 Vector2 iniciodoLvl;
 
@@ -172,6 +176,9 @@ int main(){
     Font vikingFont = LoadFont("VIKING-N.TTF");
     Font superMario = LoadFont("Super-Mario-World.ttf");
     zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
+    sound_hilda_atk = LoadSound("som/som_hilda_atk.wav");
+    som_pocao = LoadSound("som/som_pocao.wav");
+    
     
     hilda[0] = LoadTexture("imagens/hilda/idle/Warrior_Idle_1.png");
     hilda[1] = LoadTexture("imagens/hilda/idle/Warrior_Idle_2.png");
@@ -590,12 +597,14 @@ int main(){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){0, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
             }
-            else if (player.mode == 3) {
+            else if (player.mode == 3){
                 if(player.orientation == 1){
-                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.25f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.25f)*player.orientation, player.rec.height},(Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+                
                 }
                 if(player.orientation == -1){
                 DrawTextureRec(hildaAttack[currentFrame], (Rectangle){0, -hildaAttack[currentFrame].height/1.18f, (hildaAttack[currentFrame].width)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width-36, player.body->position.y-player.rec.height/2}, WHITE);
+                
                 }
                 if(currentFrame>=6){
                     for(int i=0;i<4;i++){
@@ -609,7 +618,7 @@ int main(){
                     }
                 }
                 player.max_frames = 12;
-
+                PlaySound(sound_hilda_atk);
             }
               
             else if (player.mode == 4) {
