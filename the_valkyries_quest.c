@@ -315,7 +315,7 @@ int main(){
     
     beowulfIdle = LoadTexture("imagens/beowulf/resizedcom131/beowulf-idle-resized1.png"); //mudar isso aqui se ficar bom, por enquanto tá como teste
     beowulfWalk = LoadTexture("imagens/beowulf/resizedcom131/beowulf-walk-resized1.png");
-    beowulfAttack = LoadTexture("imagens/beowulf/beowulf-attack.png");
+    beowulfAttack = LoadTexture("imagens/beowulf/resizedcom131/beowulf-attack-resized1.png");
     beowulfDashAttack = LoadTexture("imagens/beowulf/beowulf-dash-attack.png");
     beowulfSlash = LoadTexture("imagens/beowulf/beowulf-slash.png");
     beowulfStomp = LoadTexture("imagens/beowulf/beowulf-ground-stomp.png");
@@ -1254,16 +1254,14 @@ void level_1() {
 void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia) {
     
     
-
-    
     DrawTextEx(vikingFont, "VOCE MORREU", (Vector2){screenWidth/3.5, screenHeight/4}, 80,0,WHITE);
     
     DrawTextEx(vikingFont, "Pressione enter para reiniciar", (Vector2){screenWidth/3.35, screenHeight*60/100}, 30,0, (Color){255, 255, 255, transparencia});
     
     if(IsKeyDown(KEY_ENTER)) {
         destroyAllBodies();
-        criouCorpos=0;
-        morreu=0;
+        criouCorpos = 0;
+        morreu = 0;
     }
     
 
@@ -1312,6 +1310,25 @@ void BeowulfIA() {
                 beowulf.orientation = -1;
             }
         }
+        //beowulfAttack
+        if(beowulf.mode == 1) {
+            beowulf.max_frames = 6;
+            
+            DrawTextureRec(beowulfAttack, (Rectangle){(beowulfAttack.width/6)*beowulf.frames, 0, (beowulfAttack.width/6)*beowulf.orientation,beowulfAttack.height},(Vector2){beowulf.body->position.x-(beowulfAttack.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+            
+            if(beowulf.frames == 4) {
+                if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
+                    player.vida -= 6;
+                }
+            }
+        }
+        
+        if(abs(beowulf.body->position.x-player.body->position.x)<beowulf.rec.width && beowulf.mode !=1) { //adicionar outros modos{
+            beowulf.mode = 1;
+            beowulf.max_frames = 6;
+            beowulf.frames = 0;
+        }
+        
         DrawText(FormatText("%i", beowulf.mode), 400,200,20,WHITE);
         if(framesCounter>=(60/8)){
             beowulf.frames++;
@@ -1329,5 +1346,6 @@ void BeowulfIA() {
         //if(beowulf.frames >= //??) beowulf.mode = 0;
     } 
 }
+
 
 
