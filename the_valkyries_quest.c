@@ -70,6 +70,7 @@ static bool victory = false;
 
 
 static Player player;
+GameObject beowulf;
 
 static int level = 0;
 
@@ -107,8 +108,8 @@ void level_1(void);
 void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia);
 void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, GameObject* cogumelo);
 void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter);
-void criarBeowulf(GameObject beowulf, int beowulf_height, int beowulf_width, Vector2 iniciodoLvl, Player player);
-void BeowulfIA(GameObject beowulf, Player player);
+void criarBeowulf(int beowulf_height, int beowulf_width, Vector2 iniciodoLvl);
+void BeowulfIA();
 //--------
 
 
@@ -358,7 +359,7 @@ int main(){
     
     GameObject esqueleto[4];
     GameObject cogumelo[5];
-    GameObject beowulf;
+    
     
 
 
@@ -688,7 +689,7 @@ int main(){
                 initGame();
                 //criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
                 criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
-                criarBeowulf(beowulf, beowulfIdle.height, beowulfIdle.width, iniciodoLvl, player);
+                criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
                 
                 criouCorpos = true;
             }
@@ -703,7 +704,7 @@ int main(){
             DrawTexturePro(bglvl2, (Rectangle){0,0, bglvl2.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl2.height,bglvl1.width*2, bglvl2.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             //esqueletosIA(esqueleto, bglvl2, framesCounter);
             CogumelosIA(cogumelo, bglvl2, framesCounter);
-            BeowulfIA(beowulf, player);
+            BeowulfIA();
             //drawPhysicsEdge();
               
             DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
@@ -1268,22 +1269,23 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
 
 }
 
-void criarBeowulf(GameObject beowulf, int beowulf_height, int beowulf_width, Vector2 iniciodoLvl, Player player) {
+void criarBeowulf(int beowulf_height, int beowulf_width, Vector2 iniciodoLvl) {
     beowulf.rec.x = iniciodoLvl.x + 100; //pra teste 
     beowulf.rec.y = player.rec.y-100;
     beowulf.rec.height = beowulf_height; //beowulfIdle.height
-    beowulf.rec.width = beowulf_width / 4; //beowulfIdle.width
+    beowulf.rec.width = beowulf_width / 3; //beowulfIdle.width
     beowulf.max_frames = 3;
     beowulf.mode = 0;
     beowulf.enabled = true;
     beowulf.frames = 0;
+    beowulf.orientation = 1;
     
 
     beowulf.body = CreatePhysicsBodyRectangle((Vector2){beowulf.rec.x, beowulf.rec.y}, beowulf.rec.width, beowulf.rec.height, 1);
     beowulf.body->freezeOrient=true;
 }
 
-void BeowulfIA(GameObject beowulf, Player player) {
+void BeowulfIA() {
     if(beowulf.enabled == true) {
         if(beowulf.mode == 0) {
             //beowulfWalk
@@ -1309,6 +1311,12 @@ void BeowulfIA(GameObject beowulf, Player player) {
                 beowulf.body->velocity.x = -0.1f;
                 beowulf.orientation = -1;
             }
+        }
+        DrawText(FormatText("%i", beowulf.mode), 400,200,20,WHITE);
+        if(framesCounter>=(60/8)){
+                    
+            beowulf.frames++;
+            if(beowulf.frames>=beowulf.max_frames) beowulf.frames=0;
         }
         
         //beowulfAttack
