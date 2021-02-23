@@ -176,7 +176,7 @@ int main(){
     Font vikingFont = LoadFont("VIKING-N.TTF");
     Font superMario = LoadFont("Super-Mario-World.ttf");
     zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
-    sound_hilda_atk = LoadSound("som/som_hilda_atk_03.wav");
+    sound_hilda_atk = LoadSound("som/ha.ogg");
     som_pocao = LoadSound("som/som_pocao.wav");
     
     
@@ -620,7 +620,7 @@ int main(){
                     }
                 }
                 player.max_frames = 12;
-                if(currentFrame==0) PlaySound(sound_hilda_atk);
+                
             }
               
             else if (player.mode == 4) {
@@ -1112,6 +1112,7 @@ void movement(){
         currentFrame = 0;
         player.max_frames = 12;
         player.mode = 3;
+        if(currentFrame==0) PlaySound(sound_hilda_atk);
     }
     
 
