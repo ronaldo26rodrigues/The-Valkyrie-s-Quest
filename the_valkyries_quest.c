@@ -12,6 +12,7 @@
 
 #define PHYSAC_IMPLEMENTATION
 //#define PHYSAC_NO_THREADS
+#define PHYSAC_DEBUG
 #include "C:\raylib\raylib\src\physac.h"
 
 #if defined(PLATFORM_WEB)
@@ -42,7 +43,7 @@ typedef struct Player {
     bool caiu;
 } Player;
 
-typedef struct Esqueleto {
+typedef struct GameObject {
     Rectangle rec;
     float speed;
     Color color;
@@ -53,34 +54,9 @@ typedef struct Esqueleto {
     int frames;
     int mode;
     bool enabled;
-} Esqueleto;
+} GameObject;
 //-------------
 
-typedef struct Cogumelo {
-    Rectangle rec;
-    float speed;
-    Color color;
-    float vida;
-    PhysicsBody body;
-    int orientation;
-    int max_frames;
-    int frames;
-    int mode;
-    bool enabled;
-} Cogumelo;
-
-typedef struct Beowulf {
-    Rectangle rec;
-    float speed;
-    Color color;
-    float vida;
-    PhysicsBody body;
-    int orientation;
-    int max_frames;
-    int frames;
-    int mode;
-    bool enabled;    
-} Beowulf;
 
 //=================
 // Variaveis gloais
@@ -123,16 +99,16 @@ static void movement(void);
 void delay(float seconds);
 void drawPhysicsEdge(void);
 void drawHearts(void);
-void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto* esqueleto);
+void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, GameObject* esqueleto);
 void destroyAllBodies(void);
-void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter);
+void esqueletosIA(GameObject* esqueleto, Texture2D bglvl1, int framesCounter);
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun);
 void level_1(void);
 void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia);
-void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, Cogumelo* cogumelo);
-void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter);
-void criarBeowulf(Beowulf beowulf, int beowulf_height, int beowulf_width, Vector2 iniciodoLvl, Player player);
-void BeowulfIA(Beowulf beowulf, Player player);
+void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, GameObject* cogumelo);
+void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter);
+void criarBeowulf(GameObject beowulf, int beowulf_height, int beowulf_width, Vector2 iniciodoLvl, Player player);
+void BeowulfIA(GameObject beowulf, Player player);
 //--------
 
 
@@ -336,13 +312,13 @@ int main(){
     };
     
     
-    beowulfIdle = LoadTexture("images/beowulf/beowulf-idle.png");
-    beowulfWalk = LoadTexture("images/beowulf/beowulf-walk.png");
-    beowulfAttack = LoadTexture("images/beowulf/beowulf-attack.png");
-    beowulfDashAttack = LoadTexture("images/beowulf/beowulf-dash-attack.png");
-    beowulfSlash = LoadTexture("images/beowulf/beowulf-slash.png");
-    beowulfStomp = LoadTexture("images/beowulf/beowulf-ground-stomp.png");
-    beowulfDeath = LoadTexture("images/beowulf/beowulf-death.png");
+    beowulfIdle = LoadTexture("imagens/beowulf/beowulf-idle.png");
+    beowulfWalk = LoadTexture("imagens/beowulf/beowulf-walk.png");
+    beowulfAttack = LoadTexture("imagens/beowulf/beowulf-attack.png");
+    beowulfDashAttack = LoadTexture("imagens/beowulf/beowulf-dash-attack.png");
+    beowulfSlash = LoadTexture("imagens/beowulf/beowulf-slash.png");
+    beowulfStomp = LoadTexture("imagens/beowulf/beowulf-ground-stomp.png");
+    beowulfDeath = LoadTexture("imagens/beowulf/beowulf-death.png");
     
     skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
     skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
@@ -380,9 +356,9 @@ int main(){
      
     
     
-    Esqueleto esqueleto[4];
-    Cogumelo cogumelo[5];
-    Beowulf beowulf;
+    GameObject esqueleto[4];
+    GameObject cogumelo[5];
+    GameObject beowulf;
     
 
 
@@ -562,40 +538,12 @@ int main(){
                 morreu = 1;
             }
 
-            DrawTexture(espinhos[1], iniciodoLvl.x+2300, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2360, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2420, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2480, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2440, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2500, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2560, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2620, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2680, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2740, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2800, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2860, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2920, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+2980, iniciodoLvl.y-60, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+3040, iniciodoLvl.y-60, WHITE);
-            
-            DrawTexture(espinhos[1], iniciodoLvl.x+5000, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5060, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5120, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5180, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5240, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5300, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5360, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5420, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5480, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5540, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5600, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5660, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5720, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5780, iniciodoLvl.y-240, WHITE);
-            DrawTexture(espinhos[1], iniciodoLvl.x+5840, iniciodoLvl.y-240, WHITE);
-           
-            
-            
+            for(int i=0;i<15;i++){
+                DrawTexture(espinhos[1], iniciodoLvl.x+2300+(60*i), iniciodoLvl.y-60, WHITE);
+                DrawTexture(espinhos[1], iniciodoLvl.x+5000+(60*i), iniciodoLvl.y-240, WHITE);
+            }
+
+             
           
             
           
@@ -606,7 +554,7 @@ int main(){
 
             drawHearts();
             // int esqueleto[i].frames;
-            DrawText(FormatText("%f", esqueleto[0].body->velocity.x), 100,300,20,WHITE);
+            DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
@@ -702,15 +650,14 @@ int main(){
             
             DrawTexture(chao1,0,screenHeight*80/100,WHITE);
 
-            if (morreu == 1) {
-                //função de morte aqui
-                reinicializar(vikingFont, screenWidth, screenHeight, transparencia);
-            }
+            
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
             if(IsKeyPressed(KEY_EQUAL)) player.vida++;
             //DrawRectangle(player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height, (Color){255,0,0,100});
             EndMode2D();
+            
+
             
             break;
             
@@ -730,10 +677,10 @@ int main(){
 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3700+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+/*                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3700+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
-
+ */
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                                                               
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
@@ -741,8 +688,9 @@ int main(){
                 initGame();
                 //criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
                 criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
+                criarBeowulf(beowulf, beowulfIdle.height, beowulfIdle.width, iniciodoLvl, player);
                 
-
+                criouCorpos = true;
             }
             
             
@@ -755,6 +703,7 @@ int main(){
             DrawTexturePro(bglvl2, (Rectangle){0,0, bglvl2.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl2.height,bglvl1.width*2, bglvl2.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             //esqueletosIA(esqueleto, bglvl2, framesCounter);
             CogumelosIA(cogumelo, bglvl2, framesCounter);
+            BeowulfIA(beowulf, player);
             //drawPhysicsEdge();
               
             DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
@@ -784,13 +733,12 @@ int main(){
 
             drawHearts();
             // int esqueleto[i].frames;
-            DrawText(FormatText("%f", esqueleto[0].body->velocity.x), 100,300,20,WHITE);
+            DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
             
 
-            criarBeowulf(beowulf, beowulfIdle.height, beowulfIdle.width, iniciodoLvl, player);
 
             
             
@@ -888,14 +836,19 @@ int main(){
 
         //DrawRectangleRec((Rectangle){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2, player.rec.width, player.rec.height}, player.color);
 
-        movement();
+        if(morreu==0) movement();
+
         if(framesCounter>=(60/8)){
             framesCounter=0;
         }
 
         //drawPhysicsEdge();
-
+        if (morreu == 1) {
+            //função de morte aqui
+            reinicializar(vikingFont, screenWidth, screenHeight, transparencia);
+        }
         EndDrawing();
+        
         
         //som();
         
@@ -1063,16 +1016,10 @@ void drawPhysicsEdge(){
 }
 
 void destroyAllBodies(){
-    int bodiesCount = GetPhysicsBodiesCount();
-    for(int i=0;i<100;i++){
-        PhysicsBody body = GetPhysicsBody(i);
-        //if(body != NULL){
-            DestroyPhysicsBody(body);
-        //}
-    }
+    ResetPhysics();
 }
 
-void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto* esqueleto) {
+void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, GameObject* esqueleto) {
     
     for(int i =0;i<3;i++){
         esqueleto[i].rec.x = rand() % bglvl_width;
@@ -1090,7 +1037,7 @@ void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, Esqueleto*
     criouCorpos = true;
 }
 
-void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter){
+void esqueletosIA(GameObject* esqueleto, Texture2D bglvl1, int framesCounter){
     for(int i=0;i<3;i++){
         if(esqueleto[i].enabled==true){
             if(esqueleto[i].mode == 0){
@@ -1158,7 +1105,7 @@ void esqueletosIA(Esqueleto* esqueleto, Texture2D bglvl1, int framesCounter){
 }
 
 
-void criarcogumelo(int bglvl_width, int mushroom_height, int mushroom_width, Cogumelo* cogumelo){
+void criarcogumelo(int bglvl_width, int mushroom_height, int mushroom_width, GameObject* cogumelo){
     for(int i =0;i<3;i++){
         cogumelo[i].rec.x = rand() % bglvl_width;
         cogumelo[i].rec.y = player.rec.y;
@@ -1175,7 +1122,7 @@ void criarcogumelo(int bglvl_width, int mushroom_height, int mushroom_width, Cog
     criouCorpos = true;
 }
 
-void CogumelosIA(Cogumelo* cogumelo, Texture2D bglvl1, int framesCounter){
+void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter){
     for(int i=0; i<3; i++){
         if(cogumelo[i].enabled==true) {
             if(cogumelo[i].mode == 0){
@@ -1305,23 +1252,25 @@ void level_1() {
 
 void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia) {
     
-    BeginDrawing();
+    
 
     
     DrawTextEx(vikingFont, "VOCE MORREU", (Vector2){screenWidth/3.5, screenHeight/4}, 80,0,WHITE);
     
     DrawTextEx(vikingFont, "Pressione enter para reiniciar", (Vector2){screenWidth/3.35, screenHeight*60/100}, 30,0, (Color){255, 255, 255, transparencia});
     
-    //if(IsKeyDown(KEY_ENTER)) {
-        //level = 0;
-    //}
+    if(IsKeyDown(KEY_ENTER)) {
+        destroyAllBodies();
+        criouCorpos=0;
+        morreu=0;
+    }
     
-    EndDrawing();
+
 }
 
-void criarBeowulf(Beowulf beowulf, int beowulf_height, int beowulf_width, Vector2 iniciodoLvl, Player player) {
+void criarBeowulf(GameObject beowulf, int beowulf_height, int beowulf_width, Vector2 iniciodoLvl, Player player) {
     beowulf.rec.x = iniciodoLvl.x + 100; //pra teste 
-    beowulf.rec.y = player.rec.y;
+    beowulf.rec.y = player.rec.y-100;
     beowulf.rec.height = beowulf_height; //beowulfIdle.height
     beowulf.rec.width = beowulf_width / 4; //beowulfIdle.width
     beowulf.max_frames = 3;
@@ -1334,7 +1283,7 @@ void criarBeowulf(Beowulf beowulf, int beowulf_height, int beowulf_width, Vector
     beowulf.body->freezeOrient=true;
 }
 
-void BeowulfIA(Beowulf beowulf, Player player) {
+void BeowulfIA(GameObject beowulf, Player player) {
     if(beowulf.enabled == true) {
         if(beowulf.mode == 0) {
             //beowulfWalk
