@@ -110,6 +110,8 @@ void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, Ga
 void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter);
 void criarBeowulf(int beowulf_height, int beowulf_width, Vector2 iniciodoLvl);
 void BeowulfIA();
+void criarzubat(int bglvl_width, int sklt_height, int sklt_width, GameObject* OIAO);
+void ZubatsIA(GameObject* OIAO, Texture2D bglvl1, int framesCounter);
 //--------
 
 
@@ -128,6 +130,12 @@ Texture2D mushroomWalk;
 Texture2D mushroomDead;
 Texture2D mushroomAtk;
 Texture2D mushroomHit;
+
+Texture2D OIAOIdle;
+Texture2D OIAOWalk;
+Texture2D OIAODead;
+Texture2D OIAOAtk;
+Texture2D OIAOHit;
 
 Texture2D beowulfIdle;
 Texture2D beowulfWalk;
@@ -341,6 +349,12 @@ int main(){
     mushroomDead = LoadTexture("imagens/cogumelo/Morto.png");
     mushroomHit = LoadTexture("imagens/cogumelo/Take Hit.png");
     
+    OIAOIdle = LoadTexture("imagens/zubat/Flying.png");
+    OIAOAtk = LoadTexture("imagens/zubat/Attack.png");
+    OIAOWalk = LoadTexture("imagens/zubat/Flying.png");
+    OIAODead = LoadTexture("imagens/zubat/Deadth.png");
+    OIAOHit = LoadTexture("imagens/zubat/Take Hit.png");
+    
     heart = LoadTexture("imagens/heart_animated_2.png");
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
@@ -370,9 +384,10 @@ int main(){
     
     GameObject esqueleto[4];
     GameObject cogumelo[5];
+    GameObject zubat[4];
     
     
-
+//mushroom
 
     
 
@@ -704,7 +719,9 @@ int main(){
                 initGame();
                 //criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
                 criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
+               // criarzubat(bglvl1.width, OIAOIdle.width, OIAOIdle.height, zubat);
                 //criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
+                
                 
                 criouCorpos = true;
             }
@@ -869,9 +886,13 @@ int main(){
                 initGame();
                 //criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
                 //criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
+                criarzubat(bglvl1.width, OIAOIdle.width, OIAOIdle.height, zubat);
                 criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
                 
+                
+                    
                 criouCorpos = true;
+                
             }
             
             
@@ -884,6 +905,7 @@ int main(){
             DrawTexturePro(bglvl3, (Rectangle){0,0, bglvl3.width, bglvl3.height}, (Rectangle){0,(screenHeight*80/100)-bglvl3.height,bglvl1.width*2, bglvl3.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             //esqueletosIA(esqueleto, bglvl2, framesCounter);
             //CogumelosIA(cogumelo, bglvl2, framesCounter);
+            //zubatsIA(zubat, bglvl2, framesCounter);
             BeowulfIA();
             //drawPhysicsEdge();
             DrawTexture(chao3,0,screenHeight*80/100,WHITE);
@@ -1368,6 +1390,88 @@ void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter){
                     if(cogumelo[i].frames>=cogumelo[i].max_frames) cogumelo[i].frames=0;
                 }
                 DrawText(FormatText("%i", cogumelo[i].frames), cogumelo[i].body->position.x, cogumelo[i].body->position.y-100, 20, WHITE);
+            }
+        }
+    }
+    void criarzubat(int bglvl_width, int OIAO_height, int OIAO_width, GameObject* zubat) {
+    
+    for(int i =0;i<3;i++){
+       zubat[i].rec.x = rand() % bglvl_width;
+       zubat[i].rec.y = player.rec.y;
+       zubat[i].rec.height=OIAO_width;
+       zubat[i].rec.width=OIAO_height/4;
+       zubat[i].max_frames = 8;
+       zubat[i].mode = 0;
+       zubat[i].enabled = true;
+       zubat[i].frames = 0;
+                
+      zubat[i].body = CreatePhysicsBodyRectangle((Vector2){zubat[i].rec.x, zubat[i].rec.y}, zubat[i].rec.width, zubat[i].rec.height, 1);
+      zubat[i].body->freezeOrient=true;
+    }
+    criouCorpos = true;
+}
+void ZubatsIA(GameObject* zubat, Texture2D bglvl1, int framesCounter){
+    for(int i=0; i<3; i++){
+        if(zubat[i].enabled==true) {
+            if(zubat[i].mode == 0){
+                    if(zubat[i].body->velocity.x>(float){0.03f} || zubat[i].body->velocity.x<(float){-0.03f}){
+                    DrawTextureRec(OIAOWalk, (Rectangle){(OIAOWalk.width/8)*zubat[i].frames, 0, (OIAOWalk.width/8)*zubat[i].orientation,OIAOWalk.height},(Vector2){zubat[i].body->position.x-zubat[i].rec.width/2, zubat[i].body->position.y-zubat[i].rec.height/2}, WHITE);
+                    zubat[i].max_frames = 8;
+                } else {
+                    DrawTextureRec(OIAOIdle, (Rectangle){(OIAOIdle.width/4)*zubat[i].frames, 0, (OIAOIdle.width/4)*zubat[i].orientation,OIAOIdle.height},(Vector2){zubat[i].body->position.x-zubat[i].rec.width/2, zubat[i].body->position.y-zubat[i].rec.height/2}, WHITE);
+                    zubat[i].max_frames = 4;
+
+                }
+                if(abs(zubat[i].body->position.x-player.body->position.x)<5){
+                        zubat[i].body->velocity.x=0.0f;
+                        zubat[i].orientation = 1;
+                    } else if(zubat[i].body->position.x<player.body->position.x){
+                        zubat[i].body->velocity.x = 0.1f;
+                        zubat[i].orientation = 1;
+                    } else if(zubat[i].body->position.x>player.body->position.x) {
+                        zubat[i].body->velocity.x = -0.1f;
+                        zubat[i].orientation = -1;
+                    }
+                }
+                    
+                //mode 1 = morto
+                if(zubat[i].mode==1){
+                    zubat[i].max_frames = 4;
+                    DrawTextureRec(OIAODead, (Rectangle){(OIAODead.width/5)*zubat[i].frames, 0, (OIAODead.width/5)*zubat[i].orientation,OIAODead.height},(Vector2){zubat[i].body->position.x-zubat[i].rec.width/2, zubat[i].body->position.y-zubat[i].rec.height/2}, WHITE);
+                    if(zubat[i].frames>=4) {
+                        //esqueleto[i].enabled = false;
+                        zubat[i].rec.x = rand()%bglvl1.width;
+                        zubat[i].body = CreatePhysicsBodyRectangle((Vector2){zubat[i].rec.x, zubat[i].rec.y}, zubat[i].rec.width, zubat[i].rec.height, 1);               zubat[i].body->freezeOrient=true;
+                        zubat[i].mode = 0;
+                    }
+                }
+                
+                if(abs(zubat[i].body->position.x-player.body->position.x)<zubat[i].rec.width && zubat[i].mode!=2 && zubat[i].mode!=1){
+                    zubat[i].mode = 2;
+                    zubat[i].max_frames = 8;
+                    zubat[i].frames = 0;
+                }
+
+                if(zubat[i].mode==2){
+                    DrawTextureRec(OIAOAtk, (Rectangle){(OIAOAtk.width/8)*zubat[i].frames, 0, (OIAOAtk.width/8)*zubat[i].orientation,OIAOAtk.height},(Vector2){zubat[i].body->position.x-(OIAOAtk.width/8)/2, zubat[i].body->position.y-zubat[i].rec.height/1.47f}, WHITE);
+                    if(zubat[i].frames==6){
+                        if(CheckCollisionRecs(player.rec, (Rectangle){zubat[i].rec.x+10+(OIAOAtk.width/36*zubat[i].orientation), zubat[i].rec.y, 44, zubat[i].rec.height})){
+                            player.vida-=3;
+                        }
+                    }
+                    
+                    if(zubat[i].frames>=7) zubat[i].mode = 0;
+
+                }
+                //DrawRectangle(esqueleto[i].rec.x+10+(skeletonAtk.width/36*esqueleto[i].orientation), esqueleto[i].rec.y, 44, esqueleto[i].rec.height, (Color){255,0,0,100});
+                zubat[i].rec.x = zubat[i].body->position.x-zubat[i].rec.width/2;
+                zubat[i].rec.y = zubat[i].body->position.y-zubat[i].rec.height/2;
+                if(framesCounter>=(60/8)){
+                    
+                    zubat[i].frames++;
+                    if(zubat[i].frames>=zubat[i].max_frames) zubat[i].frames=0;
+                }
+                DrawText(FormatText("%i", zubat[i].frames), zubat[i].body->position.x, zubat[i].body->position.y-100, 20, WHITE);
             }
         }
     }
