@@ -544,43 +544,15 @@ int main(){
 
 
                 DestroyPhysicsBody(GetPhysicsBody(6));
-                
-
-
-
-
-
-
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5200+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
-                
-
+  
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3000+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+      
                 aparece_pilar = 0;
                 some_pilar = 1;
 
             }
 
-            if(some_pilar == 1){
-
-
-
-
-
-                DrawTexture(pilar[1], iniciodoLvl.x+5200, iniciodoLvl.y-170, WHITE);
-            }
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          
-
-            
+        
             if (player.vida < 0.25) {
                 player.mode = 6;
                 morreu = 1;
