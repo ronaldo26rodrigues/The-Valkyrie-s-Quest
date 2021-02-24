@@ -87,6 +87,11 @@ int transparencia = 0;
 int sobe = true;
     
 int framesCounter = 0;
+static int pegou_pocao = 0;
+
+static int aparecefase2 = 0;
+  
+static int aparece_pilar = 0;
 
 int morreu = 0;
 //-----------------
@@ -100,7 +105,7 @@ static void movement(void);
 void delay(float seconds);
 void drawPhysicsEdge(void);
 void drawHearts(void);
-void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, GameObject* esqueleto);
+void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, GameObject* esqueleto, int posicaox);
 void destroyAllBodies(void);
 void esqueletosIA(GameObject* esqueleto, Texture2D bglvl1, int framesCounter);
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun);
@@ -144,6 +149,7 @@ Texture2D OIAOWalk;
 Texture2D OIAODead;
 Texture2D OIAOAtk;
 Texture2D OIAOHit;
+
 
 Font vikingFont;
 Music zeldaMus;
@@ -329,6 +335,11 @@ int main(){
         LoadTexture("imagens/cenario/portal.png"),
     };
     
+    Texture2D bloco[2] = {
+        LoadTexture("imagens/cenario2/bloco.png"),
+        LoadTexture("imagens/cenario2/bloco.png"),
+    };
+    
     
     beowulfIdle = LoadTexture("imagens/beowulf/resizedcom131/beowulf-idle-resized1.png"); //mudar isso aqui se ficar bom, por enquanto tá como teste
     beowulfWalk = LoadTexture("imagens/beowulf/resizedcom131/beowulf-walk-resized1.png");
@@ -362,34 +373,11 @@ int main(){
     Texture2D chao2 = LoadTexture("imagens/cenario2/chao2.png");
     
     Texture2D chao3 = LoadTexture("imagens/cenario3/chao3.png");
-    
-    //CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
-
-    
-     //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3200+plataformas[1].width/2, iniciodoLvl.y-140+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
-     
-    // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
-     
-    // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
-    
-    // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
-    
-    // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5400+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
- 
-     //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+7000+pilar[1].width/2, iniciodoLvl.y-399+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
-     
-     
-     
-    
-    
+          
     GameObject esqueleto[4];
     GameObject cogumelo[5];
     GameObject zubat[4];
     
-
-
-    
-
     initGame();
     
     PlayMusicStream(zeldaMus);
@@ -451,38 +439,17 @@ int main(){
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;  
     
-                
-                
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataformas[1].width/2, iniciodoLvl.y-180+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4200+plataformas[1].width/2, iniciodoLvl.y-340+plataformas[1].height/2}, plataformas[1].width, plataformas[1].height,1)->enabled=false;
                 
-                
-                
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+terra[1].width/2, iniciodoLvl.y-180+terra[1].height/2}, terra[1].width, terra[1].height,1)->enabled=false;
                 
-                                
-
-                
-                
-                
-               
-                
-                
-    
-                
-    
-                
-
                 initGame();
-                criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
+                criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto, rand() % bglvl1.width);
                 
             }
             BeginMode2D(camera);
-            
-            
-
-            
             
             //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             DrawTexturePro(bglvl1, (Rectangle){0,0, bglvl1.width, bglvl1.height}, (Rectangle){0,(screenHeight*80/100)-bglvl1.height,bglvl1.width*2, bglvl1.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
@@ -499,14 +466,8 @@ int main(){
             
             DrawTexture(portal[1], iniciodoLvl.x+6000, iniciodoLvl.y-180, WHITE);
             
-            static int pegou_pocao = 0;
-            
-            static int aparece_pilar = 0;
-
             
 
-            
-            
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
             
@@ -547,11 +508,20 @@ int main(){
                     player.vida+=2;
                     if (player.vida > 40) player.vida = 40;
                 }
+                DestroyPhysicsBody(GetPhysicsBody(2));
+                DestroyPhysicsBody(GetPhysicsBody(3));
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5900+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
                  CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5000+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
                
                 aparece_pilar = 1;
+                for(int i=0;i<4;i++){
+                        
+                            if(esqueleto[i].body->enabled==true) DestroyPhysicsBody(esqueleto[i].body);
+                        
+                        
+                    }
+                criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto, rand() % 900+5000);
             }
             
             if (aparece_pilar == 1) {
@@ -699,27 +669,26 @@ int main(){
 
 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
-
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
-
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3600+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
-
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
-/*                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3700+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
- */
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
-                                                              
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                
+                
+               
+                
                 
                 initGame();
                 //criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
                 criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
                 //criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
                 //criarzubat(bglvl1.width, OIAOIdle.width, OIAOIdle.height, zubat);
+                
+                
                 criouCorpos = true;
             }
             
@@ -737,12 +706,30 @@ int main(){
             //drawPhysicsEdge();
               
             DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
-            DrawTexture(plataformas2[1], iniciodoLvl.x+3600, iniciodoLvl.y-180, WHITE);
+             DrawTexture(plataformas2[1], iniciodoLvl.x+3600, iniciodoLvl.y-180, WHITE);
             DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
             DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
-            
-             
             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
+            
+            
+             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+3600, iniciodoLvl.y-100, chao2.width*1.0f, chao2.height*60/100}) && aparecefase2==0) {
+                
+                DestroyPhysicsBody(GetPhysicsBody(1));
+                DestroyPhysicsBody(GetPhysicsBody(2));
+                DestroyPhysicsBody(GetPhysicsBody(8));
+               
+                
+                
+                
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-170+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4100+bloco[1].width/2, iniciodoLvl.y-200+bloco[1].height/2}, bloco[1].width, bloco[1].height,1)->enabled=false;
+               
+                aparecefase2 = 1;
+            }
+            
+            DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
+             
             
             
             
@@ -860,6 +847,8 @@ int main(){
             
             if(criouCorpos==false){
                 destroyAllBodies();
+                CreatePhysicsBodyRectangle((Vector2){0+chao3.width/2,(screenHeight*80/100)+chao3.height/2}, chao3.width, chao3.height, 1)->enabled=false;
+                
                 
                 
                 CreatePhysicsBodyRectangle((Vector2){0+chao1.width/2,(screenHeight*80/100)+chao1.height/2}, chao1.width, chao1.height, 1)->enabled=false;
@@ -867,15 +856,30 @@ int main(){
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2400+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
- 
 
+
+                //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
+
+               // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
+
+               // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3600+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
+
+
+               // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2200+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 
+/*                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3700+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-420+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+ */
+                //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2500+plataforminha[1].width/2, iniciodoLvl.y-320+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
+                                                              
+                //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
                 
                 initGame();
-                criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
-                criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
+               // criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
+              //  criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
                 criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
-                criarzubat(bglvl1.width, OIAOIdle.width, OIAOIdle.height, zubat);
+                
                 
                 criouCorpos = true;
             }
@@ -893,13 +897,18 @@ int main(){
             BeowulfIA();
             //drawPhysicsEdge();
             DrawTexture(chao3,0,screenHeight*80/100,WHITE);
-           DrawTexture(chao3,chao3.width,screenHeight*80/100,WHITE);    
+            DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
+            DrawTexture(plataformas2[1], iniciodoLvl.x+3600, iniciodoLvl.y-180, WHITE);
+            DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
+            DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
             
-            //DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
-            //DrawTexture(plataformas2[1], iniciodoLvl.x+3600, iniciodoLvl.y-180, WHITE);
-            //DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
-            //DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
-            //DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
+            
+             
+            DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
+            
+            
+          
+
             
           //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
           // if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
@@ -1204,10 +1213,10 @@ void destroyAllBodies(){
     ResetPhysics();
 }
 
-void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, GameObject* esqueleto) {
+void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, GameObject* esqueleto, int posicaox) {
     
     for(int i =0;i<3;i++){
-        esqueleto[i].rec.x = rand() % bglvl_width;
+        esqueleto[i].rec.x = posicaox;
         esqueleto[i].rec.y = player.rec.y;
         esqueleto[i].rec.height=sklt_width;
         esqueleto[i].rec.width=sklt_height/11;
@@ -1372,7 +1381,7 @@ void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter){
             }
         }
     }
-    void criarzubat(int bglvl_width, int OIAO_height, int OIAO_width, GameObject* zubat) {
+ void criarzubat(int bglvl_width, int OIAO_height, int OIAO_width, GameObject* zubat) {
     
     for(int i =0;i<3;i++){
        zubat[i].rec.x = rand() % bglvl_width;
@@ -1454,7 +1463,6 @@ void ZubatsIA(GameObject* zubat, Texture2D bglvl1, int framesCounter){
             }
         }
     }
-
 void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
         
 
@@ -1528,6 +1536,10 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
         destroyAllBodies();
         criouCorpos = 0;
         morreu = 0;
+        aparece_pilar = 0;
+        pegou_pocao = 0;
+        aparecefase2 = 0;
+        
     }
     
 
