@@ -947,7 +947,7 @@ int main(){
 
             drawHearts();
             
-            DrawRectangle(screenWidth*40/100,120, beowulf.vida, 18, (Color){122,0,0,255});
+            DrawRectangle(screenWidth*38/100+26,120, beowulf.vida, 18, (Color){122,0,0,255});
             DrawTexture(health_bar, screenWidth*38/100,110, WHITE);
             DrawTextEx(vikingFont, "BEOWULF", (Vector2){screenWidth*44/100, 150}, 20,0,WHITE);
 
