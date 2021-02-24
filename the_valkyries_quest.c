@@ -88,6 +88,7 @@ int sobe = true;
     
 int framesCounter = 0;
 static int pegou_pocao = 0;
+static int pegou_pocao_atk = 0;
 
 static int aparecefase2 = 0;
   
@@ -328,6 +329,11 @@ int main(){
     Texture2D pocao[2] = {
         LoadTexture("imagens/itens/pocao.png"),
         LoadTexture("imagens/itens/pocao.png"),
+        
+    };
+    Texture2D pocao_atk[2] = {
+        LoadTexture("imagens/itens/pocao_atk.png"),
+        LoadTexture("imagens/itens/pocao_atk.png"),
         
     };
     
@@ -763,7 +769,6 @@ int main(){
              
             
             
-            
 
             
           //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
@@ -938,16 +943,26 @@ int main(){
              
             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
             
-            
-          
-
-            
           //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
           // if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
           //  if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+7000, iniciodoLvl.y-35, espinhos[1].width*13.5f, espinhos[1].height*60/100}))  player.vida-=1;
             if (player.vida < 0.25) {
                 player.mode = 6;
                 morreu = 1;
+            }
+            
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+1920, iniciodoLvl.y-100, pocao_atk[1].width*1.0f, pocao_atk[1].height*60/100}) && pegou_pocao_atk==0) {
+                if (player.vida < 40) {
+                    player.vida+=8;
+                    if (player.vida > 40) player.vida = 40;
+                }
+                PlaySound(som_pocao);
+                pegou_pocao_atk = 1; 
+                
+            }
+            
+            if (pegou_pocao_atk == 0) {
+                DrawTexture(pocao_atk[1], iniciodoLvl.x+1920, iniciodoLvl.y-32, WHITE);
             }
 
   
@@ -1011,9 +1026,12 @@ int main(){
                         }
                     }
                 }
-                
+//hildaAttack
                 if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
                     beowulf.vida-=1;
+                    if(pegou_pocao_atk == 1){
+                        beowulf.vida -=2;
+                    }
                     beowulf.color = (Color){255,0,0,170};
                 } else {
                     beowulf.color = WHITE;
@@ -1673,7 +1691,7 @@ void BeowulfIA() {
             DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/8)*beowulf.frames, 0, (beowulfSlash.width/8)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
             
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
-                player.vida -= 14;
+                player.vida -= 9;
             }
             if(beowulf.frames>=7) {
                 beowulf.mode = 0;
