@@ -177,6 +177,7 @@ int main(){
     Font superMario = LoadFont("Super-Mario-World.ttf");
     zeldaMus = LoadMusicStream("som/musica_do_game1.ogg");
     sound_hilda_atk = LoadSound("som/ha.ogg");
+    SetSoundVolume(sound_hilda_atk, 0.2f);
     som_pocao = LoadSound("som/som_pocao.wav");
     
     
@@ -326,7 +327,7 @@ int main(){
     beowulfWalk = LoadTexture("imagens/beowulf/resizedcom131/beowulf-walk-resized1.png");
     beowulfAttack = LoadTexture("imagens/beowulf/resizedcom131/beowulf-attack-resized1.png");
     beowulfDashAttack = LoadTexture("imagens/beowulf/resizedcom131/beowulf-dash-attack-resized1.png");
-    beowulfSlash = LoadTexture("imagens/beowulf/beowulf-slash.png");
+    beowulfSlash = LoadTexture("imagens/beowulf/resizedcom131/beowulf-slash-resized1.png");
     beowulfStomp = LoadTexture("imagens/beowulf/beowulf-ground-stomp.png");
     beowulfDeath = LoadTexture("imagens/beowulf/beowulf-death.png");
     
@@ -342,6 +343,7 @@ int main(){
     mushroomHit = LoadTexture("imagens/cogumelo/Take Hit.png");
     
     heart = LoadTexture("imagens/heart_animated_2.png");
+    Texture2D health_bar = LoadTexture("imagens/health_bar_decoration.png");
 
     Texture2D chao1 = LoadTexture("imagens/cenario/chao1.png");
     
@@ -619,7 +621,8 @@ int main(){
                         
                     }
                 }
-                player.max_frames = 12;
+             
+             player.max_frames = 12;
                 
             }
               
@@ -915,7 +918,11 @@ int main(){
             EndMode2D();
 
             drawHearts();
-            // int esqueleto[i].frames;
+            
+            DrawRectangle(screenWidth*40/100,120, beowulf.vida, 18, (Color){122,0,0,255});
+            DrawTexture(health_bar, screenWidth*38/100,110, WHITE);
+            DrawTextEx(vikingFont, "BEOWULF", (Vector2){screenWidth*44/100, 150}, 20,0,WHITE);
+
             DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
 
             BeginMode2D(camera);
@@ -965,6 +972,14 @@ int main(){
                         }
                     }
                 }
+                
+                if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
+                    beowulf.vida-=1;
+                    beowulf.color = (Color){255,0,0,170};
+                } else {
+                    beowulf.color = WHITE;
+                }
+
                 player.max_frames = 12;
             }
             else if (player.mode == 4) {
@@ -1137,7 +1152,7 @@ void movement(){
     
     camera.target = (Vector2){player.body->position.x, screenHeight/1.8f};   
 
-    if((IsKeyReleased(KEY_RIGHT) || IsKeyReleased(KEY_LEFT))) player.mode = 0;
+    if(((IsKeyReleased(KEY_RIGHT) || IsKeyReleased(KEY_LEFT))) && player.mode != 3) player.mode = 0;
     
     //if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN)) player.body->velocity.y = 0;
     //if (!IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) player.body->velocity.x = 0;
@@ -1460,6 +1475,8 @@ void criarBeowulf(int beowulf_height, int beowulf_width, Vector2 iniciodoLvl) {
     beowulf.enabled = true;
     beowulf.frames = 0;
     beowulf.orientation = 1;
+    beowulf.color = WHITE;
+    beowulf.vida = 274;
     
 
     beowulf.body = CreatePhysicsBodyRectangle((Vector2){beowulf.rec.x, beowulf.rec.y}, beowulf.rec.width, beowulf.rec.height, 1);
@@ -1471,12 +1488,12 @@ void BeowulfIA() {
         if(beowulf.mode == 0) {
             //beowulfWalk
             if(beowulf.body->velocity.x>(float){0.03f} || beowulf.body->velocity.x<(float){-0.03f}) {
-                DrawTextureRec(beowulfWalk, (Rectangle){(beowulfWalk.width/4)*beowulf.frames, 0, (beowulfWalk.width/4)*beowulf.orientation,beowulfWalk.height},(Vector2){beowulf.body->position.x-beowulf.rec.width/2, beowulf.body->position.y-beowulf.rec.height/2}, WHITE);
+                DrawTextureRec(beowulfWalk, (Rectangle){(beowulfWalk.width/4)*beowulf.frames, 0, (beowulfWalk.width/4)*beowulf.orientation,beowulfWalk.height},(Vector2){beowulf.body->position.x-beowulf.rec.width/2, beowulf.body->position.y-beowulf.rec.height/1.35f}, beowulf.color);
                 beowulf.max_frames = 4;
             }
             //beowulfIdle    
             else {
-                DrawTextureRec(beowulfIdle, (Rectangle){(beowulfIdle.width/3)*beowulf.frames, 0, (beowulfIdle.width/3)*beowulf.orientation,beowulfIdle.height},(Vector2){beowulf.body->position.x-beowulf.rec.width/2, beowulf.body->position.y-beowulf.rec.height/2}, WHITE);
+                DrawTextureRec(beowulfIdle, (Rectangle){(beowulfIdle.width/3)*beowulf.frames, 0, (beowulfIdle.width/3)*beowulf.orientation,beowulfIdle.height},(Vector2){beowulf.body->position.x-beowulf.rec.width/2, beowulf.body->position.y-beowulf.rec.height/2}, beowulf.color);
                 beowulf.max_frames = 3;
             }
     
@@ -1493,73 +1510,103 @@ void BeowulfIA() {
                 beowulf.orientation = -1;
             }
         }
+
         //beowulfAttack
         if(beowulf.mode == 1) {
             beowulf.max_frames = 6;
             
-            DrawTextureRec(beowulfAttack, (Rectangle){(beowulfAttack.width/6)*beowulf.frames, 0, (beowulfAttack.width/6)*beowulf.orientation,beowulfAttack.height},(Vector2){beowulf.body->position.x-(beowulfAttack.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+            DrawTextureRec(beowulfAttack, (Rectangle){(beowulfAttack.width/6)*beowulf.frames, 0, (beowulfAttack.width/6)*beowulf.orientation,beowulfAttack.height},(Vector2){beowulf.body->position.x-(beowulfAttack.width/6)/2, beowulf.body->position.y-beowulf.rec.height}, beowulf.color);
             
             if(beowulf.frames == 4) { //? o que é isso
                 if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
                     player.vida -= 6;
                 }
             }
+            if(beowulf.frames>=5) beowulf.mode = 0;
         }
+        //DrawRectangle(beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 60, beowulf.rec.height, WHITE);
         //beowulfDashAttack
         if(beowulf.mode == 2) {
             beowulf.max_frames = 1;
-            
-            DrawTextureRec(beowulfDashAttack, (Rectangle){(beowulfDashAttack.width)*beowulf.frames, 0, (beowulfDashAttack.width)*beowulf.orientation,beowulfDashAttack.height},(Vector2){beowulf.body->position.x-(beowulfDashAttack.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+            static int counterDash = 0;
+            counterDash++;
+            beowulf.body->velocity.x=1.2f*beowulf.orientation;
+            DrawTextureRec(beowulfDashAttack, (Rectangle){(beowulfDashAttack.width)*beowulf.frames, 0, (beowulfDashAttack.width)*beowulf.orientation,beowulfDashAttack.height},(Vector2){beowulf.body->position.x-(beowulfDashAttack.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
             
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
-                player.vida -= 10;
+                player.vida -= 5;
             }
+            if(counterDash>=25) {
+                beowulf.mode = 0;
+                counterDash=0;
+                }
         }
-        
+        static bool projetil = false;
         //beowulfSlash
         if(beowulf.mode == 3) {
-            beowulf.max_frames = 9; //?
+            beowulf.max_frames = 8; //?
             
-            DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/9)*beowulf.frames, 0, (beowulfSlash.width/9)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+            DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/8)*beowulf.frames, 0, (beowulfSlash.width/8)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
             
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
                 player.vida -= 14;
             }
+            if(beowulf.frames>=7) {
+                beowulf.mode = 0;
+                projetil = true;
+                }
         }  
         
+        if(projetil == true){
+            static int projPosx = 0;
+            DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/8)*7, 0, (beowulfSlash.width/8)*beowulf.orientation,beowulfSlash.height}, (Vector2){beowulf.body->position.x+projPosx*beowulf.orientation, beowulf.body->position.y-80}, WHITE);
+            if(CheckCollisionRecs(player.rec, (Rectangle){beowulf.body->position.x+projPosx*beowulf.orientation, beowulf.body->position.y-80, (beowulfSlash.width/8),beowulfSlash.height})) player.vida -= 0.5f;
+            projPosx+=14;
+            if(projPosx>=500){
+                projPosx=0;
+                projetil = false;
+            }
+        }
+
         //beowulfStomp
         if(beowulf.mode == 4) {
             beowulf.max_frames = 10;
             
-           DrawTextureRec(beowulfStomp, (Rectangle){(beowulfStomp.width/9)*beowulf.frames, 0, (beowulfStomp.width/9)*beowulf.orientation,beowulfStomp.height},(Vector2){beowulf.body->position.x-(beowulfStomp.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+           DrawTextureRec(beowulfStomp, (Rectangle){(beowulfStomp.width/9)*beowulf.frames, 0, (beowulfStomp.width/9)*beowulf.orientation,beowulfStomp.height},(Vector2){beowulf.body->position.x-(beowulfStomp.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
             
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
                 player.vida -= 18;
             }
+            if(beowulf.frames>=9) beowulf.mode = 0;
         }
         
         //beowulfDeath
         if(beowulf.mode == 5) {
             beowulf.max_frames = 1;
             
-            DrawTextureRec(beowulfDeath, (Rectangle){(beowulfDeath.width/9)*beowulf.frames, 0, (beowulfDeath.width/9)*beowulf.orientation,beowulfDeath.height},(Vector2){beowulf.body->position.x-(beowulfDeath.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
+            DrawTextureRec(beowulfDeath, (Rectangle){(beowulfDeath.width/9)*beowulf.frames, 0, (beowulfDeath.width/9)*beowulf.orientation,beowulfDeath.height},(Vector2){beowulf.body->position.x-(beowulfDeath.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
         }
         
         //atacar
-        if(abs(beowulf.body->position.x-player.body->position.x)<beowulf.rec.width && beowulf.mode != 1 && beowulf.mode != 2) {
+        if(abs(beowulf.body->position.x-player.body->position.x)<beowulf.rec.width && beowulf.mode ==0) {
             beowulf.mode = 1;
             beowulf.max_frames = 6;
             beowulf.frames = 0;
         }
-        
-        
-        
-        DrawText(FormatText("%i", beowulf.mode), 400,200,20,WHITE);
+        if(((beowulf.body->position.x-500 < player.body->position.x && beowulf.body->position.x-498 > player.body->position.x) ||
+            (beowulf.body->position.x+500 > player.body->position.x && beowulf.body->position.x+498 < player.body->position.x))){
+                if((rand() % 101) > 60) beowulf.mode = 2; else if((rand() % 101)>50) beowulf.mode = 3;
+            }
+
+
         if(framesCounter>=(60/8)){
             beowulf.frames++;
             if(beowulf.frames>=beowulf.max_frames) beowulf.frames = 0;
         }
         
+        beowulf.rec.x = beowulf.body->position.x-beowulf.rec.width/2;
+        beowulf.rec.y = beowulf.body->position.y-beowulf.rec.height/2;
+
         //beowulfAttack
         //if(beowulf.mode == 1) {
             //DrawTextureRec(beowulfAttack, (Rectangle){(beowulfAttack.width/6)*beowulf.frames, 0, (beowulfAttack.width/6)*beowulf.orientation,beowulfAttack.height},(Vector2){beowulf.body->position.x-(beowulfAttack.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, WHITE);
