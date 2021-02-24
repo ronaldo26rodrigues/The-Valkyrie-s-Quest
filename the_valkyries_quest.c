@@ -483,7 +483,7 @@ int main(){
             //DrawRectangleRec((Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*14.5f, espinhos[1].height*60/100}, (Color){255,0,0,100});
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+2300, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
             
-         //   if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5000, iniciodoLvl.y-180, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5000, iniciodoLvl.y-180, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
             
             
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+6100, iniciodoLvl.y-100, portal[1].width*1.0f, portal[1].height*60/100}) ) {
@@ -757,7 +757,7 @@ int main(){
                
                 
             }
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4250, iniciodoLvl.y-35, espinhos[1].width*10.0f, espinhos[1].height*60/100}))  player.vida-=1;
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4250, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
              if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+3600, iniciodoLvl.y-100, chao2.width*1.0f, chao2.height*60/100}) && aparecefase2==0) {
                 
                 DestroyPhysicsBody(GetPhysicsBody(1));
