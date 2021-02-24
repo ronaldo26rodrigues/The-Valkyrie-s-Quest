@@ -505,11 +505,16 @@ int main(){
             
             
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             if(CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
                 if (player.vida < 40) {
                     player.vida+=2;
                     if (player.vida > 40) player.vida = 40;
                 }
+=======
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
+                
+>>>>>>> Stashed changes
 =======
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
                 
@@ -533,6 +538,9 @@ int main(){
                         
                     }
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto, rand() % 700+5100);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             }
             
