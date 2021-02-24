@@ -348,7 +348,7 @@ int main(){
     beowulfDashAttack = LoadTexture("imagens/beowulf/beowulf-dash-attack.png");
     beowulfSlash = LoadTexture("imagens/beowulf/beowulf-slash.png");
     beowulfStomp = LoadTexture("imagens/beowulf/beowulf-ground-stomp.png");
-    beowulfDeath = LoadTexture("imagens/beowulf/beowulf-death.png");
+    beowulfDeath = LoadTexture("imagens/beowulf/beowulf-deathteste1.png"); //teste
     
     skeletonIdle = LoadTexture("imagens/esqueleto/Skeleton Idle.png");
     skeletonAtk = LoadTexture("imagens/esqueleto/Skeleton Attack.png");
@@ -408,7 +408,6 @@ int main(){
                 if(player.mode!=6) currentFrame = 0;
                 if(player.mode == 3 || player.mode == 4 || player.mode == 5) player.mode = 0;
                 }
-            
         }
 
         
@@ -481,8 +480,7 @@ int main(){
                 destroyAllBodies();
             level++;
             criouCorpos = false;
-               
-                
+
             }
             
 
@@ -494,8 +492,7 @@ int main(){
                     if (player.vida > 40) player.vida = 40;
                 }
                 PlaySound(som_pocao);
-                pegou_pocao = 1; 
-                
+                pegou_pocao = 1;  
             }
             
             if (pegou_pocao == 0) {
@@ -505,7 +502,7 @@ int main(){
             
             
             
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
+            if(CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
                 if (player.vida < 40) {
                     player.vida+=2;
                     if (player.vida > 40) player.vida = 40;
@@ -518,11 +515,8 @@ int main(){
                
                 aparece_pilar = 1;
                 for(int i=0;i<4;i++){
-                        
-                            if(esqueleto[i].body->enabled==true) DestroyPhysicsBody(esqueleto[i].body);
-                        
-                        
-                    }
+                    if(esqueleto[i].body->enabled==true) DestroyPhysicsBody(esqueleto[i].body);
+                }
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto, rand() % 900+5000);
             }
             
@@ -633,7 +627,7 @@ int main(){
             else if (player.mode == 6) {
                 if(currentFrame>=10) {
                     currentFrame=10;
-                    }
+                }
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 
@@ -999,7 +993,7 @@ int main(){
                 }
                 
                 if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
-                    beowulf.vida-=1;
+                    beowulf.vida-= 10; //de teste
                     beowulf.color = (Color){255,0,0,170};
                 } else {
                     beowulf.color = WHITE;
@@ -1632,7 +1626,7 @@ void BeowulfIA() {
                     player.vida -= 6;
                 }
             }
-            if(beowulf.frames>=5) beowulf.mode = 0;
+            if(beowulf.frames >= 5) beowulf.mode = 0;
         }
         //DrawRectangle(beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 60, beowulf.rec.height, WHITE);
         //beowulfDashAttack
@@ -1648,8 +1642,8 @@ void BeowulfIA() {
             }
             if(counterDash>=25) {
                 beowulf.mode = 0;
-                counterDash=0;
-                }
+                counterDash = 0;
+            }
         }
         static bool projetil = false;
         //beowulfSlash
@@ -1692,9 +1686,20 @@ void BeowulfIA() {
         
         //beowulfDeath
         if(beowulf.mode == 5) {
-            beowulf.max_frames = 1;
+            beowulf.max_frames = 6;
+
+            DrawTextureRec(beowulfDeath, (Rectangle){(beowulfDeath.width/6)*beowulf.frames, 0, (beowulfDeath.width/6)*beowulf.orientation,beowulfDeath.height},(Vector2){beowulf.body->position.x-(beowulfDeath.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.85f}, beowulf.color);
             
-            DrawTextureRec(beowulfDeath, (Rectangle){(beowulfDeath.width/9)*beowulf.frames, 0, (beowulfDeath.width/9)*beowulf.orientation,beowulfDeath.height},(Vector2){beowulf.body->position.x-(beowulfDeath.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
+            if(beowulf.frames > 5) {
+                beowulf.frames = 6;
+            }
+            
+        }
+        
+        //morrer
+        if(beowulf.vida <= 0 && beowulf.mode != 5) {
+            beowulf.mode = 5;
+            beowulf.frames = 0;
         }
         
         //atacar
@@ -1713,6 +1718,7 @@ void BeowulfIA() {
             beowulf.frames++;
             if(beowulf.frames>=beowulf.max_frames) beowulf.frames = 0;
         }
+        
         
         beowulf.rec.x = beowulf.body->position.x-beowulf.rec.width/2;
         beowulf.rec.y = beowulf.body->position.y-beowulf.rec.height/2;
