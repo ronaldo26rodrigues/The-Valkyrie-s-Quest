@@ -1182,7 +1182,7 @@ void movement(){
         player.caiu = true;
         player.mode = 0;
     }
-    if(IsKeyPressed(KEY_UP) && player.body->isGrounded==true){
+    if(IsKeyPressed(KEY_UP) && (player.body->isGrounded==true || player.rec.y<=510.0f)){
         player.body->velocity.y = -2.25f;
         player.mode = 2;
         player.caiu = false;
@@ -1227,7 +1227,8 @@ void movement(){
     
     player.rec.x = player.body->position.x-player.rec.width/2;
     player.rec.y = player.body->position.y-player.rec.height/2;
-            
+
+    if(player.rec.y<=510.0f) player.body->isGrounded=true;        
     
 }
 
@@ -1641,7 +1642,7 @@ void BeowulfIA() {
         if(beowulf.mode == 0) {
             //beowulfWalk
             if(beowulf.body->velocity.x>(float){0.03f} || beowulf.body->velocity.x<(float){-0.03f}) {
-                DrawTextureRec(beowulfWalk, (Rectangle){(beowulfWalk.width/4)*beowulf.frames, 0, (beowulfWalk.width/4)*beowulf.orientation,beowulfWalk.height},(Vector2){beowulf.body->position.x-beowulf.rec.width/2, beowulf.body->position.y-beowulf.rec.height/1.35f}, beowulf.color);
+                DrawTextureRec(beowulfWalk, (Rectangle){(beowulfWalk.width/4)*beowulf.frames, 0, (beowulfWalk.width/4)*beowulf.orientation,beowulfWalk.height},(Vector2){beowulf.rec.x-(beowulfWalk.width/4)/3.4f, beowulf.body->position.y-beowulf.rec.height/1.35f}, beowulf.color);
                 beowulf.max_frames = 4;
             }
             //beowulfIdle    
@@ -1672,7 +1673,7 @@ void BeowulfIA() {
             
             if(beowulf.frames == 4) {
                 if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
-                    player.vida -= 6;
+                    player.vida -= 2;
                 }
             }
             if(beowulf.frames>=5) beowulf.mode = 0;
