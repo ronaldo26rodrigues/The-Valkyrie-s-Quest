@@ -952,10 +952,7 @@ int main(){
             }
             
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+1920, iniciodoLvl.y-100, pocao_atk[1].width*1.0f, pocao_atk[1].height*60/100}) && pegou_pocao_atk==0) {
-                if (player.vida < 40) {
-                    player.vida+=8;
-                    if (player.vida > 40) player.vida = 40;
-                }
+             
                 PlaySound(som_pocao);
                 pegou_pocao_atk = 1; 
                 
@@ -1030,7 +1027,7 @@ int main(){
                 if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
                     beowulf.vida-=1;
                     if(pegou_pocao_atk == 1){
-                        beowulf.vida -=2;
+                        beowulf.vida -=1.5;
                     }
                     beowulf.color = (Color){255,0,0,170};
                 } else {
@@ -1676,7 +1673,7 @@ void BeowulfIA() {
             DrawTextureRec(beowulfDashAttack, (Rectangle){(beowulfDashAttack.width)*beowulf.frames, 0, (beowulfDashAttack.width)*beowulf.orientation,beowulfDashAttack.height},(Vector2){beowulf.body->position.x-(beowulfDashAttack.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
             
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
-                player.vida -= 5;
+                player.vida -=5;
             }
             if(counterDash>=25) {
                 beowulf.mode = 0;
@@ -1691,7 +1688,7 @@ void BeowulfIA() {
             DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/8)*beowulf.frames, 0, (beowulfSlash.width/8)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
             
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
-                player.vida -= 9;
+                player.vida -=9;
             }
             if(beowulf.frames>=7) {
                 beowulf.mode = 0;
