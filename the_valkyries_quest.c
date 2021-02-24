@@ -904,7 +904,7 @@ int main(){
                // criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
               //  criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
                 criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
-                
+                criarzubat(bglvl1.width, OIAOIdle.width, OIAOIdle.height, zubat);
                 
                 criouCorpos = true;
             }
@@ -919,6 +919,7 @@ int main(){
             DrawTexturePro(bglvl3, (Rectangle){0,0, bglvl3.width, bglvl3.height}, (Rectangle){0,(screenHeight*80/100)-bglvl3.height,bglvl1.width*2, bglvl3.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
             //esqueletosIA(esqueleto, bglvl2, framesCounter);
             //CogumelosIA(cogumelo, bglvl2, framesCounter);
+            ZubatsIA(zubat, bglvl3, framesCounter);
             BeowulfIA();
             //drawPhysicsEdge();
             DrawTexture(chao3,0,screenHeight*80/100,WHITE);
