@@ -719,6 +719,9 @@ int main(){
             DrawTexture(plataforminha[1], iniciodoLvl.x+4000, iniciodoLvl.y-240, WHITE);
             DrawTexture(plataforminha[1], iniciodoLvl.x+5235, iniciodoLvl.y-240, WHITE);
             
+            DrawTexture(portal[1], iniciodoLvl.x+6000, iniciodoLvl.y-180, WHITE);
+            
+            
             for(int i=0;i<12;i++){
                 DrawTexture(espinhos[1], iniciodoLvl.x+4250+(60*i), iniciodoLvl.y-60, WHITE);
                 
@@ -726,8 +729,15 @@ int main(){
 
             
             
-            
-            //if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4250, iniciodoLvl.y-35, espinhos[1].width*10.0f, espinhos[1].height*60/100}))  player.vida-=1;
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+6100, iniciodoLvl.y-100, portal[1].width*1.0f, portal[1].height*60/100}) ) {
+                
+                destroyAllBodies();
+            level++;
+            criouCorpos = false;
+               
+                
+            }
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4250, iniciodoLvl.y-35, espinhos[1].width*10.0f, espinhos[1].height*60/100}))  player.vida-=1;
              if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+3600, iniciodoLvl.y-100, chao2.width*1.0f, chao2.height*60/100}) && aparecefase2==0) {
                 
                 DestroyPhysicsBody(GetPhysicsBody(1));
@@ -743,6 +753,9 @@ int main(){
                   CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-240+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4750+plataformas2[1].width/2, iniciodoLvl.y-350+plataformas2[1].height/2}, plataformas2[1].width, plataformas2[1].height,1)->enabled=false;
                
+                DestroyPhysicsBody(player.body);
+                player.body = CreatePhysicsBodyRectangle((Vector2){player.rec.x+player.rec.width/2, player.rec.y+player.rec.height/2}, player.rec.width, player.rec.height, 1);
+                player.body->freezeOrient=true;
                 aparecefase2 = 1;
             }
             
@@ -945,7 +958,7 @@ int main(){
 
             drawHearts();
             
-            DrawRectangle(screenWidth*40/100,120, beowulf.vida, 18, (Color){122,0,0,255});
+            DrawRectangle(screenWidth*38/100+26,120, beowulf.vida, 18, (Color){122,0,0,255});
             DrawTexture(health_bar, screenWidth*38/100,110, WHITE);
             DrawTextEx(vikingFont, "BEOWULF", (Vector2){screenWidth*44/100, 150}, 20,0,WHITE);
 
