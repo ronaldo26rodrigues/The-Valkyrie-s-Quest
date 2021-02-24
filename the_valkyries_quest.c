@@ -93,8 +93,6 @@ static int aparecefase2 = 0;
   
 static int aparece_pilar = 0;
 
-static int some_pilar = 0;
-
 int morreu = 0;
 //-----------------
 
@@ -504,16 +502,11 @@ int main(){
             
             
             
-<<<<<<< Updated upstream
             if(CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
                 if (player.vida < 40) {
                     player.vida+=2;
                     if (player.vida > 40) player.vida = 40;
                 }
-=======
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5050, iniciodoLvl.y-170, pilar[1].width*1.0f, pilar[1].height*60/100}) && aparece_pilar==0) {
-                
->>>>>>> Stashed changes
                 DestroyPhysicsBody(GetPhysicsBody(2));
                 DestroyPhysicsBody(GetPhysicsBody(3));
                 
@@ -522,60 +515,16 @@ int main(){
                
                 aparece_pilar = 1;
                 for(int i=0;i<4;i++){
-<<<<<<< Updated upstream
                     if(esqueleto[i].body->enabled==true) DestroyPhysicsBody(esqueleto[i].body);
                 }
                 criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto, rand() % 900+5000);
-=======
-                        
-                            if(esqueleto[i].body->enabled==true) DestroyPhysicsBody(esqueleto[i].body);
-                        
-                        
-                    }
-                criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto, rand() % 700+5100);
->>>>>>> Stashed changes
             }
             
-             if (aparece_pilar == 1) {
-                 
-                 
+            if (aparece_pilar == 1) {
                  
                 DrawTexture(pilar[1], iniciodoLvl.x+5000, iniciodoLvl.y-170, WHITE);
                 DrawTexture(pilar[1], iniciodoLvl.x+5900, iniciodoLvl.y-170, WHITE);
             }
-            
-            
-            if( CheckCollisionRecs(player.rec,(Rectangle){iniciodoLvl.x+5800, iniciodoLvl.y-170, chao1.width*1.0f, chao1.height*60/100}) ) {
-                
-                
-                DestroyPhysicsBody(GetPhysicsBody(6));
-                
-                
-                
-                
-                
-                
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+5200+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
-     
-                aparece_pilar = 0;
-                some_pilar = 1;
-                
-            }
-            
-            if(some_pilar == 1){
-                
-                
-                
-                
-                
-                DrawTexture(pilar[1], iniciodoLvl.x+5200, iniciodoLvl.y-170, WHITE);
-            }
-            
-            
-            
-            
-            
-           
 
             
             if (player.vida < 0.25) {
