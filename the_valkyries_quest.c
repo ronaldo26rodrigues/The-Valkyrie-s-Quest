@@ -743,6 +743,9 @@ int main(){
                   CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4000+plataforminha[1].width/2, iniciodoLvl.y-240+plataforminha[1].height/2}, plataforminha[1].width, plataforminha[1].height,1)->enabled=false;
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+4750+plataformas2[1].width/2, iniciodoLvl.y-350+plataformas2[1].height/2}, plataformas2[1].width, plataformas2[1].height,1)->enabled=false;
                
+                DestroyPhysicsBody(player.body);
+                player.body = CreatePhysicsBodyRectangle((Vector2){player.rec.x+player.rec.width/2, player.rec.y+player.rec.height/2}, player.rec.width, player.rec.height, 1);
+                player.body->freezeOrient=true;
                 aparecefase2 = 1;
             }
             
