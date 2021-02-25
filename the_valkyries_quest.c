@@ -1191,7 +1191,7 @@ void movement(){
         player.max_frames = 8;
         player.orientation = 1;
     }
-    if(IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_X))){
+    if(IsKeyDown(KEY_LEFT) && !(IsKeyDown(KEY_X)) && player.body->position.x>screenWidth/4){
         player.body->velocity.x = -player.speed;
         if(player.mode != 3 && player.mode != 4 && player.mode != 5) player.mode = 1;
         player.max_frames = 8;
@@ -1242,7 +1242,8 @@ void movement(){
 
 
     
-    camera.target = (Vector2){player.body->position.x, screenHeight/1.8f};   
+    if(player.body->position.x>screenWidth/2) camera.target = (Vector2){player.body->position.x, screenHeight/1.8f};  
+    if(aparece_pilar == 1)  camera.target = (Vector2){iniciodoLvl.x+5450, screenHeight/1.8f};
 
     if(((IsKeyReleased(KEY_RIGHT) || IsKeyReleased(KEY_LEFT))) && player.mode != 3) player.mode = 0;
     
@@ -1767,6 +1768,8 @@ void BeowulfIA() {
              if(beowulf.frames > 5) {
                 beowulf.frames = 6;
             }
+            beowulf.mode = 5;
+            beowulf.enabled = false;
         }
         
         //atacar
@@ -1803,7 +1806,24 @@ void BeowulfIA() {
         beowulf.rec.x = beowulf.body->position.x-beowulf.rec.width/2;
         beowulf.rec.y = beowulf.body->position.y-beowulf.rec.height/2;
 
-    } 
+    } else {
+        //beowulfDeath
+        if(beowulf.mode == 5) {
+            beowulf.max_frames = 6;
+            
+            DrawTextureRec(beowulfDeath, (Rectangle){(beowulfDeath.width/6)*beowulf.frames, 0, (beowulfDeath.width/6)*beowulf.orientation,beowulfDeath.height},(Vector2){beowulf.body->position.x-(beowulfDeath.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.85f}, beowulf.color);
+            
+             if(beowulf.frames > 5) {
+                beowulf.frames = 6;
+            }
+            beowulf.mode = 5;
+        }
+        if(framesCounter>=(60/8)){
+            
+            if(beowulf.frames <5){beowulf.frames++;
+            if(beowulf.frames>=beowulf.max_frames) beowulf.frames = 0;}
+        }
+    }
 }
 
 
