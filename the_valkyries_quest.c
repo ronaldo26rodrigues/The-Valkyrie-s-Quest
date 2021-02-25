@@ -515,6 +515,7 @@ int main(){
             }
             
             
+             
             
             
             
@@ -538,7 +539,7 @@ int main(){
             }
             
             if (aparece_pilar == 1) {
-                 
+                
                 DrawTexture(pilar[1], iniciodoLvl.x+5000, iniciodoLvl.y-170, WHITE);
                 DrawTexture(pilar[1], iniciodoLvl.x+5900, iniciodoLvl.y-170, WHITE);
             }
@@ -548,10 +549,23 @@ int main(){
                 DestroyPhysicsBody(GetPhysicsBody(6));
   
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3000+pilar[1].width/2, iniciodoLvl.y-170+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                
+                
+                
       
                 aparece_pilar = 0;
                 some_pilar = 1;
 
+            }
+            
+            if(some_pilar == 1){
+                if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5000, iniciodoLvl.y-35, espinhos[1].width*7.0f, espinhos[1].height*60/100}))  player.vida-=1;
+                 for(int i=0;i<8;i++){
+                
+                
+                DrawTexture(espinhos[1], iniciodoLvl.x+5000+(60*i), iniciodoLvl.y-60, WHITE);
+            }
+                
             }
 
         
