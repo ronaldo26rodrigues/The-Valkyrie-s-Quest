@@ -1196,7 +1196,10 @@ void movement(){
         currentFrame = 0;
         player.max_frames = 12;
         player.mode = 3;
-        if(currentFrame==0) PlaySound(sound_hilda_atk);
+        if((rand() % 101) > 60){
+            (currentFrame==0);
+            PlaySound(sound_hilda_atk);
+        }
     }
     
 
@@ -1703,7 +1706,7 @@ void BeowulfIA() {
             beowulf.max_frames = 8;
             
             DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/8)*beowulf.frames, 0, (beowulfSlash.width/8)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.1f}, beowulf.color);
-            
+        //rand    
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
                 player.vida -=9;
             }
