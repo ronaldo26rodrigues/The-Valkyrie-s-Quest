@@ -54,6 +54,7 @@ typedef struct GameObject {
     int frames;
     int mode;
     bool enabled;
+    clock_t cooldown;
 } GameObject;
 //-------------
 
@@ -1631,7 +1632,8 @@ void criarBeowulf(int beowulf_height, int beowulf_width, Vector2 iniciodoLvl) {
     beowulf.orientation = 1;
     beowulf.color = WHITE;
     beowulf.vida = 274;
-    
+
+    beowulf.cooldown = clock();
 
     beowulf.body = CreatePhysicsBodyRectangle((Vector2){beowulf.rec.x, beowulf.rec.y}, beowulf.rec.width, beowulf.rec.height, 1);
     beowulf.body->freezeOrient=true;
@@ -1700,7 +1702,7 @@ void BeowulfIA() {
         if(beowulf.mode == 3) {
             beowulf.max_frames = 8;
             
-            DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/8)*beowulf.frames, 0, (beowulfSlash.width/8)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.47f}, beowulf.color);
+            DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/8)*beowulf.frames, 0, (beowulfSlash.width/8)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.1f}, beowulf.color);
             
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
                 player.vida -=9;
@@ -1747,16 +1749,24 @@ void BeowulfIA() {
             beowulf.max_frames = 6;
             beowulf.frames = 0;
         }
-        if(((beowulf.body->position.x-500 < player.body->position.x && beowulf.body->position.x-498 > player.body->position.x) ||
+        /* if(((beowulf.body->position.x-500 < player.body->position.x && beowulf.body->position.x-498 > player.body->position.x) ||
             (beowulf.body->position.x+500 > player.body->position.x && beowulf.body->position.x+498 < player.body->position.x))){
                 if((rand() % 101) > 60) beowulf.mode = 2; else if((rand() % 101)>50) beowulf.mode = 3;
-            }
+            } */
 
+        if((clock()-beowulf.cooldown)/500==5){
+            beowulf.mode = 3;
+        }
+        if((clock()-beowulf.cooldown)/500==8){
+            if(abs(player.body->position.x-beowulf.body->position.x)>520) beowulf.mode = 2;
+            beowulf.cooldown = clock();
+        }
 
         if(framesCounter>=(60/8)){
             beowulf.frames++;
             if(beowulf.frames>=beowulf.max_frames) beowulf.frames = 0;
         }
+        
         
         beowulf.rec.x = beowulf.body->position.x-beowulf.rec.width/2;
         beowulf.rec.y = beowulf.body->position.y-beowulf.rec.height/2;
