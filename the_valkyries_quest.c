@@ -646,7 +646,7 @@ int main(){
              player.max_frames = 12;
                 
             }
-              
+  //drawPhysicsEdge            
             else if (player.mode == 4) {
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){hildaDash[currentFrame].width/4.4f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
@@ -818,7 +818,7 @@ int main(){
 
             drawHearts();
             // int esqueleto[i].frames;
-            DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
+            //DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
@@ -900,7 +900,7 @@ int main(){
                 }
                player.max_frames = 12;  
             }
-            drawPhysicsEdge();
+            //drawPhysicsEdge();
             DrawTexture(chao2,0,screenHeight*80/100,WHITE);
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
@@ -925,7 +925,7 @@ int main(){
                 
                 CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
                 
-                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2400+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
+                CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+2750+pilar[1].width/2, iniciodoLvl.y-320+pilar[1].height/2}, pilar[1].width, pilar[1].height,1)->enabled=false;
 
 
                 //CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
@@ -1102,7 +1102,7 @@ int main(){
                 }
                player.max_frames = 12;  
             }
-            drawPhysicsEdge();
+            //drawPhysicsEdge();
             DrawTexture(chao3,0,screenHeight*80/100,WHITE);
 
             if(IsKeyPressed(KEY_MINUS)) player.vida--;
@@ -1285,27 +1285,27 @@ void drawHearts(){
 }
 
 
-void drawPhysicsEdge(){
-    int bodiesCount = GetPhysicsBodiesCount();
-    for (int i = 0; i < bodiesCount; i++)
-    {
-        PhysicsBody body = GetPhysicsBody(i);
-        if (body != NULL)
-        {
-            int vertexCount = GetPhysicsShapeVerticesCount(i);
-            for (int j = 0; j < vertexCount; j++)
-            {
+//void drawPhysicsEdge(){
+    //int bodiesCount = GetPhysicsBodiesCount();
+    //for (int i = 0; i < bodiesCount; i++)
+    //{
+        //PhysicsBody body = GetPhysicsBody(i);
+        //if (body != NULL)
+        //{
+            //int vertexCount = GetPhysicsShapeVerticesCount(i);
+            //for (int j = 0; j < vertexCount; j++)
+            //{
                 // Get physics bodies shape vertices to draw lines
                 // Note: GetPhysicsShapeVertex() already calculates rotation transformations
-                Vector2 vertexA = GetPhysicsShapeVertex(body, j);
-                int jj = (((j + 1) < vertexCount) ? (j + 1) : 0);   // Get next vertex or first to close the shape
-                Vector2 vertexB = GetPhysicsShapeVertex(body, jj);
+                //Vector2 vertexA = GetPhysicsShapeVertex(body, j);
+                //int jj = (((j + 1) < vertexCount) ? (j + 1) : 0);   // Get next vertex or first to close the shape
+                //Vector2 vertexB = GetPhysicsShapeVertex(body, jj);
 
-                DrawLineV(vertexA, vertexB, GREEN);     // Draw a line between two vertex positions
-            }
-        }
-    }
-}
+                //DrawLineV(vertexA, vertexB, GREEN);     // Draw a line between two vertex positions
+            //}
+        //}
+    //}
+//}
 
 void destroyAllBodies(){
     ResetPhysics();
