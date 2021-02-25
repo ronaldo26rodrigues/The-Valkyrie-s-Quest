@@ -97,6 +97,9 @@ static int aparece_pilar = 0;
 
 static int some_pilar = 0;
 
+static int trava_camera = 0;
+
+
 
 
 int morreu = 0;
@@ -493,6 +496,7 @@ int main(){
                 destroyAllBodies();
             level++;
             criouCorpos = false;
+            
                
                 
             }
@@ -555,6 +559,20 @@ int main(){
       
                 aparece_pilar = 0;
                 some_pilar = 1;
+
+            }
+            
+            if( CheckCollisionRecs(player.rec,(Rectangle){iniciodoLvl.x+5500, iniciodoLvl.y-170, chao1.width*1.0f, chao1.height*60/100}) ) {
+
+
+                trava_camera = 1;
+
+            }
+            
+            if( CheckCollisionRecs(player.rec,(Rectangle){iniciodoLvl.x+6100, iniciodoLvl.y-170, chao1.width*1.0f, chao1.height*60/100}) ) {
+
+
+                trava_camera = 0;
 
             }
             
@@ -771,6 +789,7 @@ int main(){
                 destroyAllBodies();
             level++;
             criouCorpos = false;
+            
                
                 
             }
@@ -1243,7 +1262,7 @@ void movement(){
 
     
     if(player.body->position.x>screenWidth/2) camera.target = (Vector2){player.body->position.x, screenHeight/1.8f};  
-    if(aparece_pilar == 1)  camera.target = (Vector2){iniciodoLvl.x+5450, screenHeight/1.8f};
+    if(trava_camera == 1)  camera.target = (Vector2){iniciodoLvl.x+5450, screenHeight/1.8f};
 
     if(((IsKeyReleased(KEY_RIGHT) || IsKeyReleased(KEY_LEFT))) && player.mode != 3) player.mode = 0;
     
