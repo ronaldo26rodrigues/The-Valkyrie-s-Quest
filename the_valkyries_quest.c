@@ -783,6 +783,19 @@ int main(){
             }
 
             
+             if( CheckCollisionRecs(player.rec,(Rectangle){iniciodoLvl.x+5500, iniciodoLvl.y-170, chao1.width*1.0f, chao1.height*60/100}) ) {
+
+
+                trava_camera = 1;
+
+            }
+            
+             if( CheckCollisionRecs(player.rec,(Rectangle){iniciodoLvl.x+6100, iniciodoLvl.y-170, chao1.width*1.0f, chao1.height*60/100}) ) {
+
+
+                trava_camera = 0;
+
+            }
             
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+6100, iniciodoLvl.y-100, portal[1].width*1.0f, portal[1].height*60/100}) ) {
                 
