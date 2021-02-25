@@ -199,7 +199,7 @@ int main(){
     sound_hilda_atk = LoadSound("som/ha.ogg");
     SetSoundVolume(sound_hilda_atk, 0.2f);
     som_pocao = LoadSound("som/som_pocao.wav");
-    BeowulfMus = LoadMusicStream("some/musica_beowulf.ogg");
+    BeowulfMus = LoadMusicStream("som/musica_beowulf.ogg");
     
     
     hilda[0] = LoadTexture("imagens/hilda/idle/Warrior_Idle_1.png");
@@ -913,9 +913,9 @@ int main(){
             case 4:
             
             
-            PlayMusicStream(BeowulfMus);
-            UpdateMusicStream(BeowulfMus);
+            
             if(criouCorpos==false){
+                PlayMusicStream(BeowulfMus);
                 destroyAllBodies();
                 CreatePhysicsBodyRectangle((Vector2){0+chao3.width/2,(screenHeight*80/100)+chao3.height/2}, chao3.width, chao3.height, 1)->enabled=false;
                 
@@ -954,6 +954,7 @@ int main(){
                 criouCorpos = true;
             }
             
+            UpdateMusicStream(BeowulfMus);
             
             BeginMode2D(camera);
             
