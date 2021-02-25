@@ -1183,7 +1183,7 @@ void movement(){
         player.caiu = true;
         player.mode = 0;
     }
-    if(IsKeyPressed(KEY_UP) && (player.body->isGrounded==true || player.rec.y<=510.0f)){
+    if(IsKeyPressed(KEY_UP) && (player.body->isGrounded==true)){
         player.body->velocity.y = -2.25f;
         player.mode = 2;
         player.caiu = false;
@@ -1229,7 +1229,7 @@ void movement(){
     player.rec.x = player.body->position.x-player.rec.width/2;
     player.rec.y = player.body->position.y-player.rec.height/2;
 
-    if(player.rec.y<=510.0f) player.body->isGrounded=true;        
+    //if(player.rec.y<=510.0f) player.body->isGrounded=true;        
     
 }
 
