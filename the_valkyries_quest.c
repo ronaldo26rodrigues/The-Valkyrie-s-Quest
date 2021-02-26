@@ -1238,6 +1238,7 @@ int main(){
         DrawText(FormatText("%d", record), 100, 300, 30, WHITE);
 
         }
+        if(level<2) cronometro = clock();
 
         if(IsKeyPressed(KEY_PAGE_UP)) {
             destroyAllBodies();
