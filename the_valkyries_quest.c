@@ -1706,9 +1706,7 @@ void level_1() {
                     paragrafo++;
                     framesCounterText=0;
                     if(paragrafo>=1) {
-                        free(&texto);
-                        free(&framesCounterText);
-                        free(&paragrafo);
+                        
                         level++;
                         }
                 }
@@ -1731,6 +1729,10 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
         aparecefase2 = 0;
         trava_camera = 0;
         some_pilar = 0;
+         pegou_pocao_cura = 0;
+         pegou_pocao_cura2 = 0;
+         pegou_pocao_cura3 = 0;
+ 
     }
 }
 
