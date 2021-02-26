@@ -89,6 +89,8 @@ int sobe = true;
     
 int framesCounter = 0;
 static int pegou_pocao_cura = 0;
+static int pegou_pocao_cura2 = 0;
+static int pegou_pocao_cura3 = 0;
 static int pegou_pocao_atk = 0;
 
 static int aparecefase2 = 0;
@@ -337,6 +339,16 @@ int main(){
 
     };
     Texture2D pocao_cura[2] = {
+        LoadTexture("imagens/itens/pocao.png"),
+        LoadTexture("imagens/itens/pocao.png"),
+        
+    };
+    Texture2D pocao_cura2[2] = {
+        LoadTexture("imagens/itens/pocao.png"),
+        LoadTexture("imagens/itens/pocao.png"),
+        
+    };
+    Texture2D pocao_cura3[2] = {
         LoadTexture("imagens/itens/pocao.png"),
         LoadTexture("imagens/itens/pocao.png"),
         
@@ -854,18 +866,18 @@ int main(){
             }
 
             
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5235, iniciodoLvl.y-280, pocao_cura[1].width*1.0f, pocao_cura[1].height*60/100}) && pegou_pocao_cura==0) {
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5235, iniciodoLvl.y-280, pocao_cura2[1].width*1.0f, pocao_cura2[1].height*60/100}) && pegou_pocao_cura2==0) {
                 if (player.vida < 40) {
                     player.vida+=8;
                     if (player.vida > 40) player.vida = 40;
                 }
                 PlaySound(som_pocao);
-                pegou_pocao_cura = 1; 
+                pegou_pocao_cura2 = 1; 
                 
             }
             
-            if (pegou_pocao_cura == 0) {
-                DrawTexture(pocao_cura[1], iniciodoLvl.x+5235, iniciodoLvl.y-280, WHITE);
+            if (pegou_pocao_cura2 == 0) {
+                DrawTexture(pocao_cura2[1], iniciodoLvl.x+5235, iniciodoLvl.y-280, WHITE);
             }
             
             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
@@ -1085,18 +1097,18 @@ int main(){
                 DrawTexture(pocao_atk[1], iniciodoLvl.x+1920, iniciodoLvl.y-32, WHITE);
             }
             
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+1920, iniciodoLvl.y-210, pocao_cura[1].width*1.0f, pocao_cura[1].height*60/100}) && pegou_pocao_cura==0) {
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+1920, iniciodoLvl.y-210, pocao_cura3[1].width*1.0f, pocao_cura3[1].height*60/100}) && pegou_pocao_cura3==0) {
                 if (player.vida < 40) {
                     player.vida+=8;
                     if (player.vida > 40) player.vida = 40;
                 }
                 PlaySound(som_pocao);
-                pegou_pocao_cura = 1; 
+                pegou_pocao_cura3 = 1; 
                 
             }
             
-            if (pegou_pocao_cura == 0) {
-                DrawTexture(pocao_cura[1], iniciodoLvl.x+1920, iniciodoLvl.y-210, WHITE);
+            if (pegou_pocao_cura3 == 0) {
+                DrawTexture(pocao_cura3[1], iniciodoLvl.x+1920, iniciodoLvl.y-210, WHITE);
             }
 
   
