@@ -126,6 +126,8 @@ void criarBeowulf(int beowulf_height, int beowulf_width, Vector2 iniciodoLvl);
 void BeowulfIA();
 void criarzubat(int bglvl_width, int sklt_height, int sklt_width, GameObject* OIAO);
 void ZubatsIA(GameObject* OIAO, Texture2D bglvl1, int framesCounter);
+void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparencia);
+
 //--------
 
 
@@ -401,7 +403,7 @@ int main(){
     //PlayMusicStream(BeowulfMus);
     player.max_frames = 5;
     
-    while(!WindowShouldClose() && victory==false){
+    while(!WindowShouldClose()){
         
         
         
@@ -579,8 +581,6 @@ int main(){
             if(some_pilar == 1){
                 if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5000, iniciodoLvl.y-35, espinhos[1].width*7.0f, espinhos[1].height*60/100}))  player.vida-=1;
                  for(int i=0;i<8;i++){
-                
-                
                 DrawTexture(espinhos[1], iniciodoLvl.x+5000+(60*i), iniciodoLvl.y-60, WHITE);
             }
                 
@@ -664,7 +664,7 @@ int main(){
              player.max_frames = 12;
                 
             }
-  //drawPhysicsEdge            
+            //drawPhysicsEdge            
             else if (player.mode == 4) {
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){hildaDash[currentFrame].width/4.4f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
@@ -1115,9 +1115,9 @@ int main(){
                 }
                 //hildaAttack
                 if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
-                    beowulf.vida -= 1; //pra teste de morte
+                    beowulf.vida -= 100; //pra teste de morte
                     if(pegou_pocao_atk == 1){
-                        beowulf.vida -= 2
+                        beowulf.vida -= 200
                         
                         
                         ; //pra teste
@@ -1186,7 +1186,11 @@ int main(){
         if(framesCounter>=(60/8)){
             framesCounter=0;
         }
-
+        
+        if (victory == true) {
+            vencer(vikingFont, screenWidth, screenHeight, transparencia);
+        }    
+        
         //drawPhysicsEdge();
         if (morreu == 1) {
             //função de morte aqui
@@ -1501,7 +1505,7 @@ void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter){
                 if(cogumelo[i].mode==1){
                     cogumelo[i].max_frames = 4;
                     DrawTextureRec(mushroomDead, (Rectangle){(mushroomDead.width/5)*cogumelo[i].frames, 0, (mushroomDead.width/5)*cogumelo[i].orientation,mushroomDead.height},(Vector2){cogumelo[i].body->position.x-cogumelo[i].rec.width/2, cogumelo[i].body->position.y-cogumelo[i].rec.height/2}, WHITE);
-                    if(cogumelo[i].frames>=4) {
+                    if(cogumelo[i].frames >= 3) {
                         //esqueleto[i].enabled = false;
                         cogumelo[i].rec.x = rand()%bglvl1.width;
                         cogumelo[i].body = CreatePhysicsBodyRectangle((Vector2){cogumelo[i].rec.x, cogumelo[i].rec.y}, cogumelo[i].rec.width, cogumelo[i].rec.height, 1);               cogumelo[i].body->freezeOrient=true;
@@ -1612,7 +1616,6 @@ void ZubatsIA(GameObject* zubat, Texture2D bglvl1, int framesCounter){
                 zubat[i].rec.x = zubat[i].body->position.x-zubat[i].rec.width/2;
                 zubat[i].rec.y = zubat[i].body->position.y-zubat[i].rec.height/2;
                 if(framesCounter>=(60/8)){
-                    
                     zubat[i].frames++;
                     if(zubat[i].frames>=zubat[i].max_frames) zubat[i].frames=0;
                 }
@@ -1652,12 +1655,12 @@ void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
 void level_1() {
 
      
-     static int framesCounterText;
-     static int paragrafo = 0;
+    static int framesCounterText;
+    static int paragrafo = 0;
      
-     char texto[2][1000] = {"No início do mundo, não havia nada além do fogo e do gelo. No encontro destes dois elementos, surgiu a névoa primordial,\no Ginnungagap, e dela surgiu Ymir, o primeiro gigante, que daria origem para as duas raças: A raça dos Gigantes e os\nprimeiros grandes Deuses.Por estarem em constante conflito, os Deuses acabam assassinando Ymir, dando origem aos mundos.\nA árvore da vida era a responsável por portar os nove mundos, os Deuses se dividiram em dois clãs, os responsáveis pela guerra\n,Aesir, habitantes de Asgard, liderados por Bor, que passou este cargo para seu filho Odin, e infelizmente não passará para Thor,\npois sua morte já está escrita, os responsáveis pela Natureza, Vanir, habitantes de Vanaheim liderados por Frey e Freya,\nDeuses do verão e da primavera.\nA vida então se espalhou por todos os nove mundos, e como toda grande história, escrita em sangue, morte e heroismo.\nMidgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua própria soberba, Nidavellir,\no mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisão de constante conflito e situações\nextremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcançaveis.\nToda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poços de Helheim, cumprindo\nsua sentença para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla,\no salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim.\n", "E existem aquelas responsaveis\npor dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas\npor Odin,que levam as almas dos mortos, e assim tudo funcionou por milênios...\nAte os dias de hoje... misteriosamente, a alma do lendário guerreiro Beowulf de alguma maneira misteriosa se corrompeu e caiu \nem Muspelheim, tendo reverberações também em Midgard e Nidavellir, atraindo monstros e caos.\nEm tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas\n\npara Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma\nverdadeira heroína…\n\n\nOdin: Levante-se, pequena. . ." };
+    char texto[2][1000] = {"No início do mundo, não havia nada além do fogo e do gelo. No encontro destes dois elementos, surgiu a névoa primordial,\no Ginnungagap, e dela surgiu Ymir, o primeiro gigante, que daria origem para as duas raças: A raça dos Gigantes e os\nprimeiros grandes Deuses.Por estarem em constante conflito, os Deuses acabam assassinando Ymir, dando origem aos mundos.\nA árvore da vida era a responsável por portar os nove mundos, os Deuses se dividiram em dois clãs, os responsáveis pela guerra\n,Aesir, habitantes de Asgard, liderados por Bor, que passou este cargo para seu filho Odin, e infelizmente não passará para Thor,\npois sua morte já está escrita, os responsáveis pela Natureza, Vanir, habitantes de Vanaheim liderados por Frey e Freya,\nDeuses do verão e da primavera.\nA vida então se espalhou por todos os nove mundos, e como toda grande história, escrita em sangue, morte e heroismo.\nMidgard ate os dias atuais se perde em guerra, Alfheim, mundo dos elfos, perdeu-se em sua própria soberba, Nidavellir,\no mundo dos anoes, e assolado pelos elfos negros, Jotunheim, o mundo dos gigantes, e uma prisão de constante conflito e situações\nextremas e Muspelheim, o mundo dos gigantes de fogo e um literal inferno, alem dos reinos inalcançaveis.\nToda vida tem seu peso, e esse peso e medido, aqueles que morrem de maneira desonrosa caem nos poços de Helheim, cumprindo\nsua sentença para Hela, a Deusa da morte, e aqueles que morrem de maneira honrada, ganham a Bencao de ir para Valhalla,\no salao dos Deuses, onde herois comem, bebem, festejam e digladiam ate o fim.\n", "E existem aquelas responsaveis\npor dar a cada pessoa um destino apos a morte digno, as Valquirias, guerreiras escolhidas\npor Odin,que levam as almas dos mortos, e assim tudo funcionou por milênios...\nAte os dias de hoje... misteriosamente, a alma do lendário guerreiro Beowulf de alguma maneira misteriosa se corrompeu e caiu \nem Muspelheim, tendo reverberações também em Midgard e Nidavellir, atraindo monstros e caos.\nEm tempos de necessidade, como sempre, herois se levantam, e Odin selecionou Brunhilda, a mais forte das novas recrutas\n\npara Valquirias, responsavel por resgatar as almas, e assim conseguir sua honra em ganhar suas asas e se tornar uma\nverdadeira heroína…\n\n\nOdin: Levante-se, pequena. . ." };
 
- //por
+    //por
 
     //DrawText(texto, 10,10,20,WHITE);
 
@@ -1697,8 +1700,28 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
         aparecefase2 = 0;
         
     }
-    
+}
 
+void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparencia) {
+    
+    DrawTextEx(vikingFont, "    PARABENS! VOCE VENCEU!", (Vector2){screenWidth/3.8, screenHeight/4}, 30,0,WHITE);
+    
+    DrawTextEx(vikingFont, "Pressione enter para reiniciar", (Vector2){screenWidth/3.35, screenHeight*60/100}, 30,0, (Color){255, 255, 255, transparencia});
+    
+    if(IsKeyPressed(KEY_ENTER)) {
+        ClearBackground(BLACK);
+        
+        char texto[2][1000] = {"Jogo produzido por:\nEsdras\nGabriel\nGustavo\nMarissol\nRonaldo\nVicente\n\nPara a cadeira de Introdução a Programação do professor Péricles Miranda.\n\nPressione ENTER para jogar de novo."};
+    
+        if(IsKeyPressed(KEY_ENTER)) {
+            level = 0;
+            destroyAllBodies();
+            criouCorpos = 0;
+            morreu = 0;
+            aparece_pilar = 0;
+            pegou_pocao = 0;  
+        }
+    }
 }
 
 void criarBeowulf(int beowulf_height, int beowulf_width, Vector2 iniciodoLvl) {
@@ -1828,6 +1851,8 @@ void BeowulfIA() {
             }
             beowulf.mode = 5;
             beowulf.enabled = false;
+            
+            victory = true;
         }
         
         //atacar
@@ -1881,6 +1906,7 @@ void BeowulfIA() {
             if(beowulf.frames <5){beowulf.frames++;
             if(beowulf.frames>=beowulf.max_frames) beowulf.frames = 0;}
         }
+        
     }
 }
 
