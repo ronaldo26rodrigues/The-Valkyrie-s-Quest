@@ -1176,9 +1176,9 @@ int main(){
                 }
                 //hildaAttack
                 if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
-                    beowulf.vida -= 1; //pra teste de morte
+                    beowulf.vida -= 1.5; //pra teste de morte
                     if(pegou_pocao_atk == 1){
-                        beowulf.vida -= 1; //pra teste
+                        beowulf.vida -= 3.0; //pra teste
                     }
                     beowulf.color = (Color){255,0,0,170};
                 } else {
