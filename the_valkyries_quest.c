@@ -608,7 +608,7 @@ int main(){
 
             drawHearts();
             // int esqueleto[i].frames;
-            DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
+           // DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
@@ -1041,7 +1041,7 @@ int main(){
             DrawTexture(health_bar, screenWidth*38/100,110, WHITE);
             DrawTextEx(vikingFont, "BEOWULF", (Vector2){screenWidth*44/100, 150}, 20,0,WHITE);
 
-            DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
+           // DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
 
             BeginMode2D(camera);
 
@@ -1424,7 +1424,7 @@ void esqueletosIA(GameObject* esqueleto, Texture2D bglvl1, int framesCounter){
             esqueleto[i].frames++;
             if(esqueleto[i].frames>=esqueleto[i].max_frames) esqueleto[i].frames=0;
         }
-        DrawText(FormatText("%i", esqueleto[i].frames), esqueleto[i].body->position.x, esqueleto[i].body->position.y-100, 20, WHITE);
+     //   DrawText(FormatText("%i", esqueleto[i].frames), esqueleto[i].body->position.x, esqueleto[i].body->position.y-100, 20, WHITE);
         }
     }
 }
@@ -1508,7 +1508,7 @@ void CogumelosIA(GameObject* cogumelo, Texture2D bglvl1, int framesCounter){
                     cogumelo[i].frames++;
                     if(cogumelo[i].frames>=cogumelo[i].max_frames) cogumelo[i].frames=0;
                 }
-                DrawText(FormatText("%i", cogumelo[i].frames), cogumelo[i].body->position.x, cogumelo[i].body->position.y-100, 20, WHITE);
+              //  DrawText(FormatText("%i", cogumelo[i].frames), cogumelo[i].body->position.x, cogumelo[i].body->position.y-100, 20, WHITE);
             }
         }
     }
