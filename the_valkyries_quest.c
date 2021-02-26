@@ -1695,7 +1695,7 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
 
 void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparencia) {
     
-    DrawTextEx(vikingFont, "PARABENS! VOCE VENCEU!", (Vector2){screenWidth/3.5, screenHeight/4}, 50,0,WHITE);
+    DrawTextEx(vikingFont, "Voce libertou a alma de Beowulf e ganhou a honra de receber suas asas!!!", (Vector2){screenWidth/3.5, screenHeight/4}, 15,0,WHITE);
     
     static int framesCounterText;
     static int paragrafo = 0;
