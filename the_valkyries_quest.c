@@ -117,7 +117,7 @@ void drawHearts(void);
 void criaresqueleto(int bglvl_width, int sklt_height, int sklt_width, GameObject* esqueleto, int posicaox);
 void destroyAllBodies(void);
 void esqueletosIA(GameObject* esqueleto, Texture2D bglvl1, int framesCounter);
-void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun);
+//void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun);
 void level_1(void);
 void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int transparencia);
 void criarcogumelo(int bglvl1_width, int mushroom_height, int mushroom_width, GameObject* cogumelo);
@@ -127,7 +127,6 @@ void BeowulfIA();
 void criarzubat(int bglvl_width, int sklt_height, int sklt_width, GameObject* OIAO);
 void ZubatsIA(GameObject* OIAO, Texture2D bglvl1, int framesCounter);
 void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparencia);
-
 //--------
 
 
@@ -435,7 +434,29 @@ int main(){
             
             UpdateMusicStream(zeldaMus);
 
-            level_0(menuBG, vikingFont, hildaRun);
+ 
+
+        if(transparencia <= 0) sobe = true;
+        if(transparencia >= 255) sobe=false;
+            
+        if(sobe==true) transparencia+=3; else transparencia-=3;
+            
+        DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, LIGHTGRAY);
+            
+        DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
+        DrawTextEx(vikingFont, "Pressione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
+            
+        player.max_frames = 8;
+
+        DrawTexture(hildaRun[currentFrame],100,100,WHITE);
+        if(framesCounter>=(60/8)) currentFrame++;
+        
+        //DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
+        
+        if(IsKeyPressed(KEY_ENTER)) {
+            level++;
+            UnloadTexture(menuBG);
+        }
 
             break;
 
@@ -1117,10 +1138,7 @@ int main(){
                 if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
                     beowulf.vida -= 100; //pra teste de morte
                     if(pegou_pocao_atk == 1){
-                        beowulf.vida -= 200
-                        
-                        
-                        ; //pra teste
+                        beowulf.vida -= 200; //pra teste
                     }
                     beowulf.color = (Color){255,0,0,170};
                 } else {
@@ -1623,34 +1641,7 @@ void ZubatsIA(GameObject* zubat, Texture2D bglvl1, int framesCounter){
             }
         }
     }
-void level_0(Texture2D menuBG, Font vikingFont, Texture2D* hildaRun){
-        
 
-        UpdateMusicStream(zeldaMus);
- 
-
-        if(transparencia <= 0) sobe = true;
-        if(transparencia >= 255) sobe=false;
-            
-        if(sobe==true) transparencia+=3; else transparencia-=3;
-            
-        DrawTexturePro(menuBG, (Rectangle){0,0, menuBG.width, menuBG.height}, (Rectangle){0,0,screenWidth, screenHeight}, (Vector2){0,0}, 0, LIGHTGRAY);
-            
-        DrawTextEx(vikingFont, "The Valkyrie's Quest", (Vector2){screenWidth/3.4, screenHeight/4}, 50,0,WHITE);
-        DrawTextEx(vikingFont, "Pressione enter para iniciar", (Vector2){screenWidth/2.5, screenHeight*80/100}, 20,0, (Color){255, 255, 255, transparencia});
-            
-        player.max_frames = 8;
-
-        DrawTexture(hildaRun[currentFrame],100,100,WHITE);
-        if(framesCounter>=(60/8)) currentFrame++;
-        
-        //DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
-        
-        if(IsKeyPressed(KEY_ENTER)) {
-            level++;
-            UnloadTexture(menuBG);
-        }
-}
 
 void level_1() {
 
@@ -1704,24 +1695,38 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
 
 void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparencia) {
     
-    DrawTextEx(vikingFont, "    PARABENS! VOCE VENCEU!", (Vector2){screenWidth/3.8, screenHeight/4}, 30,0,WHITE);
+    DrawTextEx(vikingFont, "PARABENS! VOCE VENCEU!", (Vector2){screenWidth/3.5, screenHeight/4}, 50,0,WHITE);
     
-    DrawTextEx(vikingFont, "Pressione enter para reiniciar", (Vector2){screenWidth/3.35, screenHeight*60/100}, 30,0, (Color){255, 255, 255, transparencia});
+    static int framesCounterText;
+    static int paragrafo = 0;
     
-    if(IsKeyPressed(KEY_ENTER)) {
-        ClearBackground(BLACK);
-        
-        char texto[2][1000] = {"Jogo produzido por:\nEsdras\nGabriel\nGustavo\nMarissol\nRonaldo\nVicente\n\nPara a cadeira de Introdução a Programação do professor Péricles Miranda.\n\nPressione ENTER para jogar de novo."};
+    char texto[2][1000] = {"Jogo produzido por:\nEsdras\nGabriel\nGustavo\nMarissol\nRonaldo\nVicente\n\nPara a cadeira de Introdução a Programação do professor Péricles Miranda.\n\nPressione ENTER para jogar de novo."};
     
+    if(IsKeyDown(KEY_ENTER)) framesCounterText+=20; else framesCounterText++;
+
+    //DrawTextEx(superMario, TextSubtext(texto[paragrafo], 0, framesCounterText/4), (Vector2){screenWidth/14, screenHeight/10}, screenWidth/75, 0,WHITE);
+    DrawText(TextSubtext(texto[paragrafo], 0, framesCounterText/4), screenWidth/14, screenHeight/10, screenWidth/70, WHITE);
+    
+    if(framesCounterText/4 >= strlen(texto[paragrafo])) {
+                
         if(IsKeyPressed(KEY_ENTER)) {
-            level = 0;
-            destroyAllBodies();
-            criouCorpos = 0;
-            morreu = 0;
-            aparece_pilar = 0;
-            pegou_pocao = 0;  
+            paragrafo++;
+            framesCounterText=0;
+            if(paragrafo>=1) {
+                free(&texto);
+                free(&framesCounterText);
+                free(&paragrafo);
+                level = 0;
+                morreu = 0;
+                destroyAllBodies();
+                criouCorpos = 0;
+                aparece_pilar = 0;
+                pegou_pocao = 0;
+                aparecefase2 = 0;
+            }
         }
     }
+   
 }
 
 void criarBeowulf(int beowulf_height, int beowulf_width, Vector2 iniciodoLvl) {
