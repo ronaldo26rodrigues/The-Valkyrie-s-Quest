@@ -1000,7 +1000,7 @@ int main(){
             break;
             
             case 4:
-            
+            //beowulf
 
             
             
@@ -1176,9 +1176,9 @@ int main(){
                 }
                 //hildaAttack
                 if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
-                    beowulf.vida -= 100; //pra teste de morte
+                    beowulf.vida -= 1; //pra teste de morte
                     if(pegou_pocao_atk == 1){
-                        beowulf.vida -= 200; //pra teste
+                        beowulf.vida -= 1; //pra teste
                     }
                     beowulf.color = (Color){255,0,0,170};
                 } else {
@@ -1764,7 +1764,7 @@ void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparenci
                 aparece_pilar = 0;
                 pegou_pocao_cura = 0;
                 aparecefase2 = 0; */
-                
+                //hilda
                 
             }
         }
@@ -1819,7 +1819,7 @@ void BeowulfIA() {
                 beowulf.orientation = -1;
             }
         }
-
+//hildaAttack
         //beowulfAttack
         if(beowulf.mode == 1) {
             beowulf.max_frames = 6;
@@ -1830,7 +1830,7 @@ void BeowulfIA() {
                 if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
                     player.vida -= 0.75;
                 }
-            }
+            }//beowulf
             if(beowulf.frames>=5) beowulf.mode = 0;
         }
         //DrawRectangle(beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 60, beowulf.rec.height, WHITE);
