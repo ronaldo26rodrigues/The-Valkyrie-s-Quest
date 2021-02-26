@@ -373,7 +373,7 @@ int main(){
     mushroomIdle = LoadTexture("imagens/cogumelo/Idle.png");
     mushroomAtk = LoadTexture("imagens/cogumelo/Attack.png");
     mushroomWalk = LoadTexture("imagens/cogumelo/Run.png");
-    mushroomDead = LoadTexture("imagens/cogumelo/Morto.png");
+    mushroomDead = LoadTexture("imagens/cogumelo/mushroomDead.png");
     mushroomHit = LoadTexture("imagens/cogumelo/Take Hit.png");
     
     OIAOIdle = LoadTexture("imagens/zubat/Flying.png");
@@ -744,6 +744,7 @@ int main(){
                 //criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
                 criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
                 //criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
+
                 //criarzubat(bglvl1.width, OIAOIdle.width, OIAOIdle.height, zubat);
                 
                 
@@ -765,6 +766,7 @@ int main(){
               
             DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
             DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
+
             DrawTexture(plataforminha[1], iniciodoLvl.x+2500, iniciodoLvl.y-320, WHITE);
             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
             
@@ -788,6 +790,7 @@ int main(){
 
                 trava_camera = 1;
 
+
             }
             
              if( CheckCollisionRecs(player.rec,(Rectangle){iniciodoLvl.x+6100, iniciodoLvl.y-170, chao1.width*1.0f, chao1.height*60/100}) ) {
@@ -809,6 +812,7 @@ int main(){
             if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4250, iniciodoLvl.y-35, espinhos[1].width*12.0f, espinhos[1].height*60/100}))  player.vida-=1;
              if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+3600, iniciodoLvl.y-100, chao2.width*1.0f, chao2.height*60/100}) && aparecefase2==0) {
                 
+
                 DestroyPhysicsBody(GetPhysicsBody(1));
                 DestroyPhysicsBody(GetPhysicsBody(2));
                 DestroyPhysicsBody(GetPhysicsBody(8));
@@ -827,6 +831,7 @@ int main(){
                 player.body->freezeOrient=true;
                 aparecefase2 = 1;
             }
+
             
             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
              
@@ -849,6 +854,7 @@ int main(){
             EndMode2D();
 
             drawHearts();
+
             // int esqueleto[i].frames;
             //DrawText(FormatText("%i", GetPhysicsBodiesCount()), 100,300,20,WHITE);
 
@@ -869,6 +875,7 @@ int main(){
                 if(player.orientation == 1){
                 DrawTextureRec(hildaRun[currentFrame], (Rectangle){hildaRun[currentFrame].width/4.6f, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
+
                 if(player.orientation == -1){
                 DrawTextureRec(hildaRun[currentFrame], (Rectangle){0, -hildaRun[currentFrame].height/1.25, (hildaRun[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
@@ -887,6 +894,7 @@ int main(){
                 DrawTextureRec(hildaAttack[currentFrame], (Rectangle){hildaAttack[currentFrame].width/4.4f, -hildaAttack[currentFrame].height/1.15, (hildaAttack[currentFrame].width/1.25f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(player.orientation == -1){
+
                 DrawTextureRec(hildaAttack[currentFrame], (Rectangle){0, -hildaAttack[currentFrame].height/1.18f, (hildaAttack[currentFrame].width)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width-36, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(currentFrame>=6){
@@ -906,6 +914,7 @@ int main(){
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){hildaDash[currentFrame].width/4.4f, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 if(player.orientation == -1) {
+
                 DrawTextureRec(hildaDash[currentFrame], (Rectangle){0, -hildaDash[currentFrame].height/1.25, (hildaDash[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
                 player.max_frames = 7;  
@@ -924,6 +933,7 @@ int main(){
                 if(currentFrame>=10) {
                     currentFrame=10;
                     }
+
                 if(player.orientation == 1) {
                 DrawTextureRec(hildaDeath[currentFrame], (Rectangle){0, -hildaDeath[currentFrame].height/1.25, (hildaDeath[currentFrame].width/1.4f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
                 }
@@ -944,6 +954,7 @@ int main(){
             
             case 4:
             
+
             
             
             if(criouCorpos==false){
@@ -964,6 +975,7 @@ int main(){
 
                // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+1900+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
 
+
                // CreatePhysicsBodyRectangle((Vector2){iniciodoLvl.x+3600+plataformas2[1].width/2, iniciodoLvl.y-180+plataformas2[1].height/2}, plataformas[1].width, plataformas2[1].height,1)->enabled=false;
 
 
@@ -980,7 +992,8 @@ int main(){
                 initGame();
                // criaresqueleto(bglvl1.width, skeletonIdle.width, skeletonIdle.height, esqueleto);
               //  criarcogumelo(bglvl1.width, mushroomIdle.width, mushroomIdle.height, cogumelo);
-                criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
+            
+            criarBeowulf(beowulfIdle.height, beowulfIdle.width, iniciodoLvl);
                 criarzubat(bglvl1.width, OIAOIdle.width, OIAOIdle.height, zubat);
                 
                 criouCorpos = true;
@@ -1007,6 +1020,7 @@ int main(){
             BeowulfIA();
             //drawPhysicsEdge();
             DrawTexture(chao3,0,screenHeight*80/100,WHITE);
+            
             DrawTexture(plataformas2[1], iniciodoLvl.x+1900, iniciodoLvl.y-180, WHITE);
             DrawTexture(plataformas2[1], iniciodoLvl.x+3600, iniciodoLvl.y-180, WHITE);
             //DrawTexture(plataforminha[1], iniciodoLvl.x+2200, iniciodoLvl.y-420, WHITE);
@@ -1029,6 +1043,7 @@ int main(){
                 PlaySound(som_pocao);
                 pegou_pocao_atk = 1; 
                 
+            
             }
             
             if (pegou_pocao_atk == 0) {
@@ -1052,6 +1067,7 @@ int main(){
             BeginMode2D(camera);
 
             
+            
 
 
             
@@ -1071,6 +1087,7 @@ int main(){
                 }
                 player.max_frames = 8;
             }
+            
             else if(player.mode == 2){
                 if(player.orientation == 1){
                 DrawTextureRec(hildaJump[currentFrame], (Rectangle){hildaJump[currentFrame].width/4.6f, -hildaJump[currentFrame].height/1.25, (hildaJump[currentFrame].width/1.6f)*player.orientation, player.rec.height}, (Vector2){player.body->position.x-player.rec.width/2, player.body->position.y-player.rec.height/2}, WHITE);
@@ -1098,9 +1115,12 @@ int main(){
                 }
                 //hildaAttack
                 if(CheckCollisionRecs(beowulf.rec, (Rectangle){player.rec.x+(hildaAttack[currentFrame].width/2.8f*player.orientation), player.rec.y, player.rec.width, player.rec.height}) && (currentFrame==3 || currentFrame==6)){
-                    beowulf.vida -= 100; //pra teste de morte
+                    beowulf.vida -= 1; //pra teste de morte
                     if(pegou_pocao_atk == 1){
-                        beowulf.vida -= 200; //pra teste
+                        beowulf.vida -= 2
+                        
+                        
+                        ; //pra teste
                     }
                     beowulf.color = (Color){255,0,0,170};
                 } else {
@@ -1736,7 +1756,7 @@ void BeowulfIA() {
             
             if(beowulf.frames == 4) {
                 if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
-                    player.vida -= 2;
+                    player.vida -= 0.75;
                 }
             }
             if(beowulf.frames>=5) beowulf.mode = 0;
