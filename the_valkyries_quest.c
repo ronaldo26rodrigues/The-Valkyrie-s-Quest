@@ -413,7 +413,8 @@ int main(){
     PlayMusicStream(zeldaMus);
     //PlayMusicStream(BeowulfMus);
     player.max_frames = 5;
-    
+    clock_t cronometro = clock();
+    clock_t record = clock()-cronometro;
     while(!WindowShouldClose()){
         
         
@@ -1229,7 +1230,15 @@ int main(){
             break;
             
         }
-        
+        beowulf.vida = 274;
+        if(beowulf.vida>0){ 
+        DrawText(FormatText("%d", (clock()-cronometro)/1000), 100, 300, 30, WHITE);
+        record = (clock()-cronometro)/1000;
+        } else {
+        DrawText(FormatText("%d", record), 100, 300, 30, WHITE);
+
+        }
+
         if(IsKeyPressed(KEY_PAGE_UP)) {
             destroyAllBodies();
             level++;
