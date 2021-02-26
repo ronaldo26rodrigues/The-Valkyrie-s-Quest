@@ -990,6 +990,9 @@ int main(){
             
             BeginMode2D(camera);
             
+            if(IsKeyPressed(KEY_J)) {
+                PauseMusicStream(BeowulfMus);
+            }
             
             
             
