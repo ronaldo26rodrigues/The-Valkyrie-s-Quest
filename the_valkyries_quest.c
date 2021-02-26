@@ -1031,7 +1031,7 @@ int main(){
                 ResumeMusicStream(BeowulfMus);
             }
             
-            
+          //DrawText  
             
             //DrawTexture(bglvl1,0,(screenHeight*80/100)-bglvl1.height,WHITE);
             DrawTexturePro(bglvl3, (Rectangle){0,0, bglvl3.width, bglvl3.height}, (Rectangle){0,(screenHeight*80/100)-bglvl3.height,bglvl1.width*2, bglvl3.height+(10/100*screenHeight)},(Vector2){0,0},0,WHITE);
@@ -1637,7 +1637,7 @@ void ZubatsIA(GameObject* zubat, Texture2D bglvl1, int framesCounter){
                     zubat[i].frames++;
                     if(zubat[i].frames>=zubat[i].max_frames) zubat[i].frames=0;
                 }
-                DrawText(FormatText("%i", zubat[i].frames), zubat[i].body->position.x, zubat[i].body->position.y-100, 20, WHITE);
+                //DrawText(FormatText("%i", zubat[i].frames), zubat[i].body->position.x, zubat[i].body->position.y-100, 20, WHITE);
             }
         }
     }
