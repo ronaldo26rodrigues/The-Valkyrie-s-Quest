@@ -865,7 +865,7 @@ int main(){
             }
             
             if (pegou_pocao_cura == 0) {
-                DrawTexture(pocao_cura[1], iniciodoLvl.x+5250, iniciodoLvl.y-280, WHITE);
+                DrawTexture(pocao_cura[1], iniciodoLvl.x+5235, iniciodoLvl.y-280, WHITE);
             }
             
             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
