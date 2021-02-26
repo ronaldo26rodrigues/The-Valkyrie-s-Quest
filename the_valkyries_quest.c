@@ -88,7 +88,7 @@ int transparencia = 0;
 int sobe = true;
     
 int framesCounter = 0;
-static int pegou_pocao = 0;
+static int pegou_pocao_cura = 0;
 static int pegou_pocao_atk = 0;
 
 static int aparecefase2 = 0;
@@ -336,7 +336,7 @@ int main(){
         LoadTexture("imagens/cenario/terra.png"),
 
     };
-    Texture2D pocao[2] = {
+    Texture2D pocao_cura[2] = {
         LoadTexture("imagens/itens/pocao.png"),
         LoadTexture("imagens/itens/pocao.png"),
         
@@ -527,18 +527,18 @@ int main(){
 
             
             
-            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4320, iniciodoLvl.y-375, pocao[1].width*1.0f, pocao[1].height*60/100}) && pegou_pocao==0) {
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+4320, iniciodoLvl.y-375, pocao_cura[1].width*1.0f, pocao_cura[1].height*60/100}) && pegou_pocao_cura==0) {
                 if (player.vida < 40) {
                     player.vida+=8;
                     if (player.vida > 40) player.vida = 40;
                 }
                 PlaySound(som_pocao);
-                pegou_pocao = 1; 
+                pegou_pocao_cura = 1; 
                 
             }
             
-            if (pegou_pocao == 0) {
-                DrawTexture(pocao[1], iniciodoLvl.x+4320, iniciodoLvl.y-375, WHITE);
+            if (pegou_pocao_cura == 0) {
+                DrawTexture(pocao_cura[1], iniciodoLvl.x+4320, iniciodoLvl.y-375, WHITE);
             }
             
             
@@ -854,6 +854,20 @@ int main(){
             }
 
             
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+5235, iniciodoLvl.y-280, pocao_cura[1].width*1.0f, pocao_cura[1].height*60/100}) && pegou_pocao_cura==0) {
+                if (player.vida < 40) {
+                    player.vida+=8;
+                    if (player.vida > 40) player.vida = 40;
+                }
+                PlaySound(som_pocao);
+                pegou_pocao_cura = 1; 
+                
+            }
+            
+            if (pegou_pocao_cura == 0) {
+                DrawTexture(pocao_cura[1], iniciodoLvl.x+5235, iniciodoLvl.y-280, WHITE);
+            }
+            
             DrawTexture(pilar2[1], iniciodoLvl.x+2750, iniciodoLvl.y-320, WHITE);
              
             
@@ -1069,6 +1083,20 @@ int main(){
             
             if (pegou_pocao_atk == 0) {
                 DrawTexture(pocao_atk[1], iniciodoLvl.x+1920, iniciodoLvl.y-32, WHITE);
+            }
+            
+            if( CheckCollisionRecs(player.rec, (Rectangle){iniciodoLvl.x+1920, iniciodoLvl.y-210, pocao_cura[1].width*1.0f, pocao_cura[1].height*60/100}) && pegou_pocao_cura==0) {
+                if (player.vida < 40) {
+                    player.vida+=8;
+                    if (player.vida > 40) player.vida = 40;
+                }
+                PlaySound(som_pocao);
+                pegou_pocao_cura = 1; 
+                
+            }
+            
+            if (pegou_pocao_cura == 0) {
+                DrawTexture(pocao_cura[1], iniciodoLvl.x+1920, iniciodoLvl.y-210, WHITE);
             }
 
   
@@ -1608,7 +1636,7 @@ void ZubatsIA(GameObject* zubat, Texture2D bglvl1, int framesCounter){
                     if(zubat[i].frames>=4) {
                         //esqueleto[i].enabled = false;
                         zubat[i].rec.x = rand()%bglvl1.width;
-                        zubat[i].body = CreatePhysicsBodyRectangle((Vector2){zubat[i].rec.x, zubat[i].rec.y}, zubat[i].rec.width, zubat[i].rec.height, 1);               zubat[i].body->freezeOrient=true;
+                        zubat[i].body = CreatePhysicsBodyRectangle((Vector2){zubat[i].rec.x, zubat[i].rec.y}, zubat[i].rec.width, zubat[i].rec.height, 1);zubat[i].body->freezeOrient=true;
                         zubat[i].mode = 0;
                     }
                 }
@@ -1687,7 +1715,7 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
         criouCorpos = 0;
         morreu = 0;
         aparece_pilar = 0;
-        pegou_pocao = 0;
+        pegou_pocao_cura = 0;
         aparecefase2 = 0;
         trava_camera = 0;
         some_pilar = 0;
@@ -1722,7 +1750,7 @@ void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparenci
                 destroyAllBodies();
                 criouCorpos = 0;
                 aparece_pilar = 0;
-                pegou_pocao = 0;
+                pegou_pocao_cura = 0;
                 aparecefase2 = 0;
             }
         }
