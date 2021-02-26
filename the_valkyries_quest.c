@@ -1689,7 +1689,8 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
         aparece_pilar = 0;
         pegou_pocao = 0;
         aparecefase2 = 0;
-        
+        trava_camera = 0;
+        some_pilar = 0;
     }
 }
 
