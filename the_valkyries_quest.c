@@ -1860,7 +1860,7 @@ void BeowulfIA() {
             DrawTextureRec(beowulfSlash, (Rectangle){(beowulfSlash.width/8)*beowulf.frames, 0, (beowulfSlash.width/8)*beowulf.orientation,beowulfSlash.height},(Vector2){beowulf.body->position.x-(beowulfSlash.width/8)/2, beowulf.body->position.y-beowulf.rec.height/1.1f}, beowulf.color);
         //rand    
             if(CheckCollisionRecs(player.rec, (Rectangle) {beowulf.rec.x+10+(beowulfAttack.width/36*beowulf.orientation), beowulf.rec.y, 44, beowulf.rec.height})) {
-                player.vida -=9;
+                player.vida -=0.5;
             }
             if(beowulf.frames>=7) {
                 beowulf.mode = 0;
