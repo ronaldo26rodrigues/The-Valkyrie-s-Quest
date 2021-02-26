@@ -1736,12 +1736,12 @@ void reinicializar(Font vikingFont, int screenWidth, int screenHeight, int trans
 
 void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparencia) {
     
-    DrawTextEx(vikingFont, "Voce libertou a alma de Beowulf e ganhou a honra de receber suas asas!!", (Vector2){screenWidth/3.9, screenHeight/4}, 22,0,BLACK);
+    DrawTextEx(vikingFont, "Voce libertou a alma de Beowulf \ne ganhou a honra de receber suas asas!!", (Vector2){screenWidth/4.2f, screenHeight/4}, 22,0,BLACK);
     
     static int framesCounterText;
     static int paragrafo = 0;
     
-    char texto[2][1000] = {"Jogo produzido por:\nEsdras\nGabriel\nGustavo\nMarissol\nRonaldo\nVicente\n\nPara a cadeira de Introdução a Programação do professor Péricles Miranda.\n\nPressione ENTER para jogar de novo."};
+    char texto[2][1000] = {"Jogo produzido por:\nEsdras\nGabriel\nGustavo\nMarissol\nRonaldo\nVicente\n\nPara a cadeira de Introdução a Programação do professor Péricles Miranda.\n\nPressione ENTER para encerrar."};
     
     if(IsKeyDown(KEY_ENTER)) framesCounterText+=20; else framesCounterText++;
 
@@ -1754,7 +1754,7 @@ void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparenci
             paragrafo++;
             framesCounterText=0;
             if(paragrafo>=1) {
-                free(&texto);
+                /* free(&texto);
                 free(&framesCounterText);
                 free(&paragrafo);
                 level = 0;
@@ -1763,9 +1763,12 @@ void vencer(Font vikingFont, int screenWidth, int screenHeight, int transparenci
                 criouCorpos = 0;
                 aparece_pilar = 0;
                 pegou_pocao_cura = 0;
-                aparecefase2 = 0;
+                aparecefase2 = 0; */
+                
+                
             }
         }
+        SetExitKey(KEY_ENTER);
     }
    
 }
